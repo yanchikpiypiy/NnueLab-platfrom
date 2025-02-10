@@ -62,12 +62,32 @@ function MazeSolvingPage() {
       </header>
 
       {/* Overview Section */}
-      <section id="overview" className="py-16 px-8 bg-gray-50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl font-extrabold mb-4">Maze Solving with AI</h1>
-          <p className="text-xl mb-8">
-            Explore a range of maze-solving techniques—from classic search methods like DFS and A* to modern reinforcement learning approaches.
-          </p>
+      <section id="algorithms" className="py-16 px-8">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl font-bold mb-6 text-center">Algorithm Overview</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Depth-First Search */}
+            <div className="p-6 border border-gray-200 rounded hover:shadow-lg transition duration-300">
+              <h3 className="text-2xl font-semibold mb-2">Depth-First Search</h3>
+              <p className="text-gray-700">
+                A recursive approach that explores deeply before backtracking. Simple, yet may not always yield the optimal path.
+              </p>
+            </div>
+            {/* A* Search */}
+            <div className="p-6 border border-gray-200 rounded hover:shadow-lg transition duration-300">
+              <h3 className="text-2xl font-semibold mb-2">A* Search</h3>
+              <p className="text-gray-700">
+                Combines path cost and heuristics for efficient, optimal path finding. Widely used in maze solving and robotics.
+              </p>
+            </div>
+            {/* Reinforcement Learning */}
+            <div className="p-6 border border-gray-200 rounded hover:shadow-lg transition duration-300">
+              <h3 className="text-2xl font-semibold mb-2">Reinforcement Learning</h3>
+              <p className="text-gray-700">
+                Uses trial and error with rewards to learn optimal navigation policies over time. Adaptable but requires training.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
