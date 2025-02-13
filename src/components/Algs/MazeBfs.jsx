@@ -1,41 +1,21 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
-const MazeBFS = () => {
-  // 1. State to hold the maze strings loaded from a file.
-  const [mazeStr, setMazeStr] = useState(null);
+const MazeBFS = ({ mazeData, resetCounter, startTraversal }) => {
+  // 1. State to hold the current step in the animation.
+  const [step, setStep] = useState(0);
 
-  // Load the maze from the text file (e.g., public/maze.txt) on mount.
-  useEffect(() => {
-    fetch('/maze.txt')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.text();
-      })
-      .then((text) => {
-        // Split the file by newlines, trim, and remove any empty lines.
-        const rows = text
-          .split('\n')
-          .map((line) => line.trim())
-          .filter((line) => line.length > 0);
-        setMazeStr(rows);
-      })
-      .catch((error) => console.error('Error loading maze:', error));
-  }, []);
-
-  // 2. Define start and exit positions with stable references.
-  const start = useMemo(() => ({ row: 1, col: 0 }), []);
-  const end = useMemo(() => ({ row: 19, col: 20 }), []);
-
-  // 3. Convert the maze strings into a 2D grid of numbers.
+  // 2. Convert the maze strings into a 2D grid of numbers.
   const grid = useMemo(() => {
-    if (!mazeStr) return [];
-    return mazeStr.map((row) => row.split('').map(Number));
-  }, [mazeStr]);
+    if (!mazeData) return [];
+    return mazeData.map((row) => row.split('').map(Number));
+  }, [mazeData]);
 
   const numRows = grid.length;
-  const numCols = grid[0]?.length || 0;
+  const numCols = grid.length > 0 ? grid[0].length : 0;
+
+  // 3. Define start and end positions.
+  const start = useMemo(() => ({ row: 1, col: 0 }), []);
+  const end = useMemo(() => ({ row: numRows - 2, col: numCols - 1 }), [numRows, numCols]);
 
   // 4. Precompute the BFS "events" using useMemo so that BFS runs only once.
   // Each event is an object: { row, col, status }
@@ -58,7 +38,7 @@ const MazeBFS = () => {
       { dr: 1,  dc: 0 },
       { dr: 0,  dc: -1 }
     ];
-
+    
     // Initialize the queue for BFS.
     const queue = [];
     queue.push({ row: start.row, col: start.col });
@@ -105,18 +85,22 @@ const MazeBFS = () => {
     return events;
   }, [grid, numRows, numCols, start, end]);
 
-  // 5. Use state to "play back" the BFS events one at a time.
-  const [step, setStep] = useState(0);
+  // 5. Reset the BFS traversal progress when resetCounter changes.
   useEffect(() => {
-    if (step < bfsEvents.length) {
+    setStep(0);
+  }, [resetCounter]);
+
+  // 6. Playback of BFS events: advance one step every 50ms when traversal is active.
+  useEffect(() => {
+    if (step < bfsEvents.length && startTraversal === true) {
       const timeout = setTimeout(() => {
         setStep((prev) => prev + 1);
       }, 50);
       return () => clearTimeout(timeout);
     }
-  }, [step, bfsEvents]);
+  }, [step, bfsEvents, startTraversal]);
 
-  // 6. Reconstruct the current state from the events up to the current step.
+  // 7. Reconstruct the current state from the events up to the current step.
   let currentCell = null;
   const visitedCells = new Set();
   const pathCells = new Set();
@@ -130,16 +114,15 @@ const MazeBFS = () => {
     }
   }
 
-  // 7. Render the maze.
-  // Colors:
-  // - Black: walls.
-  // - White: unvisited open cells.
-  // - Light blue: cells that have been visited.
-  // - Red: the current cell being processed.
-  // - Light green: cells that are part of the final shortest path.
+  // 8. Render the maze.
   return (
     <div style={{ display: 'inline-block', margin: '20px' }}>
-      {mazeStr ? (
+      <div style={{ marginTop: '10px', fontFamily: 'sans-serif' }}>
+        {step < bfsEvents.length
+          ? "BFS Traversal in progress..."
+          : "BFS Traversal complete!"}
+      </div>
+      {mazeData ? (
         grid.map((row, rIdx) => (
           <div key={rIdx} style={{ display: 'flex' }}>
             {row.map((cell, cIdx) => {
@@ -185,13 +168,71 @@ const MazeBFS = () => {
       ) : (
         <div>Loading maze...</div>
       )}
-      <div style={{ marginTop: '10px', fontFamily: 'sans-serif' }}>
-        {step < bfsEvents.length
-          ? "BFS Traversal in progress..."
-          : "BFS Traversal complete!"}
-      </div>
     </div>
   );
+};
+
+/**
+ * Static method to run BFS on a maze without visualization.
+ * Expects mazeData as an array of strings.
+ * Returns an object: { runtime: <ms>, stepsTaken: <number> }.
+ */
+MazeBFS.solveMaze = async (mazeData) => {
+  if (!mazeData) throw new Error("No maze data provided");
+
+  // Convert mazeData into a grid (2D array of numbers)
+  const grid = mazeData.map(row => row.split('').map(Number));
+  const numRows = grid.length;
+  const numCols = grid[0].length;
+  const start = { row: 1, col: 0 };
+  const end = { row: numRows - 2, col: numCols - 1 };
+
+  // Initialize visited and parent matrices.
+  const visited = Array(numRows).fill(null).map(() => Array(numCols).fill(false));
+  const parent = Array(numRows).fill(null).map(() => Array(numCols).fill(null));
+  const directions = [
+    { dr: -1, dc: 0 },
+    { dr: 0,  dc: 1 },
+    { dr: 1,  dc: 0 },
+    { dr: 0,  dc: -1 }
+  ];
+  
+  // Initialize BFS queue.
+  const queue = [];
+  queue.push(start);
+  visited[start.row][start.col] = true;
+  
+  let steps = 0; // Counter for steps taken (nodes processed)
+  const startTime = performance.now();
+  let reached = false;
+
+  // Run BFS loop.
+  while (queue.length > 0) {
+    const current = queue.shift();
+    steps++; // Count each processed cell as a step.
+    if (current.row === end.row && current.col === end.col) {
+      reached = true;
+      break;
+    }
+    for (const { dr, dc } of directions) {
+      const nr = current.row + dr;
+      const nc = current.col + dc;
+      if (nr < 0 || nc < 0 || nr >= numRows || nc >= numCols) continue;
+      if (grid[nr][nc] === 1) continue;
+      if (!visited[nr][nc]) {
+        visited[nr][nc] = true;
+        parent[nr][nc] = current;
+        queue.push({ row: nr, col: nc });
+      }
+    }
+  }
+  const endTime = performance.now();
+  const formattedStarttime = parseFloat(startTime.toFixed(11));
+  const formattedEndtime = parseFloat(endTime.toFixed(11));
+  const runtime = formattedEndtime - formattedStarttime;
+
+  // Instead of reconstructing the path length, we return the total steps taken.
+  return { runtime, stepsTaken: steps };
 };
 
 export default MazeBFS;

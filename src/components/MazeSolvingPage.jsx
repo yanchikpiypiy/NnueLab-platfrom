@@ -1,27 +1,75 @@
-// MazeSolvingPage.jsx
+// MazeSolvingPage.jsx 
+import React, { useEffect, useState } from 'react';
+import MazeBFS from './Algs/MazeBfs';
 import MazeDFS from './Algs/MazeDFS';
-import React, { useState } from 'react';
+import MazeDijkstra from './Algs/MazeDijkstra';
+import MazeAStar from './Algs/MazeAStar';
+import Benchmark from './BenchMarks/Benchmark';
 
 function MazeSolvingPage() {
+  const [mazeData, setMazeData] = useState(null);
   const [resetCounter, setResetCounter] = useState(0);
   const [stopTraversal, setStopTraversal] = useState(true);
   const [mazeWidth, setMazeWidth] = useState(40);
   const [mazeHeight, setMazeHeight] = useState(20);
+  const [alg, setAlg] = useState("DFS");
+
+  // State to track which maze generation we are on.
+  const [mazeGeneration, setMazeGeneration] = useState(0);
 
   // The maze URL uses the current dimensions.
-  // Maze width is capped at a maximum of 40.
   const mazeUrl = `http://localhost:8000/api/maze?width=${mazeWidth}&height=${mazeHeight}&tile=2`;
 
+  const generateMaze = () => {
+    fetch(mazeUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+      })
+      .then(text => {
+        const rows = text
+          .split('\n')
+          .map(line => line.trim())
+          .filter(line => line.length > 0);
+        setMazeData(rows);
+        // Increment the maze generation ID each time a new maze is generated.
+        setMazeGeneration(prev => prev + 1);
+      })
+      .catch(error => console.error('Error fetching maze:', error));
+  };
+
+  useEffect(() => {
+    generateMaze();
+  }, []);
+
   const handleReset = () => {
-    // Reset traversal: clear stop flag and increment resetCounter
-    setStopTraversal(false);
     setResetCounter(prev => prev + 1);
   };
 
-  const handleStop = () => {
-    // Set the flag to stop DFS traversal.
-    setStopTraversal((prev) => !prev);
+  const handleGen = () => {
+    generateMaze();
   };
+
+  const handleAlgChange = (alg) => {
+    setAlg(alg);
+  };
+
+  const handleStop = () => {
+    setStopTraversal(prev => !prev);
+  };
+
+  let context = <></>;
+  if (alg === "DFS") {
+    context = <MazeDFS mazeData={mazeData} resetCounter={resetCounter} startTraversal={stopTraversal} />;
+  } else if (alg === "BFS") {
+    context = <MazeBFS mazeData={mazeData} resetCounter={resetCounter} startTraversal={stopTraversal} />;
+  } else if (alg === "Dijkstra") {
+    context = <MazeDijkstra mazeData={mazeData} resetCounter={resetCounter} startTraversal={stopTraversal} />;
+  } else if (alg === "A*") {
+    context = <MazeAStar mazeData={mazeData} resetCounter={resetCounter} startTraversal={stopTraversal} />;
+  }
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
@@ -32,55 +80,44 @@ function MazeSolvingPage() {
         </div>
         <nav className="pl-20">
           <ul className="flex space-x-6">
-            <li>
-              <a href="#overview" className="nav-link hover:text-gray-600">
-                Overview
-              </a>
-            </li>
-            <li>
-              <a href="#algorithms" className="nav-link hover:text-gray-600">
-                Algorithms
-              </a>
-            </li>
-            <li>
-              <a href="#demo" className="nav-link hover:text-gray-600">
-                Demo
-              </a>
-            </li>
-            <li>
-              <a href="#benchmarks" className="nav-link hover:text-gray-600">
-                Benchmarks
-              </a>
-            </li>
-            <li>
-              <a href="#docs" className="nav-link hover:text-gray-600">
-                Docs
-              </a>
-            </li>
+            <li><a href="#overview" className="nav-link hover:text-gray-600">Overview</a></li>
+            <li><a href="#algorithms" className="nav-link hover:text-gray-600">Algorithms</a></li>
+            <li><a href="#demo" className="nav-link hover:text-gray-600">Demo</a></li>
+            <li><a href="#benchmarks" className="nav-link hover:text-gray-600">Benchmarks</a></li>
+            <li><a href="#docs" className="nav-link hover:text-gray-600">Docs</a></li>
           </ul>
         </nav>
       </header>
 
-      {/* Overview Section */}
+      {/* Algorithm Overview Section */}
       <section id="algorithms" className="py-16 px-8">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl font-bold mb-6 text-center">Algorithm Overview</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Depth-First Search */}
-            <div className="p-6 border border-gray-200 rounded hover:shadow-lg transition duration-300">
+            <div className="p-6 border border-gray-200 rounded hover:shadow-lg transition duration-300" onClick={() => handleAlgChange("DFS")}>
               <h3 className="text-2xl font-semibold mb-2">Depth-First Search</h3>
               <p className="text-gray-700">
                 A recursive approach that explores deeply before backtracking. Simple, yet may not always yield the optimal path.
               </p>
             </div>
-            {/* A* Search */}
-            <div className="p-6 border border-gray-200 rounded hover:shadow-lg transition duration-300">
+            <div className="p-6 border border-gray-200 rounded hover:shadow-lg transition duration-300" onClick={() => handleAlgChange("BFS")}>
+              <h3 className="text-2xl font-semibold mb-2">Breadth-First Search</h3>
+              <p className="text-gray-700">
+                Begins with a node, then traverses all its adjacent nodes before moving deeper.
+              </p>
+            </div>
+            <div className="p-6 border border-gray-200 rounded hover:shadow-lg transition duration-300" onClick={() => handleAlgChange("A*")}>
               <h3 className="text-2xl font-semibold mb-2">A* Search</h3>
               <p className="text-gray-700">
                 Combines path cost and heuristics for efficient, optimal path finding. Widely used in maze solving and robotics.
               </p>
             </div>
-            {/* Reinforcement Learning */}
+            <div className="p-6 border border-gray-200 rounded hover:shadow-lg transition duration-300" onClick={() => handleAlgChange("Dijkstra")}>
+              <h3 className="text-2xl font-semibold mb-2">Dijkstra Search</h3>
+              <p className="text-gray-700">
+                Explores paths uniformly to determine the shortest path. Computationally intensive for larger mazes.
+              </p>
+            </div>
             <div className="p-6 border border-gray-200 rounded hover:shadow-lg transition duration-300">
               <h3 className="text-2xl font-semibold mb-2">Reinforcement Learning</h3>
               <p className="text-gray-700">
@@ -95,53 +132,43 @@ function MazeSolvingPage() {
       <section id="demo" className="py-16 px-8 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-6 text-center">Interactive Maze Demo</h2>
-          {/* Maze Display */}
           <div className="w-full flex items-center justify-center rounded bg-white shadow p-4">
-            <MazeDFS
-              mazeUrl={mazeUrl}
-              resetCounter={resetCounter}
-              start={stopTraversal}
-            />
+            {context}
           </div>
-          {/* Control Panel under the Maze */}
-          <div className="mt-8 flex flex-col items-center">
-            <div className="flex space-x-4 mb-8">
-              <button
-                onClick={handleReset}
-                className="bg-black text-white font-bold py-3 px-6 rounded hover:bg-gray-800 transition duration-300"
-              >
-                Reset Maze
+          <div className="mt-6 mx-auto w-full max-w-md">
+            <div className="flex justify-center space-x-3 mb-4">
+              <button onClick={handleGen} className="bg-black text-white font-medium py-2 px-4 rounded hover:bg-gray-800 transition">
+                Generate
               </button>
-              <button
-                onClick={handleStop}
-                className="bg-red-600 text-white font-bold py-3 px-6 rounded hover:bg-red-700 transition duration-300"
-              >
-                {stopTraversal ? "Stop traversal" : "Start traversal"}
+              <button onClick={handleReset} className="bg-black text-white font-medium py-2 px-4 rounded hover:bg-gray-800 transition">
+                Reset
+              </button>
+              <button onClick={handleStop} className={`py-2 px-4 font-medium rounded transition ${stopTraversal ? "bg-red-600 hover:bg-red-700 text-white" : "bg-green-300 text-black"}`}>
+                {stopTraversal ? "Stop" : "Start"}
               </button>
             </div>
-            <div className="w-full max-w-sm">
-              <h3 className="text-xl font-bold mb-4 text-center">Maze Settings</h3>
+            <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
+              <h3 className="text-lg font-semibold mb-3">Maze Settings</h3>
               <div className="mb-4">
-                <label className="block text-gray-700 mb-1">Width: {mazeWidth}</label>
-                {/* Maze width slider capped at 40 */}
+                <label className="block text-gray-700 font-medium text-sm mb-1">Width: {mazeWidth}</label>
                 <input
                   type="range"
                   min="20"
                   max="40"
                   value={mazeWidth}
                   onChange={(e) => setMazeWidth(Number(e.target.value))}
-                  className="w-full"
+                  className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-black"
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-1">Height: {mazeHeight}</label>
+              <div>
+                <label className="block text-gray-700 font-medium text-sm mb-1">Height: {mazeHeight}</label>
                 <input
                   type="range"
                   min="20"
-                  max="100"
+                  max="40"
                   value={mazeHeight}
                   onChange={(e) => setMazeHeight(Number(e.target.value))}
-                  className="w-full"
+                  className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-black"
                 />
               </div>
             </div>
@@ -149,37 +176,14 @@ function MazeSolvingPage() {
         </div>
       </section>
 
-      {/* Additional sections (Benchmarks, Docs, Footer, etc.) */}
+      {/* Benchmarks Section */}
       <section id="benchmarks" className="py-16 px-8">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6 text-center">Performance Benchmarks</h2>
-          <div className="space-y-6">
-            {/* Runtime Comparison */}
-            <div className="p-6 border border-gray-200 rounded">
-              <h3 className="text-xl font-semibold mb-2">Runtime Comparison</h3>
-              <p className="text-gray-700">
-                Compare how runtime scales for different maze complexities across algorithms.
-              </p>
-              {/* Chart placeholder */}
-              <div className="w-full h-48 bg-gray-100 rounded flex items-center justify-center">
-                <p className="text-gray-500">[Chart Placeholder]</p>
-              </div>
-            </div>
-            {/* Path Optimality */}
-            <div className="p-6 border border-gray-200 rounded">
-              <h3 className="text-xl font-semibold mb-2">Path Optimality</h3>
-              <p className="text-gray-700">
-                Analyze the quality of the paths found by each algorithm in terms of length and efficiency.
-              </p>
-              {/* Chart placeholder */}
-              <div className="w-full h-48 bg-gray-100 rounded flex items-center justify-center">
-                <p className="text-gray-500">[Chart Placeholder]</p>
-              </div>
-            </div>
-          </div>
+          <Benchmark mazeData={mazeData} mazeGeneration={mazeGeneration} />
         </div>
       </section>
 
+      {/* Documentation & Code Section */}
       <section id="docs" className="py-16 px-8 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-6 text-center">Documentation & Code</h2>
