@@ -1,44 +1,12 @@
 // HomePage.jsx
 import React from 'react';
 import './HomePage.css'
+import Header from './Header';
 function HomePage() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Header */}
-      <header className="container mx-auto px-8 py-6 flex items-center">
-        <div className="logo pb-2">
-          <h2 className="text-2xl font-bold">Maze &amp; Game AI</h2>
-        </div>
-        <nav className="pl-20">
-          <ul className="flex space-x-6">
-            <li>
-              <a href="#maze-solving" className="nav-link hover:text-gray-600">
-                Maze Solving
-              </a>
-            </li>
-            <li>
-              <a href="#chess-ai" className="nav-link hover:text-gray-600">
-                Chess &amp; Game AI
-              </a>
-            </li>
-            <li>
-              <a href="#analysis" className="nav-link hover:text-gray-600">
-                Analysis
-              </a>
-            </li>
-            <li>
-              <a href="#docs" className="nav-link hover:text-gray-600">
-                Docs
-              </a>
-            </li>
-            <li>
-              <a href="#contact" className="nav-link hover:text-gray-600">
-                Contact
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Header></Header>
 
       {/* Hero Section */}
       <section className="hero flex items-center justify-center h-screen text-center px-4">

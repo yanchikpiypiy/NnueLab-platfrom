@@ -1,16 +1,20 @@
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import MazeDFS from './components/Algs/MazeDFS';
-
 import HomePage from './components/HomePage';
 import MazeSolvingPage from './components/MazeSolvingPage';
-import GamePage from "./components/GamePage"
+import ChessGamePage from './components/ChessGamePage';
+
 function App() {
   return (
-    <div>
-      {/* <MazeSolvingPage></MazeSolvingPage> */}
-      {/* <HomePage></HomePage> */}
-      <GamePage></GamePage>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/maze" element={<MazeSolvingPage />} />
+        <Route path="/chess" element={<ChessGamePage />} />
+      </Routes>
+    </Router>
   );
 }
 

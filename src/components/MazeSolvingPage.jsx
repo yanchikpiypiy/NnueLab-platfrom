@@ -5,7 +5,7 @@ import MazeDFS from './Algs/MazeDFS';
 import MazeDijkstra from './Algs/MazeDijkstra';
 import MazeAStar from './Algs/MazeAStar';
 import Benchmark from './BenchMarks/Benchmark';
-
+import Header from './Header';
 function MazeSolvingPage() {
   const [mazeData, setMazeData] = useState(null);
   const [resetCounter, setResetCounter] = useState(0);
@@ -74,20 +74,7 @@ function MazeSolvingPage() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Header */}
-      <header className="container mx-auto px-8 py-6 flex items-center">
-        <div className="logo pb-2">
-          <h2 className="text-2xl font-bold">Maze Solving Algorithms</h2>
-        </div>
-        <nav className="pl-20">
-          <ul className="flex space-x-6">
-            <li><a href="#overview" className="nav-link hover:text-gray-600">Overview</a></li>
-            <li><a href="#algorithms" className="nav-link hover:text-gray-600">Algorithms</a></li>
-            <li><a href="#demo" className="nav-link hover:text-gray-600">Demo</a></li>
-            <li><a href="#benchmarks" className="nav-link hover:text-gray-600">Benchmarks</a></li>
-            <li><a href="#docs" className="nav-link hover:text-gray-600">Docs</a></li>
-          </ul>
-        </nav>
-      </header>
+      <Header></Header>
 
       {/* Algorithm Overview Section */}
       <section id="algorithms" className="py-16 px-8">
