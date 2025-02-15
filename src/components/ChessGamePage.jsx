@@ -1,7 +1,8 @@
 // ChessGamePageWithImages.jsx
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Chess } from 'chess.js';
 import Header from './Header';
+import StockfishEngine from './engine/StockFishEngine'; // Import our updated Stockfish component
 
 // Mapping for chess piece image paths. Adjust paths as needed.
 const pieceImages = {
@@ -32,12 +33,14 @@ const ChessGamePageWithImages = () => {
   const [message, setMessage] = useState('');
   // Move history (array of SAN strings).
   const [moveHistory, setMoveHistory] = useState([]);
-
   // Timer states (in seconds); starting with 5 minutes (300 seconds) each.
   const [whiteTime, setWhiteTime] = useState(300);
   const [blackTime, setBlackTime] = useState(300);
+  // When set, triggers the StockfishEngine to compute a move.
+  // Null means no pending engine move.
+  const [engineFen, setEngineFen] = useState(null);
 
-  // Determine active color ('w' or 'b').
+  // Determine active color ('w' for human, 'b' for Stockfish).
   const activeColor = gameRef.current.turn();
 
   // Update the active player's timer every second.
@@ -62,7 +65,7 @@ const ChessGamePageWithImages = () => {
     return `${files[col]}${8 - row}`;
   };
 
-  // Handle square click.
+  // Handle square click for human moves.
   const handleSquareClick = (row, col) => {
     const square = convertToSquare(row, col);
     if (selected) {
@@ -95,6 +98,46 @@ const ChessGamePageWithImages = () => {
     }
   };
 
+  // Memoized callback for handling Stockfish's best move.
+  const handleEngineBestMove = useCallback((bestMove) => {
+    console.log("handleEngineBestMove triggered with:", bestMove);
+    const from = bestMove.substring(0, 2);
+    const to = bestMove.substring(2, 4);
+    const move = gameRef.current.move({ from, to, promotion: 'q' });
+    if (move) {
+      setBoard(gameRef.current.board());
+      setMoveHistory(gameRef.current.history());
+      if (gameRef.current.isCheckmate()) {
+        setMessage('Checkmate!');
+      } else if (gameRef.current.isStalemate()) {
+        setMessage('Stalemate!');
+      } else if (gameRef.current.isCheck()) {
+        setMessage('Check!');
+      }
+    }
+    // Clear the engine request.
+    setEngineFen(null);
+  }, []);
+
+  // Request Stockfish to calculate the best move.
+  const requestStockfishMove = () => {
+    const fen = gameRef.current.fen();
+    console.log("Requesting Stockfish move for FEN:", fen);
+    setEngineFen(fen);
+  };
+
+  // Automatically trigger engine move if it's Stockfish's turn.
+  useEffect(() => {
+    // Assuming Stockfish plays as Black.
+    if (gameRef.current.turn() === 'b' && engineFen === null && !gameRef.current.isGameOver()) {
+      // Adding a slight delay can sometimes help with smoother transitions.
+      const timeout = setTimeout(() => {
+        requestStockfishMove();
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [board, engineFen]);
+
   // Reset the game.
   const resetGame = () => {
     gameRef.current.reset();
@@ -105,6 +148,7 @@ const ChessGamePageWithImages = () => {
     setMoveHistory([]);
     setWhiteTime(300);
     setBlackTime(300);
+    setEngineFen(null);
   };
 
   // Render the chess board as an 8x8 grid.
@@ -155,7 +199,7 @@ const ChessGamePageWithImages = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-gray-100 to-gray-300 text-gray-900">
       {/* Header with Title */}
-      <Header></Header>
+      <Header />
 
       {/* Main Content: Board on left, Sidebar on right */}
       <main className="container mx-auto px-8 py-8 flex flex-col md:flex-row gap-8">
@@ -206,6 +250,9 @@ const ChessGamePageWithImages = () => {
         </aside>
       </main>
 
+      {/* Always render the StockfishEngine component */}
+      <StockfishEngine fen={engineFen} onBestMove={handleEngineBestMove} />
+
       {/* Documentation Section */}
       <section id="docs" className="py-16 px-8 bg-white">
         <div className="max-w-4xl mx-auto text-center">
@@ -213,7 +260,7 @@ const ChessGamePageWithImages = () => {
           <p className="text-lg text-gray-700 mb-6">
             This chess game uses chess.js for full game logic, including move generation, check, checkmate,
             castling, en passant, and promotion. Chess piece images provide a polished look, and the sidebar displays
-            timers and a full move history.
+            timers and a full move history. Stockfish is integrated via a web worker for computing moves.
           </p>
           <a
             href="https://github.com/yourusername/chess-game-ai"
