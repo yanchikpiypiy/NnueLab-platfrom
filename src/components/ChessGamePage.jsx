@@ -2,9 +2,12 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Chess } from 'chess.js';
 import Header from './Header';
-import StockfishEngine from './engine/StockFishEngine'; // Import our updated Stockfish component
+import StockfishEngine from './engine/StockFishEngine';
+import ChessBoard from './ChessGameComps/ChessBoard';
+import Sidebar from './ChessGameComps/SideBar';
+import AISettings from './ChessGameComps/Aisettings';
+import Modal from './ChessGameComps/Modal';
 
-// Mapping for chess piece image paths. Adjust paths as needed.
 const pieceImages = {
   wK: '/images/chess/wK.png',
   wQ: '/images/chess/wQ.png',
@@ -21,29 +24,23 @@ const pieceImages = {
 };
 
 const ChessGamePageWithImages = () => {
-  // Create and store the Chess instance.
   const gameRef = useRef(new Chess());
-  // Board state derived from chess.js.
   const [board, setBoard] = useState(gameRef.current.board());
-  // Selected square in algebraic notation (e.g., "e2").
   const [selected, setSelected] = useState(null);
-  // Legal moves for the selected piece.
   const [legalMoves, setLegalMoves] = useState([]);
-  // Message for game status.
   const [message, setMessage] = useState('');
-  // Move history (array of SAN strings).
   const [moveHistory, setMoveHistory] = useState([]);
-  // Timer states (in seconds); starting with 5 minutes (300 seconds) each.
   const [whiteTime, setWhiteTime] = useState(300);
   const [blackTime, setBlackTime] = useState(300);
-  // When set, triggers the StockfishEngine to compute a move.
-  // Null means no pending engine move.
+  const [aiDepth, setAIDepth] = useState(15);
+  const [aiMoveTime, setAIMoveTime] = useState(1000);
   const [engineFen, setEngineFen] = useState(null);
-
-  // Determine active color ('w' for human, 'b' for Stockfish).
   const activeColor = gameRef.current.turn();
 
-  // Update the active player's timer every second.
+  // Ref for the move history container.
+  const moveHistoryRef = useRef(null);
+
+  // Update timers.
   useEffect(() => {
     const timer = setInterval(() => {
       if (gameRef.current.isGameOver()) {
@@ -59,13 +56,18 @@ const ChessGamePageWithImages = () => {
     return () => clearInterval(timer);
   }, [activeColor]);
 
-  // Convert board coordinates (row, col) to algebraic notation.
+  // Scroll move history to the bottom when it updates.
+  useEffect(() => {
+    if (moveHistoryRef.current) {
+      moveHistoryRef.current.scrollTop = moveHistoryRef.current.scrollHeight;
+    }
+  }, [moveHistory]);
+
   const convertToSquare = (row, col) => {
     const files = 'abcdefgh';
     return `${files[col]}${8 - row}`;
   };
 
-  // Handle square click for human moves.
   const handleSquareClick = (row, col) => {
     const square = convertToSquare(row, col);
     if (selected) {
@@ -89,7 +91,6 @@ const ChessGamePageWithImages = () => {
       setSelected(null);
       setLegalMoves([]);
     } else {
-      // No piece is selected.
       const moves = gameRef.current.moves({ square, verbose: true });
       if (moves.length > 0) {
         setSelected(square);
@@ -98,9 +99,8 @@ const ChessGamePageWithImages = () => {
     }
   };
 
-  // Memoized callback for handling Stockfish's best move.
-  const handleEngineBestMove = useCallback((bestMove) => {
-    console.log("handleEngineBestMove triggered with:", bestMove);
+  const handleAIMove = useCallback((bestMove) => {
+    console.log("handleAIMove triggered with:", bestMove);
     const from = bestMove.substring(0, 2);
     const to = bestMove.substring(2, 4);
     const move = gameRef.current.move({ from, to, promotion: 'q' });
@@ -115,30 +115,30 @@ const ChessGamePageWithImages = () => {
         setMessage('Check!');
       }
     }
-    // Clear the engine request.
     setEngineFen(null);
   }, []);
 
-  // Request Stockfish to calculate the best move.
-  const requestStockfishMove = () => {
+  const requestAIMove = () => {
     const fen = gameRef.current.fen();
-    console.log("Requesting Stockfish move for FEN:", fen);
+    console.log("Requesting AI move for FEN:", fen, "with depth:", aiDepth, "and moveTime:", aiMoveTime);
     setEngineFen(fen);
   };
 
-  // Automatically trigger engine move if it's Stockfish's turn.
   useEffect(() => {
-    // Assuming Stockfish plays as Black.
-    if (gameRef.current.turn() === 'b' && engineFen === null && !gameRef.current.isGameOver()) {
-      // Adding a slight delay can sometimes help with smoother transitions.
+    if (gameRef.current.turn() === 'b' && !gameRef.current.isGameOver() && engineFen === null) {
       const timeout = setTimeout(() => {
-        requestStockfishMove();
+        requestAIMove();
       }, 500);
       return () => clearTimeout(timeout);
     }
   }, [board, engineFen]);
 
-  // Reset the game.
+  const requestPlayerAIMove = () => {
+    if (gameRef.current.turn() === 'w' && !gameRef.current.isGameOver()) {
+      requestAIMove();
+    }
+  };
+
   const resetGame = () => {
     gameRef.current.reset();
     setBoard(gameRef.current.board());
@@ -151,67 +151,39 @@ const ChessGamePageWithImages = () => {
     setEngineFen(null);
   };
 
-  // Render the chess board as an 8x8 grid.
-  const renderChessBoard = () => {
-    const rows = [];
-    for (let i = 0; i < 8; i++) {
-      const cells = [];
-      for (let j = 0; j < 8; j++) {
-        const isDark = (i + j) % 2 === 1;
-        const pieceObj = board[i][j];
-        let displayPiece = null;
-        if (pieceObj) {
-          // Build key like "wK" from piece color and uppercase type.
-          const key = `${pieceObj.color}${pieceObj.type.toUpperCase()}`;
-          displayPiece = (
-            <img
-              src={pieceImages[key]}
-              alt={key}
-              className="w-16 h-16 object-contain"
-            />
-          );
-        }
-        const square = convertToSquare(i, j);
-        const isLegal = legalMoves.includes(square);
-        const isSelected = selected === square;
-        cells.push(
-          <div
-            key={j}
-            onClick={() => handleSquareClick(i, j)}
-            className={`w-20 h-20 flex items-center justify-center border border-gray-300 cursor-pointer transition transform hover:scale-105
-              ${isDark ? 'bg-[#769656]' : 'bg-[#eeeed2]'}
-              ${isLegal ? 'ring-2 ring-blue-400' : ''} 
-              ${isSelected ? 'ring-2 ring-yellow-400' : ''}`}
-          >
-            {displayPiece}
-          </div>
-        );
-      }
-      rows.push(
-        <div key={i} className="flex">
-          {cells}
-        </div>
-      );
-    }
-    return rows;
+  const dismissModal = () => {
+    setMessage('');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-gray-100 to-gray-300 text-gray-900">
-      {/* Header with Title */}
+    <div className="min-h-screen bg-gradient-to-r from-gray-50 to-gray-200 text-gray-900 font-sans">
       <Header />
-
-      {/* Main Content: Board on left, Sidebar on right */}
-      <main className="container mx-auto px-8 py-8 flex flex-col md:flex-row gap-8">
-        {/* Chess Board Section */}
-        <section className="w-full md:w-2/3 bg-white shadow-lg rounded-lg p-8">
-          <h3 className="text-3xl font-bold text-center mb-6">Interactive Chess Game</h3>
-          <div className="flex flex-col items-center">{renderChessBoard()}</div>
-          {message && <div className="mt-4 text-center text-red-500 text-xl">{message}</div>}
-          <div className="mt-6 flex justify-center space-x-4">
+      <AISettings
+        aiDepth={aiDepth}
+        aiMoveTime={aiMoveTime}
+        setAIDepth={setAIDepth}
+        setAIMoveTime={setAIMoveTime}
+      />
+      <main className="container mx-auto px-8 py-6 flex flex-col md:flex-row gap-8">
+        <section className="w-full md:w-2/3 bg-white rounded-lg shadow-lg p-8">
+          <h3 className="text-4xl font-extrabold text-center mb-8 tracking-wide">Interactive Chess Game</h3>
+          <ChessBoard
+            board={board}
+            legalMoves={legalMoves}
+            selected={selected}
+            onSquareClick={handleSquareClick}
+            pieceImages={pieceImages}
+            convertToSquare={convertToSquare}
+          />
+          {message && (
+            <div className="mt-6 text-center">
+              <p className="text-2xl text-red-600 font-semibold">{message}</p>
+            </div>
+          )}
+          <div className="mt-8 flex justify-center gap-6">
             <button
               onClick={resetGame}
-              className="bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition"
+              className="bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition shadow-md"
             >
               Reset Game
             </button>
@@ -221,46 +193,37 @@ const ChessGamePageWithImages = () => {
                 setLegalMoves([]);
                 setMessage('');
               }}
-              className="bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition"
+              className="bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition shadow-md"
             >
               Clear Selection
             </button>
+            <button
+              onClick={requestPlayerAIMove}
+              disabled={gameRef.current.turn() !== 'w'}
+              className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition shadow-md"
+            >
+              Player Best Move
+            </button>
           </div>
         </section>
-
-        {/* Sidebar: Timers and Move History */}
-        <aside className="w-full md:w-1/3 bg-white shadow-lg rounded-lg p-8 flex flex-col">
-          <h3 className="text-3xl font-bold mb-6">Status</h3>
-          <div className="mb-6">
-            <div className="text-2xl">White: {whiteTime}s</div>
-            <div className="text-2xl">Black: {blackTime}s</div>
-          </div>
-          <h3 className="text-2xl font-bold mb-4">Move History</h3>
-          <div className="flex-1 overflow-y-auto border p-4 rounded">
-            {moveHistory.length === 0 ? (
-              <p className="text-gray-500 italic">No moves yet.</p>
-            ) : (
-              moveHistory.map((move, index) => (
-                <div key={index} className="text-lg">
-                  {index % 2 === 0 ? `${Math.floor(index / 2) + 1}. ` : ''}{move}
-                </div>
-              ))
-            )}
-          </div>
-        </aside>
+        <Sidebar whiteTime={whiteTime} blackTime={blackTime} moveHistory={moveHistory} ref={moveHistoryRef} />
       </main>
-
-      {/* Always render the StockfishEngine component */}
-      <StockfishEngine fen={engineFen} onBestMove={handleEngineBestMove} />
-
-      {/* Documentation Section */}
+      <StockfishEngine
+        fen={engineFen}
+        depth={aiDepth}
+        movetime={aiMoveTime}
+        onBestMove={handleAIMove}
+      />
+      {(message === 'Checkmate!' || message === 'Stalemate!' || message === 'Check!') && (
+        <Modal message={message} onDismiss={dismissModal} />
+      )}
       <section id="docs" className="py-16 px-8 bg-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-6">Documentation & Code</h2>
           <p className="text-lg text-gray-700 mb-6">
-            This chess game uses chess.js for full game logic, including move generation, check, checkmate,
-            castling, en passant, and promotion. Chess piece images provide a polished look, and the sidebar displays
-            timers and a full move history. Stockfish is integrated via a web worker for computing moves.
+            This chess game uses chess.js for game logic and integrates the Stockfish engine as a web worker.
+            Users can adjust the engine's search depth and move time using the AI settings panel.
+            Black's moves are computed automatically, while White's best move can be requested using the "Player Best Move" button.
           </p>
           <a
             href="https://github.com/yourusername/chess-game-ai"
@@ -272,10 +235,8 @@ const ChessGamePageWithImages = () => {
           </a>
         </div>
       </section>
-
-      {/* Footer */}
       <footer className="container mx-auto px-8 py-6 border-t border-gray-300 text-center">
-        <p>&copy; 2025 Maze &amp; Game AI Project. All rights reserved.</p>
+        <p className="text-sm text-gray-600">&copy; 2025 Maze &amp; Game AI Project. All rights reserved.</p>
       </footer>
     </div>
   );
