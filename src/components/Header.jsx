@@ -17,8 +17,8 @@ export default function Header(){
               </a>
             </li>
             <li>
-              <a href="#analysis" className="nav-link hover:text-gray-600">
-                Analysis
+              <a href="/AITree" className="nav-link hover:text-gray-600">
+                Ai DecisionTree
               </a>
             </li>
             <li>
