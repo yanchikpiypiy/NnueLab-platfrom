@@ -60,14 +60,6 @@ Here are some screenshots showcasing different features of the project:
 ![image](https://github.com/user-attachments/assets/ea5c99fe-a9b3-4d32-8bfc-9eb8ba787ffb)
 ![image](https://github.com/user-attachments/assets/396330a9-e1e8-4433-9d62-2bf85b8694e9)
 
-
-**1**
-![Algorithm Solver](screenshots/algorithm-visualizer.png)
-**2**
-![Chess AI](screenshots/chess-board.png)
-**3**
-![Alpha-Beta Pruning](screenshots/alpha-beta-pruning.png)
-
 **Chess board against stockfish engine-----------------------------------------------------**
 
 **NOTE:Here i am still working on my ai model that will compete against stockfish engine**
