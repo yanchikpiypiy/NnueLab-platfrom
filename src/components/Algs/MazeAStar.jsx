@@ -275,7 +275,6 @@ MazeAStar.solveMaze = async (mazeData) => {
   const runtime = performance.now() - startTime;
   const formattedRuntime = parseFloat(runtime.toFixed(11));
 
-  // Instead of returning the solution path length, return the total steps (nodes processed).
   return { runtime: formattedRuntime, stepsTaken: steps };
 };
 

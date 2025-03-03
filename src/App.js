@@ -15,7 +15,6 @@ function App() {
         <Route path="/maze" element={<MazeSolvingPage />} />
         <Route path="/chess" element={<ChessGamePage />} />
         <Route path="/AITree" element={<MultiPVChessBoard />}/>
-        {/* <Route path="/FUCK"  /> */}
       </Routes>
     </Router>
   );
