@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Chessboard } from 'react-chessboard';
 import { Chess } from 'chess.js';
+import Tree from 'react-d3-tree';
 import Header from './Header';
 import './MateIn2Solver.css';
 
@@ -51,6 +52,87 @@ const objectToFEN = (boardObj) => {
   return fenRows.join("/") + " w - - 0 1";
 };
 
+// NEW: Modified recursive search that builds a search tree.
+const findMateInNCandidateTree = (chessInstance, n) => {
+  // Create the root node for the current position.
+  const rootNode = {
+    fen: chessInstance.fen(),
+    move: null, // starting position
+    children: []
+  };
+
+  // Base case: mate in one move.
+  if (n === 1) {
+    const moves = chessInstance.moves();
+    for (let m of moves) {
+      const clone = new Chess(chessInstance.fen());
+      clone.move(m);
+      const childNode = {
+        move: m,
+        fen: clone.fen(),
+        children: []
+      };
+      rootNode.children.push(childNode);
+      if (clone.isCheckmate()) {
+        return { candidate: { branch: [m] }, tree: rootNode };
+      }
+    }
+    return { candidate: null, tree: rootNode };
+  } else {
+    const whiteMoves = chessInstance.moves();
+    for (let wm of whiteMoves) {
+      const cloneWhite = new Chess(chessInstance.fen());
+      if (!cloneWhite.move(wm)) continue;
+      const whiteNode = {
+        move: wm,
+        fen: cloneWhite.fen(),
+        children: []
+      };
+      rootNode.children.push(whiteNode);
+
+      let validForAllBlack = true;
+      let branchCandidate = [wm];
+
+      const blackMoves = cloneWhite.moves();
+      if (blackMoves.length === 0) continue;
+      for (let bm of blackMoves) {
+        const cloneBlack = new Chess(cloneWhite.fen());
+        if (!cloneBlack.move(bm)) continue;
+        const blackNode = {
+          move: bm,
+          fen: cloneBlack.fen(),
+          children: []
+        };
+        whiteNode.children.push(blackNode);
+
+        const result = findMateInNCandidateTree(cloneBlack, n - 1);
+        if (!result.candidate) {
+          validForAllBlack = false;
+          // Attach explored subtree even if mate not found.
+          blackNode.children = result.tree.children;
+          break;
+        } else {
+          branchCandidate.push(bm, ...result.candidate.branch);
+          blackNode.children = result.tree.children;
+        }
+      }
+      if (validForAllBlack) {
+        return { candidate: { branch: branchCandidate }, tree: rootNode };
+      }
+    }
+    return { candidate: null, tree: rootNode };
+  }
+};
+
+// Helper: Transform our search tree to a format compatible with react-d3-tree.
+const transformTreeForD3 = (node) => {
+  return {
+    name: node.move ? node.move : 'start',
+    attributes: { fen: node.fen },
+    children: node.children.map(transformTreeForD3)
+  };
+};
+
 const MateIn2Solver = () => {
   // Default mate-in-2 position.
   const defaultPositionObj = { "d3": "wQ", "c1": "wK", "a1": "bK" };
@@ -65,6 +147,10 @@ const MateIn2Solver = () => {
   const [traversalFens, setTraversalFens] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [allowedSteps, setAllowedSteps] = useState(2);
+  // NEW: State for the search tree.
+  const [candidateTree, setCandidateTree] = useState(null);
+  // NEW: Toggle for displaying the search tree.
+  const [showTree, setShowTree] = useState(false);
 
   // Ref for the board container.
   const boardContainerRef = useRef(null);
@@ -85,7 +171,9 @@ const MateIn2Solver = () => {
 
   const debugLog = (msg) => { console.log(msg); };
 
-  // Simplified recursive mate-in-N search.
+  // --- Solver functions ---
+
+  // Original simplified recursive mate-in-N search (kept for reference)
   const findMateInNCandidate = (chessInstance, n) => {
     if (n === 1) {
       const moves = chessInstance.moves();
@@ -125,16 +213,19 @@ const MateIn2Solver = () => {
     }
   };
 
+  // NEW: Modified solveProblem that uses the tree-building function.
   const solveProblem = () => {
     try {
       const chessInstance = new Chess(problemFEN);
-      const candidate = findMateInNCandidate(chessInstance, allowedSteps);
+      const { candidate, tree } = findMateInNCandidateTree(chessInstance, allowedSteps);
       debugLog("Mate-in-" + allowedSteps + " candidate: " + JSON.stringify(candidate));
       if (!candidate) {
         alert("No mate‑in‑" + allowedSteps + " candidate found. Try a different problem or reduce allowed steps.");
         setBestCandidate(null);
+        setCandidateTree(null);
       } else {
         setBestCandidate(candidate);
+        setCandidateTree(tree);
       }
     } catch (err) {
       alert("Invalid problem FEN. Please fix your board setup.");
@@ -346,9 +437,11 @@ const MateIn2Solver = () => {
             <p>Step {currentStep} of {traversalFens.length - 1}</p>
           </div>
         )}
+
         <div className="button-group">
           <button className="button" onClick={solveProblem}>Solve Problem</button>
         </div>
+
         {bestCandidate && (
           <div className="candidate-card">
             <div className="candidate-info">
@@ -362,6 +455,22 @@ const MateIn2Solver = () => {
             <button className="candidate-button" onClick={showFullTraversal}>
               Show Full Traversal
             </button>
+          </div>
+        )}
+
+        {/* NEW: Button to toggle search tree visualization */}
+        {candidateTree && (
+          <div className="tree-visualization" style={{ textAlign: 'center', marginTop: '20px' }}>
+            <button className="button" onClick={() => setShowTree(!showTree)}>
+              {showTree ? "Hide Search Tree" : "Show Search Tree"}
+            </button>
+          </div>
+        )}
+
+        {/* NEW: Render the search tree if toggled on */}
+        {showTree && candidateTree && (
+          <div id="treeWrapper" style={{ width: '100%', height: '500px', marginTop: '20px' }}>
+            <Tree data={transformTreeForD3(candidateTree)} orientation="vertical" />
           </div>
         )}
       </div>

@@ -6,6 +6,7 @@ import HomePage from './components/HomePage';
 import MazeSolvingPage from './components/MazeSolvingPage';
 import ChessGamePage from './components/ChessGamePage';
 import MultiPVChessBoard from './components/MultiPVChessBoard';
+import DecisionTreePage from './components/DecisionTreePage/DecisionTreePage';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/maze" element={<MazeSolvingPage />} />
         <Route path="/chess" element={<ChessGamePage />} />
-        <Route path="/AITree" element={<MultiPVChessBoard />}/>
+        <Route path="/AITree" element={< DecisionTreePage/>}/>
       </Routes>
     </Router>
   );
