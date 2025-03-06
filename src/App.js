@@ -7,7 +7,7 @@ import MazeSolvingPage from './components/MazeSolvingPage';
 import ChessGamePage from './components/ChessGamePage';
 import MultiPVChessBoard from './components/MultiPVChessBoard';
 import DecisionTreePage from './components/DecisionTreePage/DecisionTreePage';
-
+import pain from "./components/DecisionTreePage/pain"
 function App() {
   return (
     <Router>
@@ -16,6 +16,7 @@ function App() {
         <Route path="/maze" element={<MazeSolvingPage />} />
         <Route path="/chess" element={<ChessGamePage />} />
         <Route path="/AITree" element={< DecisionTreePage/>}/>
+        <Route path='fuck' element={<fuck/>}/>
       </Routes>
     </Router>
   );

@@ -2,7 +2,6 @@ import React from "react";
 import Tree from "react-d3-tree";
 
 const TreeVisualization = ({ treeData, orientation = "vertical" }) => {
-    console.log(JSON.stringify(treeData, null, 2));
   return (
     <div
       id="treeWrapper"
