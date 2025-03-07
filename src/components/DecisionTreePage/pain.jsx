@@ -6,7 +6,7 @@ import TreeVisualization from '../toberemoved/TreeVisualization';
 import ChessBoardSetup from './ChessBoardSetup';
 import Header from '../Header';
 import { findMateInNCandidateTree, transformTreeForD3 } from './MateSolvingAlgs/mateSolver';
-import '../MateIn2Solver.css';
+import './MateIn2Solver.css';
 
 // --- Piece Images & Palette ---
 const pieceImages = {

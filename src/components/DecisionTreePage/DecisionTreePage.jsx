@@ -1,14 +1,13 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Chess } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
-import TreeVisualization from '../toberemoved/TreeVisualization';
 import ChessBoardSetup from './ChessBoardSetup';
 import Header from '../Header';
 import { findMateInNCandidateTree, transformTreeForD3 } from './MateSolvingAlgs/mateSolver';
 import { findMateInNCandidateTreeAlphaBeta } from './MateSolvingAlgs/mateSolverAlphaBeta';
 import { findMateInNCandidateTreeAlphaBetaEnhanced } from './MateSolvingAlgs/mateSolverAlphaBetaEnhanced';
 import ReactFlowTree from './ReactFlowTree';
-import '../MateIn2Solver.css';
+import './MateIn2Solver.css';
 
 // --- Piece Images & Palette ---
 const pieceImages = {
@@ -131,7 +130,7 @@ const DecisionTreePage = () => {
   const [Arrows, setArrows] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const playIntervalRef = useRef(null);
-  const [startingStep, setStartinstep] = useState(0);
+  
 
   // --- Solver Functions ---
   const solveProblem = useCallback(() => {
@@ -393,7 +392,6 @@ const DecisionTreePage = () => {
     }
     const startingStep = currentArrowStep < arrowTraversalQueue.length ? currentArrowStep : 0;
     setArrows(arrowTraversalQueue[startingStep].arrows || []);
-    setStartinstep(startingStep);
     if (!bestCandidate || !bestCandidate.branch || bestCandidate.branch.length === 0) {
       alert("Best candidate not yet found. Solve the problem first!");
       return;
@@ -453,7 +451,7 @@ const DecisionTreePage = () => {
   return (
     <>
       <Header />
-      <div className="main-container">
+      <div className="main-container dark-theme">
         <div className="board-section">
           {setupMode ? (
             <>
@@ -471,25 +469,28 @@ const DecisionTreePage = () => {
                 />
               </div>
               <div className="button-group center">
-                <button className="button" onClick={setCurrentBoardAsProblem}>
+                <button className="button minimal-btn" onClick={setCurrentBoardAsProblem}>
                   Set Current Board as Problem
                 </button>
               </div>
             </>
           ) : (
             <>
-            <div className="board-wrapper" ref={boardContainerRef}>
-              <Chessboard 
-                position={boardPosition}
-                onPieceDrop={onDrop}
-                boardWidth={boardWidth}
-                boardOrientation="white"
-                customArrows={Arrows !== null ? Arrows : memoizedCurrentArrows}
-                customBoardStyle={{ borderRadius: "5px", boxShadow: "0 5px 15px rgba(0,0,0,0.5)" }}
-              />
-            </div>
-            <div className="button-group center">
-                <button className="button" onClick={handleSetUp}>
+              <div className="board-wrapper" ref={boardContainerRef}>
+                <Chessboard
+                  position={boardPosition}
+                  onPieceDrop={onDrop}
+                  boardWidth={boardWidth}
+                  boardOrientation="white"
+                  customArrows={Arrows !== null ? Arrows : memoizedCurrentArrows}
+                  customBoardStyle={{
+                    borderRadius: "5px",
+                    boxShadow: "0 5px 15px rgba(0,0,0,0.5)"
+                  }}
+                />
+              </div>
+              <div className="button-group center">
+                <button className="button minimal-btn" onClick={handleSetUp}>
                   Setup mode
                 </button>
               </div>
@@ -498,7 +499,7 @@ const DecisionTreePage = () => {
         </div>
 
         <div className="control-panel">
-          <h2>Control Panel</h2>
+          <h2 className="panel-title">Control Panel</h2>
 
           {/* Board Setup Controls */}
           <div className="control-section">
@@ -506,18 +507,18 @@ const DecisionTreePage = () => {
             <div className="control-group">
               <label>
                 Allowed Steps:&nbsp;
-                <input 
-                  type="number" 
-                  min="1" 
+                <input
+                  type="number"
+                  min="1"
                   value={allowedSteps}
-                  onChange={(e) => setAllowedSteps(parseInt(e.target.value, 10))} 
-                  className="steps-input" 
+                  onChange={(e) => setAllowedSteps(parseInt(e.target.value, 10))}
+                  className="steps-input"
                 />
               </label>
             </div>
             {setupMode && (
               <div className="control-group">
-                <button className="button" onClick={setCurrentBoardAsProblem}>
+                <button className="button minimal-btn" onClick={setCurrentBoardAsProblem}>
                   Set Board as Problem
                 </button>
               </div>
@@ -528,7 +529,9 @@ const DecisionTreePage = () => {
           <div className="control-section">
             <h3>Solver</h3>
             <div className="control-group">
-              <button className="button" onClick={solveProblem}>Solve Problem</button>
+              <button className="button minimal-btn" onClick={solveProblem}>
+                Solve Problem
+              </button>
             </div>
           </div>
 
@@ -539,18 +542,24 @@ const DecisionTreePage = () => {
                 <p className="info">
                   <strong>Best Candidate:</strong> {bestCandidate.branch.join(", ")}
                 </p>
-                <button className="button" onClick={showFullTraversal}>
+                <button className="button minimal-btn" onClick={showFullTraversal}>
                   {traversalFens.length > 0 ? "Stop Full Traversal" : "Show Full Traversal"}
                 </button>
               </div>
               {traversalFens.length > 0 && (
                 <>
                   <div className="control-group">
-                    <button className="button" onClick={prevStep}>Previous Step</button>
-                    <button className="button" onClick={nextStep}>Next Step</button>
+                    <button className="button minimal-btn" onClick={prevStep}>
+                      Previous Step
+                    </button>
+                    <button className="button minimal-btn" onClick={nextStep}>
+                      Next Step
+                    </button>
                   </div>
                   <div className="control-group">
-                    <p className="info">Step: {currentStep} / {traversalFens.length - 1}</p>
+                    <p className="info">
+                      Step: {currentStep} / {traversalFens.length - 1}
+                    </p>
                   </div>
                 </>
               )}
@@ -562,19 +571,25 @@ const DecisionTreePage = () => {
             <div className="control-section">
               <h3>Arrow Navigation</h3>
               <div className="control-group">
-                <button className="button" onClick={prevArrowStep}>Previous Arrow Step</button>
-                <button className="button" onClick={nextArrowStep}>Next Arrow Step</button>
+                <button className="button minimal-btn" onClick={prevArrowStep}>
+                  Previous Arrow Step
+                </button>
+                <button className="button minimal-btn" onClick={nextArrowStep}>
+                  Next Arrow Step
+                </button>
               </div>
               <div className="control-group">
-                <button className="button" onClick={playArrows}>
+                <button className="button minimal-btn" onClick={playArrows}>
                   {isPlaying ? "Stop" : "Play Arrows"}
                 </button>
-                <button className="button" onClick={clearArrowsOnStop}>
+                <button className="button minimal-btn" onClick={clearArrowsOnStop}>
                   Reset
                 </button>
               </div>
               <div className="control-group">
-                <p className="info">Arrow Step: {currentArrowStep + 1} / {arrowTraversalQueue.length}</p>
+                <p className="info">
+                  Arrow Step: {currentArrowStep + 1} / {arrowTraversalQueue.length}
+                </p>
               </div>
             </div>
           )}
@@ -586,14 +601,18 @@ const DecisionTreePage = () => {
             <div className="control-section">
               <h3>Search Tree</h3>
               <div className="control-group">
-                <button className="button" onClick={() => setShowTree(!showTree)}>
+                <button className="button minimal-btn" onClick={() => setShowTree(!showTree)}>
                   {showTree ? "Hide Tree" : "Show Tree"}
                 </button>
               </div>
               {showTree && (
                 <div className="control-group">
-                  <button className="button" onClick={expandNext}>Expand Next Node</button>
-                  <button className="button" onClick={expandFullTree}>Expand Full Tree</button>
+                  <button className="button minimal-btn" onClick={expandNext}>
+                    Expand Next Node
+                  </button>
+                  <button className="button minimal-btn" onClick={expandFullTree}>
+                    Expand Full Tree
+                  </button>
                 </div>
               )}
             </div>
