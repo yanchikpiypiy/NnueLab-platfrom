@@ -1,11 +1,13 @@
-// DecisionTreePage.jsx
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Chess } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
-import TreeVisualization from './TreeVisualization';
+import TreeVisualization from '../toberemoved/TreeVisualization';
 import ChessBoardSetup from './ChessBoardSetup';
 import Header from '../Header';
-import { findMateInNCandidateTree, transformTreeForD3 } from './mateSolver';
+import { findMateInNCandidateTree, transformTreeForD3 } from './MateSolvingAlgs/mateSolver';
+import { findMateInNCandidateTreeAlphaBeta } from './MateSolvingAlgs/mateSolverAlphaBeta';
+import { findMateInNCandidateTreeAlphaBetaEnhanced } from './MateSolvingAlgs/mateSolverAlphaBetaEnhanced';
+import ReactFlowTree from './ReactFlowTree';
 import '../MateIn2Solver.css';
 
 // --- Piece Images & Palette ---
@@ -94,7 +96,6 @@ const getArrowTuple = (moveSan, fen, color = "rgba(0,255,0,0.6)", verify = false
   }
 };
 
-// --- DFS: Extract Arrow Sequences from Tree (with FENs) ---
 const DecisionTreePage = () => {
   // --- State Declarations ---
   const defaultPositionObj = {
@@ -129,13 +130,14 @@ const DecisionTreePage = () => {
   const boardContainerRef = useRef(null);
   const [Arrows, setArrows] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [playInterval, setPlayInterval] = useState(null);
-  const [startingStep, setStartinstep] = useState(0)
+  const playIntervalRef = useRef(null);
+  const [startingStep, setStartinstep] = useState(0);
+
   // --- Solver Functions ---
-  const solveProblem = () => {
+  const solveProblem = useCallback(() => {
     try {
       const chessInstance = new Chess(problemFEN);
-      const { candidate, tree } = findMateInNCandidateTree(chessInstance, allowedSteps);
+      const { candidate, tree } = findMateInNCandidateTreeAlphaBetaEnhanced(chessInstance, allowedSteps);
       if (!candidate) {
         alert(`No mate‑in‑${allowedSteps} candidate found.`);
         setBestCandidate(null);
@@ -156,16 +158,9 @@ const DecisionTreePage = () => {
     setSolutionBranch(null);
     setTraversalFens([]);
     setCurrentStep(0);
-  };
+  }, [problemFEN, allowedSteps]);
 
-  const extractArrowsFromTreeDFS = (
-    node, 
-    maxDepth, 
-    path = [], 
-    arrowsQueue = [], 
-    currentFEN = problemFEN, 
-    depth = 0
-  ) => {
+  const extractArrowsFromTreeDFS = useCallback((node, maxDepth, path = [], arrowsQueue = [], currentFEN = problemFEN, depth = 0) => {
     if (!node) return arrowsQueue;
     let newFEN = currentFEN;
     try {
@@ -198,44 +193,49 @@ const DecisionTreePage = () => {
     }
     if (node.move) path.pop();
     return arrowsQueue;
-  };
+  }, [problemFEN]);
 
-  const updateArrowsFromTree = () => {
+  const updateArrowsFromTree = useCallback(() => {
     if (!candidateTree || !bestCandidate) return;
     const maxDepth = bestCandidate.branch.length;
     const newArrowSequences = extractArrowsFromTreeDFS(candidateTree, maxDepth) || [];
     setArrowTraversalQueue(newArrowSequences);
     setCurrentArrowStep(0);
-  };
+  }, [candidateTree, bestCandidate, extractArrowsFromTreeDFS]);
 
   useEffect(() => {
     updateArrowsFromTree();
-  }, [candidateTree]);
+  }, [candidateTree, updateArrowsFromTree]);
 
-  const nextArrowStep = () => {
-    if (currentArrowStep < arrowTraversalQueue.length - 1) {
-      const nextStep = currentArrowStep + 1;
-      setCurrentArrowStep(nextStep);
-      setArrows(arrowTraversalQueue[nextStep].arrows || []);
-      if (arrowTraversalQueue[nextStep].fen) {
-        setGame(new Chess(arrowTraversalQueue[nextStep].fen));
+  const nextArrowStep = useCallback(() => {
+    setCurrentArrowStep(prev => {
+      const nextStep = prev + 1;
+      if (nextStep < arrowTraversalQueue.length) {
+        setArrows(arrowTraversalQueue[nextStep].arrows || []);
+        if (arrowTraversalQueue[nextStep].fen) {
+          setGame(new Chess(arrowTraversalQueue[nextStep].fen));
+        }
+        return nextStep;
       }
-    }
-  };
-  
-  const prevArrowStep = () => {
-    if (currentArrowStep > 0) {
-      const prevStep = currentArrowStep - 1;
-      setCurrentArrowStep(prevStep);
-      setArrows(arrowTraversalQueue[prevStep].arrows || []);
-      if (arrowTraversalQueue[prevStep].fen) {
-        setGame(new Chess(arrowTraversalQueue[prevStep].fen));
-      }
-    }
-  };
-  
+      return prev;
+    });
+  }, [arrowTraversalQueue]);
 
-  const expandNext = () => {
+  const prevArrowStep = useCallback(() => {
+    setCurrentArrowStep(prev => {
+      const prevStep = prev - 1;
+      if (prevStep >= 0) {
+        setArrows(arrowTraversalQueue[prevStep].arrows || []);
+        if (arrowTraversalQueue[prevStep].fen) {
+          setGame(new Chess(arrowTraversalQueue[prevStep].fen));
+        }
+        return prevStep;
+      }
+      return prev;
+    });
+  }, [arrowTraversalQueue]);
+
+  const expandNext = useCallback(() => {
     if (!candidateTree || bfsQueue.length === 0) {
       alert("No more nodes to expand.");
       return;
@@ -244,9 +244,9 @@ const DecisionTreePage = () => {
     nextNode.visible = true;
     setBfsQueue([...bfsQueue]);
     setCandidateTree({ ...candidateTree });
-  };
+  }, [candidateTree, bfsQueue]);
 
-  const expandFullTree = () => {
+  const expandFullTree = useCallback(() => {
     if (!candidateTree) return;
     const revealAllNodes = (node) => {
       node.visible = true;
@@ -257,14 +257,11 @@ const DecisionTreePage = () => {
     const expandedTree = { ...candidateTree };
     revealAllNodes(expandedTree);
     setCandidateTree(expandedTree);
-  };
+  }, [candidateTree]);
 
-  const getTreeData = () => {
-    if (!candidateTree) return null;
-    return transformTreeForD3(candidateTree);
-  };
+  const treeData = useMemo(() => candidateTree ? transformTreeForD3(candidateTree) : null, [candidateTree]);
 
-  const computeTraversal = (branch) => {
+  const computeTraversal = useCallback((branch) => {
     const clone = new Chess(problemFEN);
     const fens = [clone.fen()];
     branch.forEach(move => {
@@ -272,72 +269,66 @@ const DecisionTreePage = () => {
       fens.push(clone.fen());
     });
     return fens;
-  };
-  
-  
+  }, [problemFEN]);
 
-  const showFullTraversal = () => {
+  const showFullTraversal = useCallback(() => {
     if (traversalFens && traversalFens.length > 0) {
       setTraversalFens([]);
-      let dummy_holder = 0
-      if (currentArrowStep == 0){
-        dummy_holder = []
-      }
-      else{
-        dummy_holder = arrowTraversalQueue[currentArrowStep].arrows
-      }
-      setArrows(dummy_holder); // This explicitly clears arrows.
+      const dummy_holder = currentArrowStep === 0 ? [] : arrowTraversalQueue[currentArrowStep].arrows;
+      setArrows(dummy_holder); // Explicitly clear arrows.
       return;
     }
-  
     if (!bestCandidate) return;
     setSolutionBranch({ branch: bestCandidate.branch });
     const fens = computeTraversal(bestCandidate.branch);
     setTraversalFens(fens);
     setCurrentStep(0);
     setArrows(null);
-  };
+  }, [traversalFens, currentArrowStep, arrowTraversalQueue, bestCandidate, computeTraversal]);
 
-  const nextStep = () => {
+  const nextStep = useCallback(() => {
     setCurrentStep(prev => Math.min(prev + 1, traversalFens.length - 1));
-  };
+  }, [traversalFens]);
 
-  const prevStep = () => {
+  const prevStep = useCallback(() => {
     setCurrentStep(prev => Math.max(prev - 1, 0));
-  };
+  }, []);
 
-  const computeCurrentArrows = () => {
+  const computeCurrentArrows = useCallback(() => {
     if (!solutionBranch || !solutionBranch.branch) return [];
     const arrows = [];
-    let currentFEN = problemFEN;
+    let currentFENLocal = problemFEN;
     const steps = Math.min(currentStep, solutionBranch.branch.length);
     for (let i = 0; i < steps; i++) {
       const color = i % 2 === 0 ? "rgba(0,255,0,0.6)" : "rgba(255,0,0,0.6)";
       const move = solutionBranch.branch[i];
       if (!move) break;
-      const arrow = getArrowTuple(move, currentFEN, color);
+      const arrow = getArrowTuple(move, currentFENLocal, color);
       if (arrow) arrows.push(arrow);
-      const clone = new Chess(currentFEN);
+      const clone = new Chess(currentFENLocal);
       if (clone.move(move)) {
-        currentFEN = clone.fen();
+        currentFENLocal = clone.fen();
       }
     }
     return arrows;
-  };
-  const currentArrows = computeCurrentArrows();
+  }, [solutionBranch, currentStep, problemFEN]);
 
-  const onDrop = (sourceSquare, targetSquare) => {
+  const memoizedCurrentArrows = useMemo(() => computeCurrentArrows(), [computeCurrentArrows]);
+
+  const onDrop = useCallback((sourceSquare, targetSquare) => {
     if (setupMode) return;
     const newGame = new Chess(game.fen());
     let move = newGame.move({ from: sourceSquare, to: targetSquare });
     if (!move) move = newGame.move({ from: sourceSquare, to: targetSquare, promotion: 'q' });
     if (move) setGame(newGame);
     return move;
-  };
+  }, [setupMode, game]);
 
-  // --- Setup Mode Handlers ---
-  const handleDragOver = (e) => e.preventDefault();
-  const handleBoardDrop = (e) => {
+  const handleDragOver = useCallback((e) => {
+    e.preventDefault();
+  }, []);
+
+  const handleBoardDrop = useCallback((e) => {
     e.preventDefault();
     if (!setupMode) return;
     const rect = boardContainerRef.current.getBoundingClientRect();
@@ -352,16 +343,16 @@ const DecisionTreePage = () => {
     const newPosition = { ...positionObj };
     if (piece) newPosition[square] = piece;
     setPositionObj(newPosition);
-  };
+  }, [setupMode, positionObj]);
 
-  const handleSquareRightClick = (square) => {
+  const handleSquareRightClick = useCallback((square) => {
     if (!setupMode) return;
     const newPosition = { ...positionObj };
     delete newPosition[square];
     setPositionObj(newPosition);
-  };
+  }, [setupMode, positionObj]);
 
-  const setCurrentBoardAsProblem = () => {
+  const setCurrentBoardAsProblem = useCallback(() => {
     const fen = objectToFEN(positionObj);
     try {
       const newGame = new Chess(fen);
@@ -377,116 +368,86 @@ const DecisionTreePage = () => {
     } catch (err) {
       alert("Invalid board setup! Please check the position.");
     }
-  };
-
-  const convertSANtoTargetSquares = (sanMoves) => {
+  }, [positionObj]);
+  
+  const convertSANtoTargetSquares = useCallback((sanMoves) => {
     const chessInstance = new Chess(problemFEN);
     return sanMoves.map(sanMove => {
       const moveObj = chessInstance.move(sanMove);
       return moveObj ? moveObj.to : null;
     });
-  };
-
-
-const playArrows = () => {
-  // If already playing, then simply stop playback without resetting state.
-  if (isPlaying) {
-    clearInterval(playInterval);
-    setIsPlaying(false);
-    setPlayInterval(null);
-    return;
+  }, [problemFEN]);
+  const handleSetUp = () => {
+    setSetupMode(true)
   }
-  setTraversalFens([]);
-  if (!arrowTraversalQueue.length) {
-    console.warn("Arrow traversal queue is empty!");
-    return;
-  }
-  
-  // Do not reset traversal indices—resume from the currentArrowStep.
-  const startingStep = currentArrowStep < arrowTraversalQueue.length
-    ? currentArrowStep
-    : 0;
-  setArrows(arrowTraversalQueue[startingStep].arrows || []);
-  setStartinstep(startingStep)
-  if (!bestCandidate || !bestCandidate.branch || bestCandidate.branch.length === 0) {
-    alert("Best candidate not yet found. Solve the problem first!");
-    return;
-  }
-  
-  setIsPlaying(true);
-  const bestCandidateTargetSquares = convertSANtoTargetSquares(bestCandidate.branch);
-  const interval = setInterval(() => {
-    setStartinstep(currentArrowStep)
-    setCurrentArrowStep(prevStep => {
-      // If no arrow exists for the current step, stop.
-      if (!arrowTraversalQueue[prevStep]) {
-        clearInterval(interval);
-        setIsPlaying(false);
-        setPlayInterval(null);
-        return prevStep;
-      }
-      
-      const currentArrowSequence = arrowTraversalQueue[prevStep].arrows;
-      const targetSquares = currentArrowSequence.map(arrow => arrow[1]);
-      const match = bestCandidateTargetSquares.every(
-        (sq, i) => targetSquares[i] === sq
-      );
-      
-      if (match) {
-        // Best candidate reached: stop playback, but leave the arrows intact.
-        clearInterval(interval);
-        setIsPlaying(false);
-        setPlayInterval(null);
-        return prevStep;
-      }
-      
-      const nextStep = prevStep + 1;
-      if (arrowTraversalQueue[nextStep]) {
-        // Update arrows and board state using the next step.
-        setArrows(arrowTraversalQueue[nextStep].arrows || []);
-        if (arrowTraversalQueue[nextStep].fen) {
-          setGame(new Chess(arrowTraversalQueue[nextStep].fen));
-        }
-        setCurrentStep(nextStep);
-        return nextStep;
-      } else {
-        // No more steps: stop playback.
-        clearInterval(interval);
-        setIsPlaying(false);
-        setPlayInterval(null);
-        return prevStep;
-      }
-    });
-  }, 10);
-  
-  setPlayInterval(interval);
-};
-
-    
-    
-    // This effect tracks when arrows are updated
-  useEffect(() => {
-    console.log(Arrows); // This will show the updated value of Arrows
-  }, [Arrows]);  // Tracks changes to Arrows state
-  const clearArrowsOnStop = () => {
-    // If an interval is active, clear it.
-    if (playInterval) {
-      clearInterval(playInterval);
+  const playArrows = useCallback(() => {
+    if (isPlaying) {
+      clearInterval(playIntervalRef.current);
+      setIsPlaying(false);
+      return;
     }
-    // Clear arrows and reset states.
+    setTraversalFens([]);
+    if (!arrowTraversalQueue.length) {
+      console.warn("Arrow traversal queue is empty!");
+      return;
+    }
+    const startingStep = currentArrowStep < arrowTraversalQueue.length ? currentArrowStep : 0;
+    setArrows(arrowTraversalQueue[startingStep].arrows || []);
+    setStartinstep(startingStep);
+    if (!bestCandidate || !bestCandidate.branch || bestCandidate.branch.length === 0) {
+      alert("Best candidate not yet found. Solve the problem first!");
+      return;
+    }
+    setIsPlaying(true);
+    const bestCandidateTargetSquares = convertSANtoTargetSquares(bestCandidate.branch);
+    playIntervalRef.current = setInterval(() => {
+      setCurrentArrowStep(prevStep => {
+        if (!arrowTraversalQueue[prevStep]) {
+          clearInterval(playIntervalRef.current);
+          setIsPlaying(false);
+          return prevStep;
+        }
+        const currentArrowSequence = arrowTraversalQueue[prevStep].arrows;
+        const targetSquares = currentArrowSequence.map(arrow => arrow[1]);
+        const match = bestCandidateTargetSquares.every((sq, i) => targetSquares[i] === sq);
+        if (match) {
+          clearInterval(playIntervalRef.current);
+          setIsPlaying(false);
+          return prevStep;
+        }
+        const nextStep = prevStep + 1;
+        if (arrowTraversalQueue[nextStep]) {
+          setArrows(arrowTraversalQueue[nextStep].arrows || []);
+          if (arrowTraversalQueue[nextStep].fen) {
+            setGame(new Chess(arrowTraversalQueue[nextStep].fen));
+          }
+          setCurrentStep(nextStep);
+          return nextStep;
+        } else {
+          clearInterval(playIntervalRef.current);
+          setIsPlaying(false);
+          return prevStep;
+        }
+      });
+    }, 10);
+  }, [isPlaying, arrowTraversalQueue, currentArrowStep, bestCandidate, convertSANtoTargetSquares]);
+
+  const clearArrowsOnStop = useCallback(() => {
+    if (playIntervalRef.current) {
+      clearInterval(playIntervalRef.current);
+    }
     setArrows([]);
     setIsPlaying(false);
-    setPlayInterval(null);
     setCurrentArrowStep(0);
     setCurrentStep(0);
     setGame(new Chess(problemFEN));
-  };
-      
-  // --- Determine Board Position to Display ---
-  const boardPosition = traversalFens.length > 0
-    ? traversalFens[currentStep]
-    : (setupMode ? positionObj : game.fen());
+  }, [problemFEN]);
 
+  useEffect(() => {
+    console.log(Arrows);
+  }, [Arrows]);
+
+  const boardPosition = traversalFens.length > 0 ? traversalFens[currentStep] : (setupMode ? positionObj : game.fen());
   const boardWidth = 400;
 
   return (
@@ -496,7 +457,6 @@ const playArrows = () => {
         <div className="board-section">
           {setupMode ? (
             <>
-              {/* Wrap ChessBoardSetup in a container that can toggle the palette visibility */}
               <div className={`palette-container ${setupMode ? '' : 'hidden'}`}>
                 <ChessBoardSetup
                   position={positionObj}
@@ -517,16 +477,23 @@ const playArrows = () => {
               </div>
             </>
           ) : (
+            <>
             <div className="board-wrapper" ref={boardContainerRef}>
               <Chessboard 
                 position={boardPosition}
                 onPieceDrop={onDrop}
                 boardWidth={boardWidth}
                 boardOrientation="white"
-                customArrows={ Arrows !== null ? Arrows  : currentArrows }
+                customArrows={Arrows !== null ? Arrows : memoizedCurrentArrows}
                 customBoardStyle={{ borderRadius: "5px", boxShadow: "0 5px 15px rgba(0,0,0,0.5)" }}
               />
             </div>
+            <div className="button-group center">
+                <button className="button" onClick={handleSetUp}>
+                  Setup mode
+                </button>
+              </div>
+            </>
           )}
         </div>
 
@@ -578,7 +545,6 @@ const playArrows = () => {
               </div>
               {traversalFens.length > 0 && (
                 <>
-                  {/* Step Navigation */}
                   <div className="control-group">
                     <button className="button" onClick={prevStep}>Previous Step</button>
                     <button className="button" onClick={nextStep}>Next Step</button>
@@ -593,29 +559,28 @@ const playArrows = () => {
 
           {/* Arrow Navigation Controls */}
           {arrowTraversalQueue.length > 0 && (
-          <div className="control-section">
-            <h3>Arrow Navigation</h3>
-            <div className="control-group">
-              <button className="button" onClick={prevArrowStep}>Previous Arrow Step</button>
-              <button className="button" onClick={nextArrowStep}>Next Arrow Step</button>
+            <div className="control-section">
+              <h3>Arrow Navigation</h3>
+              <div className="control-group">
+                <button className="button" onClick={prevArrowStep}>Previous Arrow Step</button>
+                <button className="button" onClick={nextArrowStep}>Next Arrow Step</button>
+              </div>
+              <div className="control-group">
+                <button className="button" onClick={playArrows}>
+                  {isPlaying ? "Stop" : "Play Arrows"}
+                </button>
+                <button className="button" onClick={clearArrowsOnStop}>
+                  Reset
+                </button>
+              </div>
+              <div className="control-group">
+                <p className="info">Arrow Step: {currentArrowStep + 1} / {arrowTraversalQueue.length}</p>
+              </div>
             </div>
-            <div className="control-group">
-              <button className="button" onClick={playArrows}>
-                {isPlaying ? "Stop" : "Play Arrows"}
-              </button>
-              <button className="button" onClick={clearArrowsOnStop}>
-                Reset
-              </button>
-            </div>
-            <div className="control-group">
-              <p className="info">Arrow Step: {currentArrowStep + 1} / {arrowTraversalQueue.length}</p>
-            </div>
-          </div>
-        )}
-
+          )}
         </div>
 
-        {/* Only render Tree Controls if a candidate tree exists */}
+        {/* Tree Controls */}
         {candidateTree && (
           <div className="tree-controls">
             <div className="control-section">
@@ -639,10 +604,9 @@ const playArrows = () => {
       {/* Tree Visualization */}
       {showTree && candidateTree ? (
         <div className="tree-section visible">
-          <TreeVisualization treeData={getTreeData()} />
+          <ReactFlowTree treeData={treeData} />
         </div>
       ) : (
-        // Optionally, show a placeholder message if needed
         <div className="tree-section">
           <p style={{ textAlign: 'center', color: '#777' }}>
             Solve a problem to generate tree logic.
@@ -650,7 +614,6 @@ const playArrows = () => {
         </div>
       )}
     </>
-
   );
 };
 

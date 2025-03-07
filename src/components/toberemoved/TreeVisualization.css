@@ -1,0 +1,82 @@
+.tree-visualization-container {
+    position: relative;
+    width: 100%;
+    height: 800px; /* Adjust as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tree-wrapper {
+    width: 800px;  /* For our example, fixed width */
+    height: 600px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    background: #f9f9f9;
+  }
+  
+  .controls {
+    margin: 10px;
+  }
+  
+  .controls button {
+    margin: 0 5px;
+    padding: 5px 10px;
+  }
+  
+  /* Minimap styles */
+  .minimap-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 200px;
+    border: 1px solid #aaa;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  }
+  
+  .minimap-controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+  }
+  
+  .minimap-controls button {
+    margin: 0 3px;
+    padding: 3px 6px;
+  }
+  
+  .minimap-view {
+    width: 100%;
+    height: calc(100% - 30px); /* Adjust for controls */
+    cursor: pointer;
+  }
+  
+  /* Node label styles */
+  .node-label {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #000;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    min-width: 100px;
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .white-turn {
+    background: #f8f9fa;
+    color: #000;
+  }
+  
+  .black-turn {
+    background: #343a40;
+    color: #fff;
+  }
+  
+  .node-info {
+    font-size: 12px;
+  }
+  

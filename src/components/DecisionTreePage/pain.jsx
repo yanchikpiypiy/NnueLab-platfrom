@@ -2,10 +2,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Chess } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
-import TreeVisualization from './TreeVisualization';
+import TreeVisualization from '../toberemoved/TreeVisualization';
 import ChessBoardSetup from './ChessBoardSetup';
 import Header from '../Header';
-import { findMateInNCandidateTree, transformTreeForD3 } from './mateSolver';
+import { findMateInNCandidateTree, transformTreeForD3 } from './MateSolvingAlgs/mateSolver';
 import '../MateIn2Solver.css';
 
 // --- Piece Images & Palette ---

@@ -1,6 +1,12 @@
 import { Chess } from "chess.js";
 
-export const findMateInNCandidateTree = (chessInstance, n) => {
+const transpositionTable = new Map(); // Cache for storing board evaluations
+let nodesEvaluated = 0; // Count total nodes evaluated
+let cacheHits = 0; // Count transposition table hits
+
+export const findMateInNCandidateTreeAlphaBetaEnhanced = (chessInstance, n) => {
+  nodesEvaluated = 0;
+  cacheHits = 0;
   const maxDepth = 2 * n - 1;
   const startingPlayer = chessInstance.turn();
 
@@ -23,22 +29,33 @@ export const findMateInNCandidateTree = (chessInstance, n) => {
   const getSortedMoves = (chess, isMaximizing) => {
     return chess.moves({ verbose: true })
       .sort((a, b) => {
-        if (!isMaximizing) {
-          return (b.captured ? 1 : 0) - (a.captured ? 1 : 0);
-        }
+        if (a.checkmate) return -1;
+        if (b.checkmate) return 1;
+        const aCaptureValue = pieceValues[a.captured] || 0;
+        const bCaptureValue = pieceValues[b.captured] || 0;
+        if (aCaptureValue !== bCaptureValue) return bCaptureValue - aCaptureValue;
+        if (a.promotion && !b.promotion) return -1;
+        if (b.promotion && !a.promotion) return 1;
         return 0;
       })
       .map(move => move.san);
   };
 
-  const minimax = (chess, depth, isRoot = true, lastMoveWasWhite = false) => {
+  const minimax = (chess, depth, alpha, beta, isMaximizing, isRoot = true, lastMoveWasWhite = false) => {
+    nodesEvaluated++;
+    const fen = chess.fen();
+    if (transpositionTable.has(fen)) {
+      cacheHits++;
+      return transpositionTable.get(fen);
+    }
+
     const node = {
       move: null,
-      fen: chess.fen(),
+      fen,
       visible: false,
       score: null,
       children: [],
-      isWhiteTurn: isRoot ? null : !lastMoveWasWhite, // ✅ White moves first
+      isWhiteTurn: isRoot ? null : !lastMoveWasWhite,
     };
 
     if (chess.isCheckmate()) {
@@ -49,89 +66,56 @@ export const findMateInNCandidateTree = (chessInstance, n) => {
 
     if (depth === 0 || chess.isGameOver()) {
       node.score = evaluate(chess);
+      transpositionTable.set(fen, { score: node.score, branch: null, tree: node });
       return { score: node.score, branch: null, tree: node };
     }
 
-    const isMaximizing = (chess.turn() === startingPlayer);
     let bestScore = isMaximizing ? -Infinity : Infinity;
     let bestBranch = null;
 
     for (const moveSAN of getSortedMoves(chess, isMaximizing)) {
-      const clone = new Chess(chess.fen());
-
+      const clone = new Chess(fen);
       if (!clone.move(moveSAN)) continue;
 
-      if (clone.isCheckmate()) {
-        const pliesUsed = maxDepth - depth;
-        const checkmateScore = (clone.turn() === startingPlayer) ? -(1000 - pliesUsed) : (1000 - pliesUsed);
-        
-        const checkmateNode = {
-          move: moveSAN,
-          fen: clone.fen(),
-          visible: false,
-          children: [],
-          isWhiteTurn: lastMoveWasWhite, // ✅ White moves first, then Black
-          score: checkmateScore
-        };
-
-        node.children.push(checkmateNode);
-        return { score: checkmateScore, branch: [moveSAN], tree: node };
-      }
-
+      const result = minimax(clone, depth - 1, alpha, beta, !isMaximizing, false, !lastMoveWasWhite);
       const childNode = {
         move: moveSAN,
         fen: clone.fen(),
         visible: false,
-        children: [],
-        isWhiteTurn: lastMoveWasWhite, // ✅ Alternate correctly
+        children: result.tree.children,
+        isWhiteTurn: lastMoveWasWhite,
+        score: result.score,
       };
       node.children.push(childNode);
-
-      const result = minimax(clone, depth - 1, false, !lastMoveWasWhite);
-      childNode.score = result.score;
-      childNode.children = result.tree.children;
 
       if (isMaximizing) {
         if (result.score > bestScore) {
           bestScore = result.score;
           bestBranch = result.branch !== null ? [moveSAN, ...result.branch] : null;
         }
+        alpha = Math.max(alpha, bestScore);
       } else {
         if (result.score < bestScore) {
           bestScore = result.score;
           bestBranch = result.branch !== null ? [moveSAN, ...result.branch] : null;
         }
+        beta = Math.min(beta, bestScore);
       }
+
+      if (beta <= alpha) break;
     }
 
     node.score = bestScore;
+    transpositionTable.set(fen, { score: bestScore, branch: bestBranch, tree: node });
     return { score: bestScore, branch: bestBranch, tree: node };
   };
 
-  const result = minimax(chessInstance, maxDepth);
+  console.time("AlphaBetaExecution");
+  const result = minimax(chessInstance, maxDepth, -Infinity, Infinity, chessInstance.turn() === startingPlayer);
+  console.timeEnd("AlphaBetaExecution");
+
+  console.log(`Nodes Evaluated: ${nodesEvaluated}`);
+  console.log(`Cache Hits: ${cacheHits}`);
+
   return { candidate: result.branch ? { branch: result.branch } : null, tree: result.tree };
-};
-
-export const transformTreeForD3 = (node, isRoot = true) => {
-  if (!node.visible) return null;
-
-  return {
-    name: node.move || "Start",
-    attributes: { 
-      score: node.score !== undefined ? node.score : "N/A",
-      turn: isRoot ? "Start" : node.isWhiteTurn ? "White" : "Black"
-    },
-    nodeSvgShape: {
-      shape: "circle",
-      shapeProps: {
-        r: 15,
-        fill: isRoot ? "gray" : node.isWhiteTurn ? "white" : "black",
-        stroke: "black",
-        strokeWidth: 2
-      }
-    },
-    children: node.children
-      .map(child => transformTreeForD3(child, false))
-      .filter(child => child !== null),
-  };
 };
