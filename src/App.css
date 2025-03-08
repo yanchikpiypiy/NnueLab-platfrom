@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-
+html, body {
+  @apply bg-[#121212] text-gray-100; /* or text-white, as you prefer */
+  margin: 0;
+  padding: 0;
+} 
 .maze-wrapper {
   display: flex;
   justify-content: center;

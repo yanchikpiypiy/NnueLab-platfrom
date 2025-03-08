@@ -364,6 +364,7 @@ const DecisionTreePage = () => {
       setSolutionBranch(null);
       setTraversalFens([]);
       setCurrentStep(0);
+      setArrowTraversalQueue(0)
     } catch (err) {
       alert("Invalid board setup! Please check the position.");
     }
@@ -378,6 +379,7 @@ const DecisionTreePage = () => {
   }, [problemFEN]);
   const handleSetUp = () => {
     setSetupMode(true)
+    setShowTree(false)
   }
   const playArrows = useCallback(() => {
     if (isPlaying) {
@@ -516,35 +518,40 @@ const DecisionTreePage = () => {
                 />
               </label>
             </div>
-            {setupMode && (
-              <div className="control-group">
-                <button className="button minimal-btn" onClick={setCurrentBoardAsProblem}>
-                  Set Board as Problem
-                </button>
-              </div>
-            )}
           </div>
 
           {/* Solver Controls */}
-          <div className="control-section">
-            <h3>Solver</h3>
-            <div className="control-group">
-              <button className="button minimal-btn" onClick={solveProblem}>
-                Solve Problem
-              </button>
-            </div>
-          </div>
 
-          {bestCandidate && (
+          {!setupMode && 
+                    <div className="control-section">
+                    <h3>Solver</h3>
+                    <div className="control-group">
+                      <button
+                        className="button minimal-btn"
+                        onClick={solveProblem} // Disable if no problem FEN is set
+                      >
+                        Solve Problem
+                      </button>
+                    </div>
+                  </div>}
+
+
+
+          {(bestCandidate && !setupMode )&& (
             <div className="control-section">
               <h3>Candidate & Traversal</h3>
               <div className="control-group">
                 <p className="info">
                   <strong>Best Candidate:</strong> {bestCandidate.branch.join(", ")}
                 </p>
-                <button className="button minimal-btn" onClick={showFullTraversal}>
+                <button
+                  className="button minimal-btn"
+                  onClick={showFullTraversal}
+                  disabled={!bestCandidate} // Disable if no solution is found
+                >
                   {traversalFens.length > 0 ? "Stop Full Traversal" : "Show Full Traversal"}
                 </button>
+
               </div>
               {traversalFens.length > 0 && (
                 <>
@@ -567,7 +574,7 @@ const DecisionTreePage = () => {
           )}
 
           {/* Arrow Navigation Controls */}
-          {arrowTraversalQueue.length > 0 && (
+          {(arrowTraversalQueue.length > 0 && !setupMode) && (
             <div className="control-section">
               <h3>Arrow Navigation</h3>
               <div className="control-group">
@@ -596,7 +603,7 @@ const DecisionTreePage = () => {
         </div>
 
         {/* Tree Controls */}
-        {candidateTree && (
+        {(candidateTree && !setupMode) && (
           <div className="tree-controls">
             <div className="control-section">
               <h3>Search Tree</h3>
@@ -621,17 +628,18 @@ const DecisionTreePage = () => {
       </div>
 
       {/* Tree Visualization */}
-      {showTree && candidateTree ? (
+      {!showTree ? (
         <div className="tree-section visible">
-          <ReactFlowTree treeData={treeData} />
-        </div>
-      ) : (
-        <div className="tree-section">
           <p style={{ textAlign: 'center', color: '#777' }}>
             Solve a problem to generate tree logic.
           </p>
         </div>
+      ) : (
+        <div className="tree-section visible">
+          <ReactFlowTree treeData={treeData} />
+        </div>
       )}
+
     </>
   );
 };

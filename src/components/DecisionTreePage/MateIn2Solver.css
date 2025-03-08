@@ -200,8 +200,7 @@
 
 /* Tree Section */
 .tree-section {
-  margin: 20px auto;
-  max-width: 800px;
+  max-width: 900%;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.5s ease, transform 0.5s ease;

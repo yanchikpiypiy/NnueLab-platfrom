@@ -121,7 +121,7 @@ const MazeBenchmarks = ({ mazeData, mazeGeneration }) => {
     for (let i = 0; i < runCount; i++) {
       const { mazeId } = benchmarks["DFS"][i];
       mazeRunCount[mazeId] = (mazeRunCount[mazeId] || 0) + 1;
-      labels.push(`Maze ${mazeId} - Run ${mazeRunCount[mazeId]}`);
+      labels.push(`Maze ${mazeId - 1} - Run ${mazeRunCount[mazeId]}`);
     }
 
     // Build runtime chart dataset.

@@ -10,21 +10,20 @@ import dagre from "dagre";
 import debounce from "lodash/debounce";
 import { solverTreeToFlow } from "./ReactFlowSetup/solverTreeToFlow";
 import CustomNode from "./ReactFlowSetup/CustomNode";
-import CustomMiniMap from "./ReactFlowSetup/CustomMiniMap";
 
 const nodeTypes = { customNode: CustomNode };
 
-const nodeWidth = 180;  // ⬅ Smaller nodes
+const nodeWidth = 90;  // ⬅ Smaller nodes
 const nodeHeight = 100; // ⬅ Smaller nodes
 
-/** 🏗️ Optimized Layout (Prevent Overlapping) */
+
 const getLayoutedElements = (nodes, edges, direction = "TB") => {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
   dagreGraph.setGraph({
     rankdir: direction,
-    nodesep: 40, // ⬅ Increased horizontal spacing (was 15)
+    nodesep: 200, // ⬅ Increased horizontal spacing (was 15)
     ranksep: 300, // ⬅ Increased vertical spacing (was 25)
   });
 
@@ -95,23 +94,7 @@ export default function ReactFlowTree({ treeData, onNodeClick = () => {} }) {
 function ReactFlowInner({ nodes, edges, setLocalSolverTree, onNodeClick }) {
   const reactFlowInstance = useReactFlow();
 
-  const expandFullTree = useCallback(() => {
-    setLocalSolverTree((prevTree) => {
-      const newTree = JSON.parse(JSON.stringify(prevTree));
-      const revealAllNodes = (node) => {
-        node.visible = true;
-        if (node.children && node.children.length > 0) {
-          node.children.forEach(revealAllNodes);
-        }
-      };
-      revealAllNodes(newTree);
-      return newTree;
-    });
 
-    setTimeout(() => {
-      reactFlowInstance.fitView({ zoom: 0.5, duration: 700 });
-    }, 700);
-  }, [reactFlowInstance, setLocalSolverTree]);
 
   const centerOnRoot = useCallback(() => {
     if (nodes.length === 0) return;
@@ -120,27 +103,10 @@ function ReactFlowInner({ nodes, edges, setLocalSolverTree, onNodeClick }) {
 
     const { x, y } = rootNode.position;
     reactFlowInstance.setCenter(x, y, { zoom: 1.5, duration: 700 });
-  }, [reactFlowInstance, nodes]);
+  }, [reactFlowInstance, nodes,setLocalSolverTree]);
 
   return (
     <div style={{ width: "100%", height: "800px", position: "relative" }}>
-      <button
-        onClick={expandFullTree}
-        style={{
-          position: "absolute",
-          zIndex: 10,
-          top: 10,
-          left: 10,
-          padding: "10px",
-          background: "#007bff",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-      >
-        Expand Full Tree & Zoom Out
-      </button>
 
       <button
         onClick={centerOnRoot}
@@ -160,19 +126,21 @@ function ReactFlowInner({ nodes, edges, setLocalSolverTree, onNodeClick }) {
         Center on Root
       </button>
 
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodeClick={(event, node) => onNodeClick(node)}
-        nodeTypes={nodeTypes}
-        fitView
-        minZoom={0.01}
-        maxZoom={2}
-      >
-        <CustomMiniMap nodes={nodes} width={200} height={150} />
-        <Controls />
-        <Background color="#aaa" gap={16} />
-      </ReactFlow>
+      <div className="w-full h-screen bg-white">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          fitView
+          minZoom={0.01}
+          maxZoom={2}
+          proOptions={{ hideAttribution: true }}
+        >
+          
+          <Controls />
+        </ReactFlow>
+      </div>
+
     </div>
   );
 }
