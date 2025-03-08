@@ -1,12 +1,13 @@
+// DecisionTreePage.jsx
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Chess } from 'chess.js';
-import { Chessboard } from 'react-chessboard';
-import ChessBoardSetup from './ChessBoardSetup';
 import Header from '../Header';
-import { findMateInNCandidateTree, transformTreeForD3 } from './MateSolvingAlgs/mateSolver';
-import { findMateInNCandidateTreeAlphaBeta } from './MateSolvingAlgs/mateSolverAlphaBeta';
+import { objectToFEN, bfsCollectNodes, getArrowTuple } from './helpers';
 import { findMateInNCandidateTreeAlphaBetaEnhanced } from './MateSolvingAlgs/mateSolverAlphaBetaEnhanced';
-import ReactFlowTree from './ReactFlowTree';
+import { transformTreeForD3 } from './MateSolvingAlgs/mateSolver';
+import BoardSection from './BoardSection';
+import ControlPanel from './ControlPanel';
+import TreeSection from './TreeSection';
 import './MateIn2Solver.css';
 
 // --- Piece Images & Palette ---
@@ -26,76 +27,7 @@ const pieceImages = {
 };
 const palettePieces = ["wK", "wQ", "wR", "wB", "wN", "wP", "bK", "bQ", "bR", "bB", "bN", "bP"];
 
-// --- Helper: Convert board object to FEN ---
-function objectToFEN(boardObj) {
-  const files = ['a','b','c','d','e','f','g','h'];
-  let fenRows = [];
-  for (let rank = 8; rank >= 1; rank--) {
-    let row = "";
-    let emptyCount = 0;
-    for (let file of files) {
-      const square = file + rank;
-      const piece = boardObj[square] || "";
-      if (piece === "") {
-        emptyCount++;
-      } else {
-        if (emptyCount > 0) {
-          row += emptyCount;
-          emptyCount = 0;
-        }
-        let symbol = piece[1];
-        symbol = piece[0] === 'w' ? symbol.toUpperCase() : symbol.toLowerCase();
-        row += symbol;
-      }
-    }
-    if (emptyCount > 0) row += emptyCount;
-    fenRows.push(row);
-  }
-  return fenRows.join("/") + " w - - 0 1";
-}
-
-// --- Helper: BFS to Collect All Nodes ---
-function bfsCollectNodes(root) {
-  const queue = [];
-  const result = [];
-  if (!root) return result;
-  queue.push(root);
-  while (queue.length > 0) {
-    const current = queue.shift();
-    result.push(current);
-    if (current.children && Array.isArray(current.children)) {
-      queue.push(...current.children);
-    }
-  }
-  return result;
-}
-
-// --- Helper: Get Arrow Tuple ---
-const getArrowTuple = (moveSan, fen, color = "rgba(0,255,0,0.6)", verify = false) => {
-  if (!moveSan) return null;
-  const chessInstance = new Chess(fen);
-  try {
-    let moveObj;
-    if (verify) {
-      const legalMoves = chessInstance.moves({ verbose: true });
-      moveObj = legalMoves.find(m => m.san === moveSan);
-      if (!moveObj) {
-        console.warn(`Invalid move: ${moveSan} on FEN: ${fen}`);
-        return null;
-      }
-      chessInstance.move(moveSan);
-    } else {
-      moveObj = chessInstance.move(moveSan);
-      if (!moveObj) return null;
-    }
-    return [moveObj.from, moveObj.to, color];
-  } catch (error) {
-    console.error("getArrowTuple error for move", moveSan, "on FEN:", fen, error);
-    return null;
-  }
-};
-
-const DecisionTreePage = () => {
+const DecisionTreeImpPage = () => {
   // --- State Declarations ---
   const defaultPositionObj = {
     "a8": "bK",
@@ -112,27 +44,21 @@ const DecisionTreePage = () => {
   const [positionObj, setPositionObj] = useState(defaultPositionObj);
   const [problemFEN, setProblemFEN] = useState(objectToFEN(defaultPositionObj));
   const [game, setGame] = useState(new Chess(problemFEN));
-
-  // Mate Solver State
   const [allowedSteps, setAllowedSteps] = useState(2);
   const [bestCandidate, setBestCandidate] = useState(null);
   const [candidateTree, setCandidateTree] = useState(null);
   const [bfsQueue, setBfsQueue] = useState([]);
   const [showTree, setShowTree] = useState(false);
-
-  // Steps Visualizer State
   const [solutionBranch, setSolutionBranch] = useState(null);
   const [traversalFens, setTraversalFens] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
-
-  // Refs & Arrow State
   const boardContainerRef = useRef(null);
   const [Arrows, setArrows] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const playIntervalRef = useRef(null);
-  
+  const boardWidth = 400;
 
-  // --- Solver Functions ---
+  // --- Solver and Arrow Functions ---
   const solveProblem = useCallback(() => {
     try {
       const chessInstance = new Chess(problemFEN);
@@ -274,7 +200,7 @@ const DecisionTreePage = () => {
     if (traversalFens && traversalFens.length > 0) {
       setTraversalFens([]);
       const dummy_holder = currentArrowStep === 0 ? [] : arrowTraversalQueue[currentArrowStep].arrows;
-      setArrows(dummy_holder); // Explicitly clear arrows.
+      setArrows(dummy_holder);
       return;
     }
     if (!bestCandidate) return;
@@ -333,7 +259,6 @@ const DecisionTreePage = () => {
     const rect = boardContainerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const boardWidth = 400;
     const fileIndex = Math.floor((x / boardWidth) * 8);
     const rankIndex = Math.floor((y / boardWidth) * 8);
     const files = ['a','b','c','d','e','f','g','h'];
@@ -342,7 +267,7 @@ const DecisionTreePage = () => {
     const newPosition = { ...positionObj };
     if (piece) newPosition[square] = piece;
     setPositionObj(newPosition);
-  }, [setupMode, positionObj]);
+  }, [setupMode, positionObj, boardWidth]);
 
   const handleSquareRightClick = useCallback((square) => {
     if (!setupMode) return;
@@ -364,12 +289,13 @@ const DecisionTreePage = () => {
       setSolutionBranch(null);
       setTraversalFens([]);
       setCurrentStep(0);
-      setArrowTraversalQueue(0)
+      setArrowTraversalQueue([]);
+      setShowTree(null)
     } catch (err) {
       alert("Invalid board setup! Please check the position.");
     }
   }, [positionObj]);
-  
+
   const convertSANtoTargetSquares = useCallback((sanMoves) => {
     const chessInstance = new Chess(problemFEN);
     return sanMoves.map(sanMove => {
@@ -377,10 +303,12 @@ const DecisionTreePage = () => {
       return moveObj ? moveObj.to : null;
     });
   }, [problemFEN]);
-  const handleSetUp = () => {
-    setSetupMode(true)
-    setShowTree(false)
-  }
+
+  const handleSetUp = useCallback(() => {
+    setSetupMode(true);
+    setShowTree(null);
+  }, []);
+
   const playArrows = useCallback(() => {
     if (isPlaying) {
       clearInterval(playIntervalRef.current);
@@ -447,201 +375,72 @@ const DecisionTreePage = () => {
     console.log(Arrows);
   }, [Arrows]);
 
-  const boardPosition = traversalFens.length > 0 ? traversalFens[currentStep] : (setupMode ? positionObj : game.fen());
-  const boardWidth = 400;
-
   return (
     <>
       <Header />
       <div className="main-container dark-theme">
-        <div className="board-section">
-          {setupMode ? (
-            <>
-              <div className={`palette-container ${setupMode ? '' : 'hidden'}`}>
-                <ChessBoardSetup
-                  position={positionObj}
-                  boardWidth={boardWidth}
-                  setupMode={setupMode}
-                  onDragOver={handleDragOver}
-                  onDrop={handleBoardDrop}
-                  onSquareRightClick={handleSquareRightClick}
-                  boardContainerRef={boardContainerRef}
-                  palettePieces={palettePieces}
-                  pieceImages={pieceImages}
-                />
-              </div>
-              <div className="button-group center">
-                <button className="button minimal-btn" onClick={setCurrentBoardAsProblem}>
-                  Set Current Board as Problem
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="board-wrapper" ref={boardContainerRef}>
-                <Chessboard
-                  position={boardPosition}
-                  onPieceDrop={onDrop}
-                  boardWidth={boardWidth}
-                  boardOrientation="white"
-                  customArrows={Arrows !== null ? Arrows : memoizedCurrentArrows}
-                  customBoardStyle={{
-                    borderRadius: "5px",
-                    boxShadow: "0 5px 15px rgba(0,0,0,0.5)"
-                  }}
-                />
-              </div>
-              <div className="button-group center">
-                <button className="button minimal-btn" onClick={handleSetUp}>
-                  Setup mode
-                </button>
-              </div>
-            </>
-          )}
-        </div>
+        <BoardSection
+          setupMode={setupMode}
+          positionObj={positionObj}
+          boardContainerRef={boardContainerRef}
+          palettePieces={palettePieces}
+          pieceImages={pieceImages}
+          boardWidth={boardWidth}
+          onDrop={onDrop}
+          handleDragOver={handleDragOver}
+          handleBoardDrop={handleBoardDrop}
+          handleSquareRightClick={handleSquareRightClick}
+          game={game}
+          traversalFens={traversalFens}
+          currentStep={currentStep}
+          Arrows={Arrows}
+          memoizedCurrentArrows={memoizedCurrentArrows}
+          handleSetUp={setupMode ? setCurrentBoardAsProblem : handleSetUp}
+        />
 
-        <div className="control-panel">
-          <h2 className="panel-title">Control Panel</h2>
+        <ControlPanel
+          allowedSteps={allowedSteps}
+          setAllowedSteps={setAllowedSteps}
+          setupMode={setupMode}
+          solveProblem={solveProblem}
+          bestCandidate={bestCandidate}
+          showFullTraversal={showFullTraversal}
+          traversalFens={traversalFens}
+          currentStep={currentStep}
+          nextStep={nextStep}
+          prevStep={prevStep}
+          arrowTraversalQueue={arrowTraversalQueue}
+          currentArrowStep={currentArrowStep}
+          nextArrowStep={nextArrowStep}
+          prevArrowStep={prevArrowStep}
+          playArrows={playArrows}
+          isPlaying={isPlaying}
+          clearArrowsOnStop={clearArrowsOnStop}
+        />
 
-          {/* Board Setup Controls */}
-          <div className="control-section">
-            <h3>Board Setup</h3>
-            <div className="control-group">
-              <label>
-                Allowed Steps:&nbsp;
-                <input
-                  type="number"
-                  min="1"
-                  value={allowedSteps}
-                  onChange={(e) => setAllowedSteps(parseInt(e.target.value, 10))}
-                  className="steps-input"
-                />
-              </label>
-            </div>
-          </div>
-
-          {/* Solver Controls */}
-
-          {!setupMode && 
-                    <div className="control-section">
-                    <h3>Solver</h3>
-                    <div className="control-group">
-                      <button
-                        className="button minimal-btn"
-                        onClick={solveProblem} // Disable if no problem FEN is set
-                      >
-                        Solve Problem
-                      </button>
-                    </div>
-                  </div>}
-
-
-
-          {(bestCandidate && !setupMode )&& (
-            <div className="control-section">
-              <h3>Candidate & Traversal</h3>
-              <div className="control-group">
-                <p className="info">
-                  <strong>Best Candidate:</strong> {bestCandidate.branch.join(", ")}
-                </p>
-                <button
-                  className="button minimal-btn"
-                  onClick={showFullTraversal}
-                  disabled={!bestCandidate} // Disable if no solution is found
-                >
-                  {traversalFens.length > 0 ? "Stop Full Traversal" : "Show Full Traversal"}
-                </button>
-
-              </div>
-              {traversalFens.length > 0 && (
-                <>
-                  <div className="control-group">
-                    <button className="button minimal-btn" onClick={prevStep}>
-                      Previous Step
-                    </button>
-                    <button className="button minimal-btn" onClick={nextStep}>
-                      Next Step
-                    </button>
-                  </div>
-                  <div className="control-group">
-                    <p className="info">
-                      Step: {currentStep} / {traversalFens.length - 1}
-                    </p>
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-
-          {/* Arrow Navigation Controls */}
-          {(arrowTraversalQueue.length > 0 && !setupMode) && (
-            <div className="control-section">
-              <h3>Arrow Navigation</h3>
-              <div className="control-group">
-                <button className="button minimal-btn" onClick={prevArrowStep}>
-                  Previous Arrow Step
-                </button>
-                <button className="button minimal-btn" onClick={nextArrowStep}>
-                  Next Arrow Step
-                </button>
-              </div>
-              <div className="control-group">
-                <button className="button minimal-btn" onClick={playArrows}>
-                  {isPlaying ? "Stop" : "Play Arrows"}
-                </button>
-                <button className="button minimal-btn" onClick={clearArrowsOnStop}>
-                  Reset
-                </button>
-              </div>
-              <div className="control-group">
-                <p className="info">
-                  Arrow Step: {currentArrowStep + 1} / {arrowTraversalQueue.length}
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Tree Controls */}
-        {(candidateTree && !setupMode) && (
-          <div className="tree-controls">
-            <div className="control-section">
-              <h3>Search Tree</h3>
-              <div className="control-group">
-                <button className="button minimal-btn" onClick={() => setShowTree(!showTree)}>
-                  {showTree ? "Hide Tree" : "Show Tree"}
-                </button>
-              </div>
-              {showTree && (
-                <div className="control-group">
-                  <button className="button minimal-btn" onClick={expandNext}>
-                    Expand Next Node
-                  </button>
-                  <button className="button minimal-btn" onClick={expandFullTree}>
-                    Expand Full Tree
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+        
       </div>
-
-      {/* Tree Visualization */}
-      {!showTree ? (
-        <div className="tree-section visible">
-          <p style={{ textAlign: 'center', color: '#777' }}>
-            Solve a problem to generate tree logic.
-          </p>
-        </div>
-      ) : (
-        <div className="tree-section visible">
-          <ReactFlowTree treeData={treeData} />
-        </div>
-      )}
-
+      {(candidateTree && !setupMode) ? (
+        <TreeSection
+          candidateTree={candidateTree}
+          showTree={showTree}
+          setShowTree={setShowTree}
+          expandNext={expandNext}
+          expandFullTree={expandFullTree}
+          treeData={treeData}
+          setupMode={setupMode}
+        />
+      ) :
+      <div className="tree-section visible">
+        <p style={{ textAlign: 'center', color: '#777' }}>
+            {setupMode
+            ? "Setup mode active. Solve a problem to generate tree logic."
+            : "Solve a problem to generate tree logic."}
+        </p>
+      </div>
+      }
     </>
   );
 };
 
-export default DecisionTreePage;
+export default DecisionTreeImpPage;
