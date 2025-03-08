@@ -69,8 +69,16 @@ Here are some screenshots showcasing different features of the project:
 
 **Chess problem visualizer** 
 **Note: still not complete (need a few more weeks)**
-![image](https://github.com/user-attachments/assets/ea7cd48b-7ae6-4b59-8e86-77ec1bc0c05d)
-![image](https://github.com/user-attachments/assets/72b7898b-313d-4dbe-ab5d-b06289a90648)
+![image](https://github.com/user-attachments/assets/f42fe6e5-c83e-4498-b211-77a59081975c)
+
+**Zoom in/out container where u can see all the moves minmax alg made**
+![image](https://github.com/user-attachments/assets/aec7f4ab-e409-4850-84b1-24c99eda71e1)
+
+**Second screenshot just to show how big it is**
+![image](https://github.com/user-attachments/assets/c4100b7d-eb50-410f-9e9c-35f4f6211465)
+
+**Play arrows that shows all the moves an alg made/found**
+![image](https://github.com/user-attachments/assets/19ea9f78-1e52-4b31-adcd-6435a434dede)
 
 
 
