@@ -9,7 +9,7 @@ import BoardSection from './BoardSection';
 import ControlPanel from './ControlPanel';
 import TreeSection from './TreeSection';
 import './MateIn2Solver.css';
-
+import { findMateInNCandidateTree } from './MateSolvingAlgs/mateSolver';
 // --- Piece Images & Palette ---
 const pieceImages = {
   wK: "https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_klt45.svg",

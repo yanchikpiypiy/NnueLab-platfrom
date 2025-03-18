@@ -8,6 +8,7 @@ import ChessGamePage from './components/ChessGamePage';
 import DecisionTreePage from './components/DecisionTreePage/temp_storage/DecisionTreePage';
 import pain from "./components/DecisionTreePage/temp_storage/pain"
 import DecisionTreeImpPage from './components/DecisionTreePage/DecisionTreeImpPage';
+import BSTVisualizer from './components/bst/BSTVisualizer';
 function App() {
   return (
     <Router>
@@ -16,7 +17,7 @@ function App() {
         <Route path="/maze" element={<MazeSolvingPage />} />
         <Route path="/chess" element={<ChessGamePage />} />
         <Route path="/AITree"  element={< DecisionTreeImpPage/>}/>
-        <Route path='fuck' element={<fuck/>}/>
+        <Route path='fuck' element={<BSTVisualizer></BSTVisualizer>}/>
       </Routes>
     </Router>
   );
