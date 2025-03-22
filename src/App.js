@@ -8,7 +8,8 @@ import ChessGamePage from './components/ChessGamePage';
 import DecisionTreePage from './components/DecisionTreePage/temp_storage/DecisionTreePage';
 import pain from "./components/DecisionTreePage/temp_storage/pain"
 import DecisionTreeImpPage from './components/DecisionTreePage/DecisionTreeImpPage';
-import BSTVisualizer from './components/bst/BSTVisualizer';
+import BSTVisualizer from './components/bstPage/BSTVisualizer';
+import MinimaxPage from './components/MinimaxPage/MinimaxPage';
 function App() {
   return (
     <Router>
@@ -18,6 +19,7 @@ function App() {
         <Route path="/chess" element={<ChessGamePage />} />
         <Route path="/AITree"  element={< DecisionTreeImpPage/>}/>
         <Route path='fuck' element={<BSTVisualizer></BSTVisualizer>}/>
+        <Route path='minimax' element={<MinimaxPage></MinimaxPage>}/>
       </Routes>
     </Router>
   );

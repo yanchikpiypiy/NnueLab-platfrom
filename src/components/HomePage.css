@@ -18,4 +18,33 @@
   .nav-link:hover::after {
     width: 100%;
   }
+  :root {
+    --color-bg-primary: #1a1a1a;
+    --page-padding-inline: 1rem;
+  }
+  
+  /* Card Styling: Darker by default */
+  .DifferentCard_differentCard__UUiB8 {
+    text-align: left;
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    padding: 32px var(--page-padding-inline);
+    height: 360px;
+    aspect-ratio: 336 / 360;
+    border-radius: 30px;
+    background: var(--color-bg-primary);
+    filter: brightness(60%);  /* Darker initial state */
+    transition: filter 0.2s ease-out;
+  }
+  
+  /* Hover effect for devices that support hover */
+  @media (any-hover: hover) {
+    .DifferentCard_differentCard__UUiB8:hover {
+      filter: brightness(170%);
+    }
+  }
   
