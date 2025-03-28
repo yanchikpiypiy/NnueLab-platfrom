@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../Header'; // Adjust the path to your Header component
 
 function MinimaxPage() {
@@ -9,6 +10,28 @@ function MinimaxPage() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-16 space-y-16">
+        {/* Top Navigation Row */}
+        <div className="flex justify-between items-center px-8">
+          <Link
+            to="/bst"
+            className="group text-red-500 underline hover:text-red-700 transition-all duration-200"
+          >
+            <span className="inline-block transition-transform duration-200 group-hover:-translate-x-1">
+              ←
+            </span>{" "}
+            Previous: BST
+          </Link>
+          <Link
+            to="/nnue"
+            className="group text-red-500 underline hover:text-red-700 transition-all duration-200"
+          >
+            Next: NNUE{" "}
+            <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">
+              →
+            </span>
+          </Link>
+        </div>
+
         {/* Title Section */}
         <section className="text-center">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-6">
@@ -247,33 +270,33 @@ function MinimaxPage() {
           </div>
         </section>
 
-        {/* Closing Thoughts Section */}
-        <section className="text-center max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold mb-4">
-            Importance in Modern Engines
-          </h2>
-          <p className="text-gray-300 leading-relaxed mb-4">
-            From <span className="text-green-500">Stockfish</span> to 
-            <span className="text-green-500"> Leela Chess Zero</span>, 
-            the combination of <span className="text-green-500">Minimax</span>, 
-            alpha-beta pruning, and neural networks (NNUE) has driven AI to 
-            surpass human grandmasters. Understanding this core algorithm 
-            lets you appreciate the sheer complexity behind every “instant” 
-            AI move. 
-          </p>
-          <p className="text-gray-300 leading-relaxed">
-            Whether you’re a hobbyist coding your first chess engine or a 
-            researcher exploring new frontiers in AI, 
-            <span className="text-green-500"> Minimax</span> remains a beacon 
-            of strategic problem-solving—continuously reminding us that 
-            perfect play is never truly simple.
-          </p>
-        </section>
+        {/* Bottom Navigation Row */}
+        <div className="flex justify-between items-center px-8">
+          <Link
+            to="/bst"
+            className="group text-red-500 underline hover:text-red-700 transition-all duration-200"
+          >
+            <span className="inline-block transition-transform duration-200 group-hover:-translate-x-1">
+              ←
+            </span>{" "}
+            Previous: BST
+          </Link>
+          <Link
+            to="/nnue"
+            className="group text-red-500 underline hover:text-red-700 transition-all duration-200"
+          >
+            Next: NNUE{" "}
+            <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">
+              →
+            </span>
+          </Link>
+        </div>
       </main>
 
-      {/* Footer */}
       <footer className="text-center py-6 border-t border-gray-800">
-        <p className="text-gray-500">&copy; 2025 YourNameOrProject. All rights reserved.</p>
+        <p className="text-gray-500">
+          &copy; 2025 YourNameOrProject. All rights reserved.
+        </p>
       </footer>
     </div>
   );

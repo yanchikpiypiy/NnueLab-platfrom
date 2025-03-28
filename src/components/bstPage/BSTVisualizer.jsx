@@ -1,6 +1,7 @@
 // src/BSTPage/BSTVisualizer.jsx
 
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ReactFlow } from "reactflow";
 import "reactflow/dist/style.css";
 import { AnimatePresence } from "framer-motion";
@@ -192,16 +193,38 @@ export default function BSTVisualizer() {
       <Header />
 
       <main className="container mx-auto px-4 py-16 space-y-16">
+        {/* Top Navigation: Previous & Next on the same row */}
+        <div className="flex justify-between items-center px-8">
+          <Link
+            to="/"
+            className="group text-red-500 underline hover:text-red-700 transition-all duration-200"
+          >
+            <span className="inline-block transition-transform duration-200 group-hover:-translate-x-1">
+              ←
+            </span>{" "}
+            Previous: Home
+          </Link>
+          <Link
+            to="/minimax"
+            className="group text-red-500 underline hover:text-red-700 transition-all duration-200"
+          >
+            Next: Minimax{" "}
+            <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">
+              →
+            </span>
+          </Link>
+        </div>
+
         {/* Title Section */}
         <section className="text-center max-w-3xl mx-auto space-y-4">
           <h1 className="text-4xl md:text-5xl font-extrabold">
             Binary Search Tree <span className="text-green-500">Visualizer</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-            Explore how <span className="text-green-500">BSTs</span> manage 
-            <span className="text-green-500"> insertions</span> and 
-            <span className="text-green-500"> deletions</span>—similar to how 
-            chess engines handle branching data. Click a node to remove it, or 
+            Explore how <span className="text-green-500">BSTs</span> manage{" "}
+            <span className="text-green-500"> insertions</span> and{" "}
+            <span className="text-green-500"> deletions</span>—similar to how{" "}
+            <em>chess engines</em> handle branching data. Click a node to remove it, or{" "}
             use the controls below to customize the tree.
           </p>
         </section>
@@ -215,15 +238,12 @@ export default function BSTVisualizer() {
             </h2>
             <p className="text-gray-300 leading-relaxed mb-4">
               Tree-based structures are vital for handling hierarchical data.
-              While a <em>chess engine</em> often uses more advanced trees (like 
-              Minimax or NNUE-based), the <strong>BST</strong> is a simpler 
-              demonstration of how to store numeric values in an ordered way 
-              and retrieve them efficiently.
+              While a <em>chess engine</em> often uses more advanced trees (like
+              Minimax or NNUE-based), the <strong>BST</strong> is a simpler
+              demonstration of how to store numeric values in an ordered way and retrieve them efficiently.
             </p>
             <p className="text-gray-300 leading-relaxed">
-              In chess, you might log positions or game states keyed by a 
-              numerical hash—conceptually not too far from how a BST might 
-              arrange values, branching left for “less” and right for “greater.”
+              In chess, you might log positions or game states keyed by a numerical hash—conceptually not too far from how a BST might arrange values, branching left for “less” and right for “greater.”
             </p>
           </div>
 
@@ -274,7 +294,6 @@ export default function BSTVisualizer() {
                   edges={edges}
                   nodeTypes={nodeTypes}
                   onNodeClick={handleNodeClick}
-                  // Slightly more zoomed out
                   defaultViewport={{ zoom: 0.75, x: 0, y: 0 }}
                   defaultEdgeOptions={{ type: "straight" }}
                   proOptions={{ hideAttribution: true }}
@@ -297,17 +316,10 @@ export default function BSTVisualizer() {
               Connecting <span className="text-green-500">Chess & BST</span>
             </h2>
             <p className="text-gray-300 leading-relaxed mb-4">
-              While chess engines typically deal with a large branching factor, 
-              the principle of “order and search” is still at play. Where a BST 
-              is strictly numeric, a chess tree uses position evaluation to 
-              decide which branch is best.
+              While chess engines typically deal with a large branching factor, the principle of “order and search” is still at play. Where a BST is strictly numeric, a chess tree uses position evaluation to decide which branch is best.
             </p>
             <p className="text-gray-300 leading-relaxed">
-              Gaining familiarity with BSTs will help you appreciate more 
-              advanced structures. They demonstrate efficient <em>insertion</em>, 
-              <em>deletion</em>, and <em>lookup</em>, which every high-level 
-              chess engine must handle in some capacity for storing or retrieving 
-              board states.
+              Gaining familiarity with BSTs will help you appreciate more advanced structures. They demonstrate efficient <em>insertion</em>, <em>deletion</em>, and <em>lookup</em>, which every high-level chess engine must handle in some capacity for storing or retrieving board states.
             </p>
           </div>
 
@@ -315,21 +327,37 @@ export default function BSTVisualizer() {
           <div className="bg-gray-900 p-6 rounded-md shadow-lg md:col-start-1">
             <h3 className="text-xl font-bold mb-4">Looking Ahead</h3>
             <p className="text-gray-300 mb-4">
-              If you enjoyed visualizing insertions and deletions here, consider 
-              how these ideas extend to your entire chess engine. Tree-based 
-              logic underpins everything from opening books to endgame tablebases. 
-              Keep experimenting with BST fundamentals to deepen your 
-              understanding.
+              If you enjoyed visualizing insertions and deletions here, consider how these ideas extend to your entire chess engine. Tree-based logic underpins everything from opening books to endgame tablebases. Keep experimenting with BST fundamentals to deepen your understanding.
             </p>
             <p className="text-gray-300">
-              For even more depth, visit our 
-              <span className="text-green-500"> Minimax</span> or 
-              <span className="text-green-500"> NNUE</span> pages to see how 
-              these branching strategies transform raw data into strategic 
-              decision-making.
+              For even more depth, visit our
+              <span className="text-green-500"> Minimax</span> or
+              <span className="text-green-500"> NNUE</span> pages to see how these branching strategies transform raw data into strategic decision-making.
             </p>
           </div>
         </section>
+
+        {/* Bottom Navigation: Previous & Next on the same row */}
+        <div className="flex justify-between items-center px-8">
+          <Link
+            to="/"
+            className="group text-red-500 underline hover:text-red-700 transition-all duration-200"
+          >
+            <span className="inline-block transition-transform duration-200 group-hover:-translate-x-1">
+              ←
+            </span>{" "}
+            Previous: Home
+          </Link>
+          <Link
+            to="/minimax"
+            className="group text-red-500 underline hover:text-red-700 transition-all duration-200"
+          >
+            Next: Minimax{" "}
+            <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">
+              →
+            </span>
+          </Link>
+        </div>
       </main>
 
       <footer className="text-center py-6 border-t border-gray-800">

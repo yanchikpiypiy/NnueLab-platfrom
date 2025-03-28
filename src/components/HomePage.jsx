@@ -1,5 +1,6 @@
 // HomePage.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './HomePage.css'; // We'll place our custom .DifferentCard_differentCard__UUiB8 CSS here
 import Header from './Header';
 
@@ -10,19 +11,49 @@ function HomePage() {
 
       {/* Intro Section */}
       <section className="flex flex-col items-center justify-center py-20 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-green-500">
           My Chess Engine & NNUE Adventures
         </h1>
         <p className="max-w-2xl text-lg md:text-xl text-gray-300 mb-6 leading-relaxed">
-          {/* Replace with your own explanation about NNUE, etc. */}
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a fermentum 
-          lorem. Integer consequat bibendum lacus, vitae pulvinar ipsum lobortis in.
+          Welcome to our platform, where you can explore our chess and algorithm concepts in a guided, step-by-step manner.
+        </p>
+        <p className="max-w-2xl text-lg md:text-xl text-gray-300 mb-6 leading-relaxed">
+          For a complete understanding, we recommend following this order:
+          <br /><br />
+          1. Start with the <span className="text-green-500">BST fundamentals</span> on the{' '}
+          <Link 
+            to="/bst" 
+            className="text-red-500 font-bold underline"
+          >
+            /bst
+          </Link>{' '}
+          page.<br />
+          2. Move on to the <span className="text-green-500">Minimax explanation</span> on the{' '}
+          <Link 
+            to="/minimax" 
+            className="text-red-500 font-bold underline"
+          >
+            /minimax
+          </Link>{' '}
+          page.<br />
+          3. Next, explore the <span className="text-green-500">NNUE mechanics</span> on the{' '}
+          <Link 
+            to="/nnue" 
+            className="text-red-500 font-bold underline"
+          >
+            /nnue
+          </Link>{' '}
+          page.<br />
+          4. Finally, dive into our visualization pages to see mazes and minimax decision trees in action.
+        </p>
+        <p className="max-w-2xl text-lg md:text-xl text-gray-300 mb-6 leading-relaxed">
+          This platform was created to help you understand how NNUE is built and utilized in modern chess engines. Through interactive tutorials, detailed explanations, and engaging visualizations, we aim to demystify the mechanics behind NNUE and its impact on chess strategy.
+        </p>
+        <p className="max-w-2xl text-lg md:text-xl text-gray-300 mb-6 leading-relaxed">
+          Moreover, our platform provides advanced visualization tools and benchmarks for mazes, allowing you to observe how different algorithms work and compare their performance under varying conditions.
         </p>
         <p className="max-w-2xl text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-          {/* More placeholder text */}
-          Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere 
-          cubilia curae; Aenean sodales, sapien id venenatis laoreet, nunc dui 
-          facilisis nisl, a dictum metus ex non enim.
+          If you're specifically here for visualizations like the Maze or Minimax demos, feel free to click the "Dive In" button below to go directly to those pages.
         </p>
         <a
           href="#cards-section"
@@ -39,7 +70,7 @@ function HomePage() {
           <Card
             imageUrl="tree.png"
             title="Maze Visualization"
-            text="Purpose-built for puzzle solving"
+            text="Explore our maze solving algorithms"
             link="/maze"
           />
 
@@ -47,7 +78,7 @@ function HomePage() {
           <Card
             imageUrl="fish.png"
             title="Chess Section"
-            text="Designed to move fast"
+            text="Play against various chess engines"
             link="/chess"
           />
 
@@ -55,7 +86,7 @@ function HomePage() {
           <Card
             imageUrl="minimax.png"
             title="Minimax Visualization"
-            text="Crafted to perfection"
+            text="Discover the decision tree in chess problems"
             link="/minimax"
           />
         </div>

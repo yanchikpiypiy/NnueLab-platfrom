@@ -10,6 +10,7 @@ import pain from "./components/DecisionTreePage/temp_storage/pain"
 import DecisionTreeImpPage from './components/DecisionTreePage/DecisionTreeImpPage';
 import BSTVisualizer from './components/bstPage/BSTVisualizer';
 import MinimaxPage from './components/MinimaxPage/MinimaxPage';
+import NNUEPage from './components/NnnuePage/NnuePage';
 function App() {
   return (
     <Router>
@@ -18,8 +19,9 @@ function App() {
         <Route path="/maze" element={<MazeSolvingPage />} />
         <Route path="/chess" element={<ChessGamePage />} />
         <Route path="/AITree"  element={< DecisionTreeImpPage/>}/>
-        <Route path='fuck' element={<BSTVisualizer></BSTVisualizer>}/>
-        <Route path='minimax' element={<MinimaxPage></MinimaxPage>}/>
+        <Route path='/bst' element={<BSTVisualizer></BSTVisualizer>}/>
+        <Route path='/minimax' element={<MinimaxPage></MinimaxPage>}/>
+        <Route path='/nnue' element={<NNUEPage></NNUEPage>}/>
       </Routes>
     </Router>
   );
