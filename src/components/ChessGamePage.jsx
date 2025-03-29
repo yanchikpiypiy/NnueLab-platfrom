@@ -1,11 +1,8 @@
-// ChessGamePageWithImages.jsx
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Chess } from 'chess.js';
 import Header from './Header';
-import StockfishEngine from './engine/StockFishEngine';
 import ChessBoard from './ChessGameComps/ChessBoard';
 import Sidebar from './ChessGameComps/SideBar';
-import AISettings from './ChessGameComps/Aisettings';
 import Modal from './ChessGameComps/Modal';
 
 const pieceImages = {
@@ -32,31 +29,31 @@ const ChessGamePageWithImages = () => {
   const [moveHistory, setMoveHistory] = useState([]);
   const [whiteTime, setWhiteTime] = useState(300);
   const [blackTime, setBlackTime] = useState(300);
-  const [aiDepth, setAIDepth] = useState(15);
-  const [aiMoveTime, setAIMoveTime] = useState(1000);
-  const [engineFen, setEngineFen] = useState(null);
-  const activeColor = gameRef.current.turn();
+  // Engine can be "stockfish", "sunfish", or "none"
+  const [engineChoice, setEngineChoice] = useState('none');
+  const [gameStarted, setGameStarted] = useState(false); // New state for game start
 
-  // Ref for the move history container
+  const activeColor = gameRef.current.turn();
   const moveHistoryRef = useRef(null);
 
-  // Update timers
+  // Update timers only after the game has started.
   useEffect(() => {
+    if (!gameStarted) return;
     const timer = setInterval(() => {
       if (gameRef.current.isGameOver()) {
         clearInterval(timer);
         return;
       }
-      if (activeColor === 'w') {
+      if (gameRef.current.turn() === 'w') {
         setWhiteTime((prev) => (prev > 0 ? prev - 1 : 0));
       } else {
         setBlackTime((prev) => (prev > 0 ? prev - 1 : 0));
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [activeColor]);
+  }, [gameStarted]);
 
-  // Scroll move history to the bottom when it updates
+  // Auto-scroll move history container
   useEffect(() => {
     if (moveHistoryRef.current) {
       moveHistoryRef.current.scrollTop = moveHistoryRef.current.scrollHeight;
@@ -68,16 +65,71 @@ const ChessGamePageWithImages = () => {
     return `${files[col]}${8 - row}`;
   };
 
+  // **************** ENGINE CARDS ****************
+  const renderEngineCards = () => {
+    const gameStartedAlready = gameRef.current.history().length > 0;
+    return (
+      <div className="flex gap-4 justify-center mb-4">
+        {/* Stockfish card */}
+        <div
+          className={`cursor-pointer border rounded p-4 transition transform duration-200 
+            hover:shadow-xl hover:-translate-y-1 
+            ${engineChoice === 'stockfish' 
+              ? 'shadow-xl -translate-y-1 bg-blue-600 border-blue-600 text-white'
+              : 'bg-gray-800 border-gray-700'} 
+            ${gameStartedAlready ? 'opacity-50 cursor-not-allowed' : ''}`}
+          onClick={() => {
+            if (!gameStartedAlready) {
+              setEngineChoice('stockfish');
+            }
+          }}
+        >
+          <h3 className="text-xl font-bold">Stockfish</h3>
+          <p className="text-sm">Stockfish Engine</p>
+        </div>
+
+        {/* Sunfish Improvement card */}
+        <div
+          className={`cursor-pointer border rounded p-4 transition transform duration-200 
+            hover:shadow-xl hover:-translate-y-1 
+            ${engineChoice === 'sunfish' 
+              ? 'shadow-xl -translate-y-1 bg-green-600 border-green-600 text-white'
+              : 'bg-gray-800 border-gray-700'} 
+            ${gameStartedAlready ? 'opacity-50 cursor-not-allowed' : ''}`}
+          onClick={() => {
+            if (!gameStartedAlready) {
+              setEngineChoice('sunfish');
+            }
+          }}
+        >
+          <h3 className="text-xl font-bold">Sunfish Improvement</h3>
+          <p className="text-sm">My Own Engine</p>
+        </div>
+      </div>
+    );
+  };
+  // ***********************************************
+
+  // User move handler: conditionally add promotion only when needed.
   const handleSquareClick = (row, col) => {
     const square = convertToSquare(row, col);
     if (selected) {
       if (legalMoves.includes(square)) {
-        const move = gameRef.current.move({
-          from: selected,
-          to: square,
-          promotion: 'q',
-        });
+        const piece = gameRef.current.get(selected);
+        let moveConfig = { from: selected, to: square };
+        // Only add promotion if a pawn is moving to the last rank.
+        if (
+          piece &&
+          piece.type === 'p' &&
+          ((piece.color === 'w' && square.endsWith('8')) ||
+            (piece.color === 'b' && square.endsWith('1')))
+        ) {
+          moveConfig.promotion = 'q';
+        }
+        const move = gameRef.current.move(moveConfig);
         if (move) {
+          // Start the timer on the first move
+          if (!gameStarted) setGameStarted(true);
           setBoard(gameRef.current.board());
           setMoveHistory(gameRef.current.history());
           setMessage('');
@@ -103,12 +155,20 @@ const ChessGamePageWithImages = () => {
     }
   };
 
-  const handleAIMove = useCallback((bestMove) => {
-    console.log("handleAIMove triggered with:", bestMove);
+  // Engine move handler: only add promotion if the best move string is 5 characters long.
+  const handleEngineMove = useCallback((bestMove) => {
+    if (!bestMove) return;
+    console.log("handleEngineMove triggered with:", bestMove);
     const from = bestMove.substring(0, 2);
     const to = bestMove.substring(2, 4);
-    const move = gameRef.current.move({ from, to, promotion: 'q' });
+    let moveConfig = { from, to };
+    if (bestMove.length === 5) {
+      moveConfig.promotion = bestMove.substring(4, 5);
+    }
+    const move = gameRef.current.move(moveConfig);
     if (move) {
+      // Start the timer on the first move if not already started
+      if (!gameStarted) setGameStarted(true);
       setBoard(gameRef.current.board());
       setMoveHistory(gameRef.current.history());
       if (gameRef.current.isCheckmate()) {
@@ -118,32 +178,85 @@ const ChessGamePageWithImages = () => {
       } else if (gameRef.current.isCheck()) {
         setMessage('Check!');
       }
+    } else {
+      setMessage('Illegal move!');
     }
-    setEngineFen(null);
-  }, []);
+  }, [gameStarted]);
 
-  const requestAIMove = () => {
-    const fen = gameRef.current.fen();
-    console.log("Requesting AI move for FEN:", fen, "with depth:", aiDepth, "and moveTime:", aiMoveTime);
-    setEngineFen(fen);
+  // Request a move from Stockfish using the worker.
+  const requestStockfishMove = () => {
+    console.log("Requesting Stockfish move for FEN:", gameRef.current.fen());
+    const stockfishWorker = new Worker('/stockfish.js');
+    stockfishWorker.onmessage = (event) => {
+      const line = event.data;
+      console.log("Stockfish output:", line);
+      if (line.startsWith("bestmove")) {
+        const bestMove = line.split(" ")[1];
+        console.log("Best move extracted:", bestMove);
+        handleEngineMove(bestMove);
+        stockfishWorker.terminate();
+      }
+    };
+    stockfishWorker.postMessage(`position fen ${gameRef.current.fen()}`);
+    stockfishWorker.postMessage("go depth 15");
   };
 
-  useEffect(() => {
-    if (
-      gameRef.current.turn() === 'b' &&
-      !gameRef.current.isGameOver() &&
-      engineFen === null
-    ) {
-      const timeout = setTimeout(() => {
-        requestAIMove();
-      }, 500);
-      return () => clearTimeout(timeout);
+  // Request a move from Sunfish using your backend (process_move endpoint).
+  const requestSunfishMove = async () => {
+    // Derive the user's move from chess.js history.
+    const movesVerbose = gameRef.current.history({ verbose: true });
+    if (movesVerbose.length === 0) {
+      console.error("No moves found in history.");
+      return;
     }
-  }, [board, engineFen]);
+    const lastMoveObj = movesVerbose[movesVerbose.length - 1];
+    const userMove =
+      lastMoveObj.from +
+      lastMoveObj.to +
+      (lastMoveObj.promotion ? lastMoveObj.promotion : "");
+    
+    console.log("Sending user move:", userMove);
+    
+    try {
+      // Call the single endpoint that uses process_move.
+      const response = await fetch("http://127.0.0.1:8000/chess/makemove", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ move: userMove })
+      });
+      const data = await response.json();
+      if (data.status === "ok") {
+        console.log("Engine move received:", data.engine_move);
+        handleEngineMove(data.engine_move);
+      } else {
+        console.error("Error from backend:", data);
+      }
+    } catch (err) {
+      console.error("Error calling process_move endpoint:", err);
+    }
+  };
 
-  const requestPlayerAIMove = () => {
-    if (gameRef.current.turn() === 'w' && !gameRef.current.isGameOver()) {
-      requestAIMove();
+  // After each move, if it's black’s turn (the engine side) and an engine is selected, request its move.
+  useEffect(() => {
+    if (gameRef.current.isGameOver()) return;
+    if (engineChoice !== 'none' && gameRef.current.turn() === 'b') {
+      if (engineChoice === 'stockfish') {
+        requestStockfishMove();
+      } else if (engineChoice === 'sunfish') {
+        requestSunfishMove();
+      }
+    }
+  }, [board, engineChoice]);
+
+  // Cycle engine choice: none → stockfish → sunfish.
+  const toggleEngineChoice = () => {
+    if (gameRef.current.history().length > 0) return; // Prevent changes once the game has started.
+    if (engineChoice === 'none') {
+      setEngineChoice('stockfish');
+    } else if (engineChoice === 'stockfish') {
+      setEngineChoice('sunfish');
+    } else {
+      setEngineChoice('none');
     }
   };
 
@@ -156,7 +269,7 @@ const ChessGamePageWithImages = () => {
     setMoveHistory([]);
     setWhiteTime(300);
     setBlackTime(300);
-    setEngineFen(null);
+    setGameStarted(false); // Reset game start state
   };
 
   const dismissModal = () => {
@@ -164,19 +277,14 @@ const ChessGamePageWithImages = () => {
   };
 
   return (
-    // Entire page in a dark theme
     <div className="min-h-screen bg-[#121212] text-gray-100 font-sans">
       <Header />
 
-      <AISettings
-        aiDepth={aiDepth}
-        aiMoveTime={aiMoveTime}
-        setAIDepth={setAIDepth}
-        setAIMoveTime={setAIMoveTime}
-      />
+      {/* Engine Cards */}
+      {renderEngineCards()}
 
       <main className="container mx-auto px-8 py-6 flex flex-col md:flex-row gap-8">
-        {/* Chess board + controls */}
+        {/* Chess board and controls */}
         <section className="w-full md:w-2/3 bg-[#1c1c1c] rounded-lg shadow p-8">
           <h3 className="text-4xl font-extrabold text-center mb-8 tracking-wide text-gray-100">
             Interactive Chess Game
@@ -197,30 +305,27 @@ const ChessGamePageWithImages = () => {
             </div>
           )}
 
-          <div className="mt-8 flex justify-center gap-6">
-            <button
-              onClick={resetGame}
-              className="bg-gray-700 text-white px-6 py-3 rounded hover:bg-gray-600 transition shadow-md"
-            >
-              Reset Game
-            </button>
-            <button
-              onClick={() => {
-                setSelected(null);
-                setLegalMoves([]);
-                setMessage('');
-              }}
-              className="bg-gray-700 text-white px-6 py-3 rounded hover:bg-gray-600 transition shadow-md"
-            >
-              Clear Selection
-            </button>
-            <button
-              onClick={requestPlayerAIMove}
-              disabled={gameRef.current.turn() !== 'w'}
-              className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition shadow-md disabled:bg-blue-900"
-            >
-              Player Best Move
-            </button>
+          <div className="mt-8 flex flex-col items-center gap-6">
+            <div className="flex gap-6">
+              <button
+                onClick={resetGame}
+                className="bg-gray-700 text-white px-6 py-3 rounded hover:bg-gray-600 transition shadow-md"
+              >
+                Reset Game
+              </button>
+            </div>
+
+            <div className="flex gap-6">
+              <button
+                onClick={() => {
+                  // Toggle engine manually if needed; this might be triggered by a button in your docs.
+                  toggleEngineChoice();
+                }}
+                className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 transition shadow-md"
+              >
+                Engine: {engineChoice.toUpperCase()}
+              </button>
+            </div>
           </div>
         </section>
 
@@ -233,37 +338,17 @@ const ChessGamePageWithImages = () => {
         />
       </main>
 
-      {/* Stockfish integration */}
-      <StockfishEngine
-        fen={engineFen}
-        depth={aiDepth}
-        movetime={aiMoveTime}
-        onBestMove={handleAIMove}
-      />
-
       {/* Modal for game-end messages */}
       {(message === 'Checkmate!' || message === 'Stalemate!' || message === 'Check!') && (
         <Modal message={message} onDismiss={dismissModal} />
       )}
 
-      {/* Documentation & Code */}
       <section id="docs" className="py-16 px-8 bg-[#1c1c1c]">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-6 text-gray-100">Documentation &amp; Code</h2>
           <p className="text-lg text-gray-300 mb-6">
-            This chess game uses chess.js for game logic and integrates the Stockfish engine as a
-            web worker. Users can adjust the engine's search depth and move time using the AI settings
-            panel. Black's moves are computed automatically, while White's best move can be requested
-            using the "Player Best Move" button.
+            This example shows how to remove the old AI settings and toggle between Stockfish and Sunfish engines for AI moves.
           </p>
-          <a
-            href="https://github.com/yourusername/chess-game-ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-gray-700 text-white font-bold py-3 px-6 rounded hover:bg-gray-600 transition duration-300"
-          >
-            View on GitHub
-          </a>
         </div>
       </section>
 
