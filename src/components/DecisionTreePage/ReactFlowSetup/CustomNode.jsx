@@ -1,4 +1,4 @@
-// CustomNode.jsx
+// CustomNode.js
 import React from "react";
 import { Handle } from "reactflow";
 
@@ -21,6 +21,8 @@ const CustomNode = React.memo(({ data }) => {
         : "#000",
     textAlign: "center",
     width: "160px",
+    cursor: "pointer",
+    pointerEvents: "auto", // keep pointerEvents so the node is clickable
   };
 
   return (

@@ -13,9 +13,8 @@ import CustomNode from "./ReactFlowSetup/CustomNode";
 
 const nodeTypes = { customNode: CustomNode };
 
-const nodeWidth = 90;  // ⬅ Smaller nodes
-const nodeHeight = 100; // ⬅ Smaller nodes
-
+const nodeWidth = 90;  
+const nodeHeight = 100; 
 
 const getLayoutedElements = (nodes, edges, direction = "TB") => {
   const dagreGraph = new dagre.graphlib.Graph();
@@ -23,8 +22,8 @@ const getLayoutedElements = (nodes, edges, direction = "TB") => {
 
   dagreGraph.setGraph({
     rankdir: direction,
-    nodesep: 200, // ⬅ Increased horizontal spacing (was 15)
-    ranksep: 300, // ⬅ Increased vertical spacing (was 25)
+    nodesep: 200,
+    ranksep: 300,
   });
 
   nodes.forEach((node) => {
@@ -49,9 +48,8 @@ const getLayoutedElements = (nodes, edges, direction = "TB") => {
   };
 };
 
-export default function ReactFlowTree({ treeData, onNodeClick = () => {} }) {
+export default function ReactFlowTree({ treeData, onNodeClick = () => {}, onNodeDoubleClick = () => {} }) {
   const [localSolverTree, setLocalSolverTree] = useState(treeData);
-
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
 
@@ -86,28 +84,25 @@ export default function ReactFlowTree({ treeData, onNodeClick = () => {} }) {
         setLocalSolverTree={setLocalSolverTree}
         localSolverTree={localSolverTree}
         onNodeClick={onNodeClick}
+        onNodeDoubleClick={onNodeDoubleClick}  // <-- pass the prop down
       />
     </ReactFlowProvider>
   );
 }
 
-function ReactFlowInner({ nodes, edges, setLocalSolverTree, onNodeClick }) {
+function ReactFlowInner({ nodes, edges, setLocalSolverTree, localSolverTree, onNodeClick, onNodeDoubleClick }) {
   const reactFlowInstance = useReactFlow();
-
-
 
   const centerOnRoot = useCallback(() => {
     if (nodes.length === 0) return;
     const rootNode = nodes.find((node) => node.id === "root");
     if (!rootNode) return;
-
     const { x, y } = rootNode.position;
     reactFlowInstance.setCenter(x, y, { zoom: 1.5, duration: 700 });
-  }, [reactFlowInstance, nodes,setLocalSolverTree]);
+  }, [reactFlowInstance, nodes]);
 
   return (
     <div style={{ width: "100%", height: "800px", position: "relative" }}>
-
       <button
         onClick={centerOnRoot}
         style={{
@@ -127,20 +122,27 @@ function ReactFlowInner({ nodes, edges, setLocalSolverTree, onNodeClick }) {
       </button>
 
       <div className="w-full h-screen bg-white">
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          fitView
-          minZoom={0.01}
-          maxZoom={2}
-          proOptions={{ hideAttribution: true }}
-        >
-          
-          <Controls />
-        </ReactFlow>
-      </div>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        onNodeDoubleClick={(event, node) => {
+          console.log("Global onNodeDoubleClick fired for:", node);
+          onNodeDoubleClick(event, node);
+        }}
+        fitView
+        minZoom={0.01}
+        maxZoom={2}
+        proOptions={{ hideAttribution: true }}
+      >
+      </ReactFlow>
+  <Controls />
 
+
+
+
+
+      </div>
     </div>
   );
 }

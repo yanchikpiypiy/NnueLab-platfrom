@@ -111,7 +111,6 @@ export const findMateInNCandidateTree = (chessInstance, n) => {
   const result = minimax(chessInstance, maxDepth);
   return { candidate: result.branch ? { branch: result.branch } : null, tree: result.tree };
 };
-
 export const transformTreeForD3 = (node, isRoot = true) => {
   if (!node.visible) return null;
 
@@ -119,31 +118,34 @@ export const transformTreeForD3 = (node, isRoot = true) => {
   const fill = isRoot ? "gray" : (node.isWhiteTurn ? "white" : "black");
 
   return {
+    // Add the node's ID so you can reference it later
+    id: node.id,               // <-- IMPORTANT
     name: node.move || "Start",
-    attributes: { 
+    attributes: {
       score: node.score !== undefined ? node.score : "N/A",
-      nextMove: node.children.length > 0 
-        ? node.children.reduce((best, child) => {
-            if (isRoot || node.isWhiteTurn) {
-              // If it's the start node or White's turn → Pick best move (maximize)
-              return best.score > child.score ? best : child;
-            } else {
-              // Black's turn → Pick worst for White (minimize), prioritizing captures
-              const bestIsCapture = best.move.includes("x");
-              const childIsCapture = child.move.includes("x");
-    
-              if (childIsCapture && !bestIsCapture) return child;  // Prefer captures
-              if (!childIsCapture && bestIsCapture) return best;
-              
-              return best.score < child.score ? best : child; // Otherwise, minimize
-            }
-          }).move 
-        : "None"
+      nextMove:
+        node.children.length > 0
+          ? node.children.reduce((best, child) => {
+              if (isRoot || node.isWhiteTurn) {
+                // If it's the start node or White's turn → Pick best move (maximize)
+                return best.score > child.score ? best : child;
+              } else {
+                // Black's turn → Pick worst for White (minimize), prioritizing captures
+                const bestIsCapture = best.move.includes("x");
+                const childIsCapture = child.move.includes("x");
+
+                if (childIsCapture && !bestIsCapture) return child; // Prefer captures
+                if (!childIsCapture && bestIsCapture) return best;
+
+                return best.score < child.score ? best : child; // Otherwise, minimize
+              }
+            }).move
+          : "None",
     },
     // New property for color instead of nodeSvgShape
     fill,
     children: node.children
-      .map(child => transformTreeForD3(child, false))
-      .filter(child => child !== null),
+      .map((child) => transformTreeForD3(child, false))
+      .filter((child) => child !== null),
   };
 };
