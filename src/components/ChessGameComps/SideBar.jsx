@@ -1,7 +1,6 @@
-// Sidebar.jsx
 import React from 'react';
 
-const Sidebar = React.forwardRef(({ whiteTime, blackTime, moveHistory }, ref) => {
+const SideBar = React.forwardRef(({ whiteTime, blackTime, moveHistory, whiteCaptures, blackCaptures, pieceImages }, ref) => {
   return (
     <aside className="w-full md:w-1/3 bg-[#1c1c1c] text-gray-100 rounded-lg shadow p-8 flex flex-col">
       <h3 className="text-4xl font-bold mb-8">Status</h3>
@@ -12,6 +11,35 @@ const Sidebar = React.forwardRef(({ whiteTime, blackTime, moveHistory }, ref) =>
         <p className="text-2xl font-semibold">
           Black Time: <span className="text-blue-400">{blackTime}s</span>
         </p>
+      </div>
+      
+      {/* Captured Pieces Section */}
+      <div className="mb-8">
+        <h3 className="text-3xl font-bold mb-4">Captured Pieces</h3>
+        <div className="mb-2">
+          <p className="text-xl">White Captures:</p>
+          <div className="flex space-x-2">
+            {whiteCaptures.length === 0 ? (
+              <span className="text-gray-400 italic">None</span>
+            ) : (
+              whiteCaptures.map((cap, index) => (
+                <img key={index} src={pieceImages[cap]} alt={cap} className="w-6 h-6 object-contain" />
+              ))
+            )}
+          </div>
+        </div>
+        <div>
+          <p className="text-xl">Black Captures:</p>
+          <div className="flex space-x-2">
+            {blackCaptures.length === 0 ? (
+              <span className="text-gray-400 italic">None</span>
+            ) : (
+              blackCaptures.map((cap, index) => (
+                <img key={index} src={pieceImages[cap]} alt={cap} className="w-6 h-6 object-contain" />
+              ))
+            )}
+          </div>
+        </div>
       </div>
 
       <h3 className="text-3xl font-bold mb-4">Move History</h3>
@@ -31,4 +59,4 @@ const Sidebar = React.forwardRef(({ whiteTime, blackTime, moveHistory }, ref) =>
   );
 });
 
-export default Sidebar;
+export default SideBar;
