@@ -95,7 +95,7 @@ const MazeBFS = ({ mazeData, resetCounter, startTraversal }) => {
     if (step < bfsEvents.length && startTraversal === true) {
       const timeout = setTimeout(() => {
         setStep((prev) => prev + 1);
-      }, 50);
+      }, 5);
       return () => clearTimeout(timeout);
     }
   }, [step, bfsEvents, startTraversal]);
@@ -117,10 +117,9 @@ const MazeBFS = ({ mazeData, resetCounter, startTraversal }) => {
   // 8. Render the maze.
   return (
     <div style={{ display: 'inline-block', margin: '20px' }}>
-      <div style={{ marginTop: '10px', fontFamily: 'sans-serif' }}>
-        {step < bfsEvents.length
-          ? "BFS Traversal in progress..."
-          : "BFS Traversal complete!"}
+      {/* Current Algorithm Display */}
+      <div className="text-center text-xl font-medium mb-4">
+        Current Algorithm: <span className="text-indigo-600">BFS</span>
       </div>
       {mazeData ? (
         grid.map((row, rIdx) => (

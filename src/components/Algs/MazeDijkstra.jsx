@@ -84,7 +84,7 @@ const MazeDijkstra = ({ mazeData, resetCounter, startTraversal }) => {
     if (step < dijkstraEvents.length && startTraversal === true) {
       const timeout = setTimeout(() => {
         setStep((prevStep) => prevStep + 1);
-      }, 50);
+      }, 5);
       return () => clearTimeout(timeout);
     }
   }, [step, dijkstraEvents, startTraversal]);
@@ -128,10 +128,9 @@ const MazeDijkstra = ({ mazeData, resetCounter, startTraversal }) => {
 
   return (
     <div style={{ display: 'inline-block', margin: '20px' }}>
-      <div style={{ marginTop: '10px', fontFamily: 'sans-serif' }}>
-        {step < dijkstraEvents.length
-          ? "Dijkstra's Algorithm in progress..."
-          : "Dijkstra's Algorithm complete!"}
+      {/* Current Algorithm Display */}
+      <div className="text-center text-xl font-medium mb-4">
+        Current Algorithm: <span className="text-indigo-600">Dijkstra</span>
       </div>
       {grid.map((row, rIdx) => (
         <div key={rIdx} style={{ display: 'flex' }}>

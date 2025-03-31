@@ -352,11 +352,7 @@ const ChessGamePageWithImages = () => {
         </div>
       </section>
 
-      <footer className="container mx-auto px-8 py-6 border-t border-gray-700 text-center">
-        <p className="text-sm text-gray-500">
-          &copy; 2025 Maze &amp; Game AI Project. All rights reserved.
-        </p>
-      </footer>
+      
     </div>
   );
 };

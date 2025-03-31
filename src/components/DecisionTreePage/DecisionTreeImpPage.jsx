@@ -504,7 +504,7 @@ const DecisionTreeImpPage = () => {
       {/* Updated Informational Text */}
       <div className="visualization-info" style={{ maxWidth: '600px', margin: '1rem auto', textAlign: 'center' }}>
         <p className="text-gray-300 leading-relaxed">
-          This page visualizes the decision-making process of an algorithm solving a mate-in-2 chess problem.
+          This page visualizes the decision-making process of an algorithm solving a mate‑in‑2 chess problem.
           In reality, similar algorithmic decisions occur on every move during a game.
           Here, you can set up a problem, then click <span className="text-green-500">solve</span> to generate and visualize the minimax search tree.
         </p>
@@ -597,11 +597,11 @@ const DecisionTreeImpPage = () => {
         )}
       </div>
       
-      {/* New instructions above the tree */}
       <div style={{ maxWidth: '600px', margin: '1rem auto', textAlign: 'center' }}>
         <p className="text-gray-300 leading-relaxed">
-          Use double‑click on a node to toggle (expand or collapse) its children.
-          You can also use the "Expand Full Tree" option from the control panel.Please also make sure to use center-root button to simplify your navigation
+          Use <span className="text-green-500">double‑click</span> on a node to <span className="text-green-500">toggle</span> (expand or collapse) its children.
+          You can also use the <span className="text-green-500">Expand Full Tree</span> option from the control panel.
+          Please also make sure to use the <span className="text-green-500">center‑root</span> button to simplify your navigation.
         </p>
       </div>
       

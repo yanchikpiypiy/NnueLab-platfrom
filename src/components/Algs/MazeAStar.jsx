@@ -112,7 +112,7 @@ const MazeAStar = ({ mazeData, resetCounter, startTraversal }) => {
   }, [resetCounter]);
   useEffect(() => {
     if (step < aStarEvents.length && startTraversal === true) {
-      const timeout = setTimeout(() => setStep(step + 1), 20);
+      const timeout = setTimeout(() => setStep(step + 1), 5);
       return () => clearTimeout(timeout);
     }
   }, [step, aStarEvents, startTraversal]);
@@ -136,10 +136,9 @@ const MazeAStar = ({ mazeData, resetCounter, startTraversal }) => {
   // 6. Render the maze grid.
   return (
     <div style={{ display: 'inline-block', margin: '20px' }}>
-      <div style={{ marginTop: '10px', fontFamily: 'sans-serif' }}>
-        {step < aStarEvents.length
-          ? "A* Search in progress..."
-          : "A* Search complete!"}
+      {/* Current Algorithm Display */}
+      <div className="text-center text-xl font-medium mb-4">
+        Current Algorithm: <span className="text-indigo-600">A*</span>
       </div>
       {mazeData ? (
         grid.map((row, rIdx) => (

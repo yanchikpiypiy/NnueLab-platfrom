@@ -25,7 +25,7 @@ function HomePage() {
             to="/bst" 
             className="text-red-500 font-bold underline"
           >
-            /bst
+            bst
           </Link>{' '}
           page.<br />
           2. Move on to the <span className="text-green-500">Minimax explanation</span> on the{' '}
@@ -33,7 +33,7 @@ function HomePage() {
             to="/minimax" 
             className="text-red-500 font-bold underline"
           >
-            /minimax
+            minimax
           </Link>{' '}
           page.<br />
           3. Next, explore the <span className="text-green-500">NNUE mechanics</span> on the{' '}
@@ -41,7 +41,7 @@ function HomePage() {
             to="/nnue" 
             className="text-red-500 font-bold underline"
           >
-            /nnue
+            nnue
           </Link>{' '}
           page.<br />
           4. Finally, dive into our visualization pages to see mazes and minimax decision trees in action.
@@ -68,7 +68,7 @@ function HomePage() {
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Card 1 - Maze */}
           <Card
-            imageUrl="tree.png"
+            imageUrl="alg.png"
             title="Maze Visualization"
             text="Explore our maze solving algorithms"
             link="/maze"
@@ -87,15 +87,30 @@ function HomePage() {
             imageUrl="minimax.png"
             title="Minimax Visualization"
             text="Discover the decision tree in chess problems"
-            link="/minimax"
+            link="/AITree"
           />
         </div>
       </section>
+      <section id="docs" className="py-16 px-8 bg-black">
+  <div className="max-w-4xl mx-auto">
+    <h2 className="text-3xl font-bold mb-6 text-center text-white">Documentation & Code</h2>
+    <p className="text-lg text-gray-300 mb-6 text-center">
+      Find detailed pseudocode, implementation notes, and source code snippets for every algorithm.
+    </p>
+    <div className="flex justify-center">
+      <a
+        href="https://github.com/yanchikpiypiy/final-year-project-frontend"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block bg-white text-black font-bold py-3 px-6 rounded hover:bg-gray-200 transition duration-300"
+      >
+        View on GitHub
+      </a>
+    </div>
+  </div>
+</section>
 
-      {/* Footer */}
-      <footer className="text-center py-6 border-t border-gray-800">
-        <p className="text-gray-500">&copy; 2025 YourNameOrProject. All rights reserved.</p>
-      </footer>
+
     </div>
   );
 }

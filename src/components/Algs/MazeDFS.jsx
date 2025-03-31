@@ -52,7 +52,7 @@ const MazeDFS = ({ resetCounter, startTraversal, mazeData }) => {
   // DFS animation: advance one step every 50ms when traversal is active.
   useEffect(() => {
     if (step < dfsEvents.length && startTraversal === true) {
-      const timeout = setTimeout(() => setStep(prev => prev + 1), 50);
+      const timeout = setTimeout(() => setStep(prev => prev + 1), 5);
       return () => clearTimeout(timeout);
     }
   }, [step, dfsEvents, startTraversal]);
@@ -74,10 +74,9 @@ const MazeDFS = ({ resetCounter, startTraversal, mazeData }) => {
   return (
     <div style={{ display: 'inline-block', margin: '20px' }}>
       {!mazeData && <div>Loading maze...</div>}
-      <div style={{ marginTop: '10px', fontFamily: 'sans-serif' }}>
-        {step < dfsEvents.length
-          ? 'DFS Traversal in progress...'
-          : 'DFS Traversal complete!'}
+      {/* Current Algorithm Display */}
+      <div className="text-center text-xl font-medium mb-4">
+        Current Algorithm: <span className="text-indigo-600">DFS</span>
       </div>
       {mazeData &&
         grid.map((row, rIdx) => (
