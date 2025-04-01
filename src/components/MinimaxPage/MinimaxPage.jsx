@@ -44,10 +44,7 @@ function MinimaxPage() {
           </p>
         </section>
 
-        {/*
-          Zigzag Section 1
-          - On medium+ screens, side-by-side with text on left, text on right, etc.
-        */}
+        {/* Zigzag Section 1 */}
         <section className="md:grid md:grid-cols-2 md:gap-12 items-center">
           {/* Left Block */}
           <div className="mb-8 md:mb-0">
@@ -59,15 +56,14 @@ function MinimaxPage() {
               decision-making algorithm used in <span className="text-green-500">Chess</span>, 
               Checkers, and other turn-based games. One player tries to 
               <span className="text-green-500"> maximize</span> their advantage 
-              (score), while the other tries to <span className="text-green-500">minimize </span> 
-              it. By exhaustively exploring possible moves and their 
+              (score), while the other tries to <span className="text-green-500">minimize</span> it. By exhaustively exploring possible moves and their 
               counter-moves, the algorithm approximates the best strategy 
               from a given board state.
             </p>
             <p className="text-gray-300 leading-relaxed">
               Though it sounds straightforward, exploring every possible move 
               quickly becomes enormous. Hence, modern implementations rely on 
-              <span className="text-green-500"> heuristics and optimizations </span> 
+              <span className="text-green-500"> heuristics and optimizations</span> 
               to handle the vast complexity of Chess.
             </p>
           </div>
@@ -95,9 +91,7 @@ function MinimaxPage() {
           </div>
         </section>
 
-        {/*
-          Zigzag Section 2 (reversed on md+ screens)
-        */}
+        {/* Zigzag Section 2 (reversed on md+ screens) */}
         <section className="md:grid md:grid-cols-2 md:gap-12 items-center md:grid-flow-col-dense">
           {/* Left Block (will appear on the right in larger screens due to order) */}
           <div className="md:col-start-2 mb-8 md:mb-0">
@@ -119,6 +113,17 @@ function MinimaxPage() {
               and advanced heuristics. These refinements prune unpromising 
               branches, allowing the computer to search deeper within 
               strict time constraints.
+            </p>
+            <p className="text-gray-300 leading-relaxed">
+              Our platform supports visualization of a minimax tree on a specific chess problem. You can see all the moves on the board on the&nbsp;
+              <a 
+                href="/AITree" 
+                className="text-red-500 font-bold underline" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                AITree page
+              </a>.
             </p>
           </div>
 

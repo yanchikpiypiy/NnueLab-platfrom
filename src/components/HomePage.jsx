@@ -63,6 +63,13 @@ function HomePage() {
         </a>
       </section>
 
+      {/* Maze Visualizer Info Section */}
+      <section className="flex flex-col items-center justify-center py-6 px-4 text-center">
+        <p className="max-w-2xl text-lg md:text-xl text-gray-300 mb-6 leading-relaxed">
+          Additionally, our platform offers an interactive <span className='text-red-500 font-extrabold'>Maze Visualizer</span> that allows you to deepen your understanding of various algorithms. Explore different maze-solving strategies and compare their performance in real-time to enhance your algorithmic insights!
+        </p>
+      </section>
+
       {/* Cards Section */}
       <section id="cards-section" className="py-16">
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -91,26 +98,25 @@ function HomePage() {
           />
         </div>
       </section>
+
       <section id="docs" className="py-16 px-8 bg-black">
-  <div className="max-w-4xl mx-auto">
-    <h2 className="text-3xl font-bold mb-6 text-center text-white">Documentation & Code</h2>
-    <p className="text-lg text-gray-300 mb-6 text-center">
-      Find detailed pseudocode, implementation notes, and source code snippets for every algorithm.
-    </p>
-    <div className="flex justify-center">
-      <a
-        href="https://github.com/yanchikpiypiy/final-year-project-frontend"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-block bg-white text-black font-bold py-3 px-6 rounded hover:bg-gray-200 transition duration-300"
-      >
-        View on GitHub
-      </a>
-    </div>
-  </div>
-</section>
-
-
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold mb-6 text-center text-white">Documentation & Code</h2>
+          <p className="text-lg text-gray-300 mb-6 text-center">
+            Find detailed pseudocode, implementation notes, and source code snippets for every algorithm.
+          </p>
+          <div className="flex justify-center">
+            <a
+              href="https://github.com/yanchikpiypiy/final-year-project-frontend"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-white text-black font-bold py-3 px-6 rounded hover:bg-gray-200 transition duration-300"
+            >
+              View on GitHub
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

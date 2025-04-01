@@ -2,7 +2,7 @@ import React from 'react';
 
 const SideBar = React.forwardRef(({ whiteTime, blackTime, moveHistory, whiteCaptures, blackCaptures, pieceImages }, ref) => {
   return (
-    <aside className="w-full md:w-1/3 bg-[#1c1c1c] text-gray-100 rounded-lg shadow p-8 flex flex-col">
+    <aside className="w-full md:w-1/3 bg-[#1c1c1c] text-gray-100 rounded-lg shadow p-8 flex flex-col transform scale-90 mr-20">
       <h3 className="text-4xl font-bold mb-8">Status</h3>
       <div className="mb-8">
         <p className="text-2xl font-semibold">
@@ -49,8 +49,7 @@ const SideBar = React.forwardRef(({ whiteTime, blackTime, moveHistory, whiteCapt
         ) : (
           moveHistory.map((move, index) => (
             <p key={index} className="text-lg text-gray-100">
-              {index % 2 === 0 ? `${Math.floor(index / 2) + 1}. ` : ''}
-              {move}
+              {index % 2 === 0 ? `${Math.floor(index / 2) + 1}. ` : ''}{move}
             </p>
           ))
         )}

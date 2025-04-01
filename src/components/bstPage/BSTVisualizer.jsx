@@ -1,5 +1,3 @@
-// src/BSTPage/BSTVisualizer.jsx
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ReactFlow } from "reactflow";
@@ -221,11 +219,19 @@ export default function BSTVisualizer() {
             Binary Search Tree <span className="text-green-500">Visualizer</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-            Explore how <span className="text-green-500">BSTs</span> manage{" "}
-            <span className="text-green-500"> insertions</span> and{" "}
-            <span className="text-green-500"> deletions</span>—similar to how{" "}
-            <em>chess engines</em> handle branching data. Click a node to remove it, or{" "}
-            use the controls below to customize the tree.
+            Explore how <span className="text-green-500">BSTs</span> handle{" "}
+            <span className="text-green-500">insertions</span> and{" "}
+            <span className="text-green-500">deletions</span>. Click a node to remove it, or use the controls below to change the tree.
+          </p>
+        </section>
+
+        {/* Additional Informational Text Blocks */}
+        <section className="text-center max-w-3xl mx-auto space-y-6">
+          <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+            A <span className="text-green-500">Binary Search Tree (BST)</span> is a simple tree that stores numbers in order. In a BST, each node holds a number—numbers in the left subtree are smaller, and numbers in the right subtree are larger. This clear order makes it fast to add, find, or remove numbers. Imagine placing books on a shelf by size: it’s much easier to find the one you need.
+          </p>
+          <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+            BSTs are used in many areas like data storage, sorting, and quick lookups. In simple terms, they help organize information so you can quickly get what you need. In chess engine development, the same ideas help the engine search through game positions fast, similar to how a BST finds a number quickly.
           </p>
         </section>
 
@@ -237,13 +243,13 @@ export default function BSTVisualizer() {
               Why a <span className="text-green-500">BST</span>?
             </h2>
             <p className="text-gray-300 leading-relaxed mb-4">
-              Tree-based structures are vital for handling hierarchical data.
-              While a <em>chess engine</em> often uses more advanced trees (like
-              Minimax or NNUE-based), the <strong>BST</strong> is a simpler
-              demonstration of how to store numeric values in an ordered way and retrieve them efficiently.
+              BSTs are a basic way to organize numbers. They store data in order so you can quickly add a new number, find an existing one, or remove one you don’t need.
             </p>
             <p className="text-gray-300 leading-relaxed">
-              In chess, you might log positions or game states keyed by a numerical hash—conceptually not too far from how a BST might arrange values, branching left for “less” and right for “greater.”
+              This ordered approach is like sorting items on a shelf. It makes the search process very fast and efficient.
+            </p>
+            <p className="text-gray-300 leading-relaxed mt-2">
+              Because of this simplicity and speed, BSTs are used in many programs to manage data.
             </p>
           </div>
 
@@ -281,7 +287,7 @@ export default function BSTVisualizer() {
               style={{
                 width: "100%",
                 height: "300px",
-                marginLeft: "0", // flush left
+                marginLeft: "0",
               }}
             >
               <AnimatePresence>
@@ -301,7 +307,7 @@ export default function BSTVisualizer() {
                   minZoom={0.5}
                   maxZoom={2}
                 >
-                  {/* Removed <Controls /> to hide the control panel */}
+                  {/* Controls panel removed */}
                 </ReactFlow>
               </AnimatePresence>
             </div>
@@ -316,10 +322,13 @@ export default function BSTVisualizer() {
               Connecting <span className="text-green-500">Chess & BST</span>
             </h2>
             <p className="text-gray-300 leading-relaxed mb-4">
-              While chess engines typically deal with a large branching factor, the principle of “order and search” is still at play. Where a BST is strictly numeric, a chess tree uses position evaluation to decide which branch is best.
+              In chess engines, there are many possible moves at each turn. The idea of quickly searching and sorting data, like in a BST, helps the engine decide the best move.
             </p>
             <p className="text-gray-300 leading-relaxed">
-              Gaining familiarity with BSTs will help you appreciate more advanced structures. They demonstrate efficient <em>insertion</em>, <em>deletion</em>, and <em>lookup</em>, which every high-level chess engine must handle in some capacity for storing or retrieving board states.
+              By using an ordered method like a BST, a chess engine can organize game states fast. This simple way of looking up data is similar to how a chess engine organizes moves and positions.
+            </p>
+            <p className="text-gray-300 leading-relaxed mt-2">
+              This basic concept is one of the building blocks for more complex decision-making techniques in chess.
             </p>
           </div>
 
@@ -327,12 +336,10 @@ export default function BSTVisualizer() {
           <div className="bg-gray-900 p-6 rounded-md shadow-lg md:col-start-1">
             <h3 className="text-xl font-bold mb-4">Looking Ahead</h3>
             <p className="text-gray-300 mb-4">
-              If you enjoyed visualizing insertions and deletions here, consider how these ideas extend to your entire chess engine. Tree-based logic underpins everything from opening books to endgame tablebases. Keep experimenting with BST fundamentals to deepen your understanding.
+              If you enjoyed how a BST organizes numbers, imagine how similar ideas help a chess engine make decisions. Simple ordering rules can evolve into powerful methods like <span className="text-green-500">Minimax</span> and <span className="text-green-500">NNUE</span>.
             </p>
             <p className="text-gray-300">
-              For even more depth, visit our
-              <span className="text-green-500"> Minimax</span> or
-              <span className="text-green-500"> NNUE</span> pages to see how these branching strategies transform raw data into strategic decision-making.
+              Explore our other pages to see more about how these simple ideas turn into smart moves on the chessboard.
             </p>
           </div>
         </section>

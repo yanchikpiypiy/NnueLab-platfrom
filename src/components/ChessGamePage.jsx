@@ -29,12 +29,10 @@ const ChessGamePageWithImages = () => {
   const [moveHistory, setMoveHistory] = useState([]);
   const [whiteTime, setWhiteTime] = useState(300);
   const [blackTime, setBlackTime] = useState(300);
-  // Change capture states to arrays that hold the keys of captured pieces.
   const [whiteCaptures, setWhiteCaptures] = useState([]);
   const [blackCaptures, setBlackCaptures] = useState([]);
-  // Engine can be "stockfish", "sunfish", or "none"
   const [engineChoice, setEngineChoice] = useState('none');
-  const [gameStarted, setGameStarted] = useState(false); // New state for game start
+  const [gameStarted, setGameStarted] = useState(false);
 
   const moveHistoryRef = useRef(null);
 
@@ -88,13 +86,13 @@ const ChessGamePageWithImages = () => {
         <div
           className={`cursor-pointer border rounded p-4 transition transform duration-200 
             hover:shadow-xl hover:-translate-y-1 
-            ${engineChoice === 'sunfish' 
+            ${engineChoice === 'yunfish' 
               ? 'shadow-xl -translate-y-1 bg-green-600 border-green-600 text-white'
               : 'bg-gray-800 border-gray-700'} 
             ${gameStartedAlready ? 'opacity-50 cursor-not-allowed' : ''}`}
           onClick={() => {
             if (!gameStartedAlready) {
-              setEngineChoice('sunfish');
+              setEngineChoice('yunfish');
             }
           }}
         >
@@ -105,7 +103,7 @@ const ChessGamePageWithImages = () => {
     );
   };
 
-  // When handling a user move, update captured arrays if a capture occurs.
+  // Handle user move and update captures if necessary.
   const handleSquareClick = (row, col) => {
     const square = convertToSquare(row, col);
     if (selected) {
@@ -123,7 +121,6 @@ const ChessGamePageWithImages = () => {
         const move = gameRef.current.move(moveConfig);
         if (move) {
           if (move.captured) {
-            // Determine captured piece key.
             const capturedKey = move.color === 'w'
               ? 'b' + move.captured.toUpperCase()
               : 'w' + move.captured.toUpperCase();
@@ -159,7 +156,7 @@ const ChessGamePageWithImages = () => {
     }
   };
 
-  // Similar update for engine moves.
+  // Handle engine moves.
   const handleEngineMove = useCallback((bestMove) => {
     if (!bestMove) return;
     const from = bestMove.substring(0, 2);
@@ -237,7 +234,7 @@ const ChessGamePageWithImages = () => {
     if (engineChoice !== 'none' && gameRef.current.turn() === 'b') {
       if (engineChoice === 'stockfish') {
         requestStockfishMove();
-      } else if (engineChoice === 'sunfish') {
+      } else if (engineChoice === 'yunfish') {
         requestSunfishMove();
       }
     }
@@ -248,24 +245,35 @@ const ChessGamePageWithImages = () => {
     if (engineChoice === 'none') {
       setEngineChoice('stockfish');
     } else if (engineChoice === 'stockfish') {
-      setEngineChoice('sunfish');
+      setEngineChoice('yunfish');
     } else {
       setEngineChoice('none');
     }
   };
 
-  const resetGame = () => {
-    gameRef.current.reset();
-    setBoard(gameRef.current.board());
-    setSelected(null);
-    setLegalMoves([]);
-    setMessage('');
-    setMoveHistory([]);
-    setWhiteTime(300);
-    setBlackTime(300);
-    setGameStarted(false);
-    setWhiteCaptures([]);
-    setBlackCaptures([]);
+  const resetGame = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/chess/reset", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+      });
+      const data = await response.json();
+      if (data.status === "ok") {
+        gameRef.current.reset();
+        setBoard(gameRef.current.board());
+        setSelected(null);
+        setLegalMoves([]);
+        setMessage('');
+        setMoveHistory([]);
+        setWhiteTime(300);
+        setBlackTime(300);
+        setGameStarted(false);
+        setWhiteCaptures([]);
+        setBlackCaptures([]);
+      }
+    } catch (err) {
+      console.error("Error resetting game on backend:", err);
+    }
   };
 
   const dismissModal = () => {
@@ -275,9 +283,22 @@ const ChessGamePageWithImages = () => {
   return (
     <div className="min-h-screen bg-[#121212] text-gray-100 font-sans">
       <Header />
+      {/* Informational text block with highlighted key words */}
+      <div
+        className="visualization-info"
+        style={{ maxWidth: '600px', margin: '1rem auto', textAlign: 'center' }}
+      >
+        <p className="text-gray-300 leading-relaxed">
+          This page allows you to play chess against strong engines that use{' '}
+          <span className="text-green-500">NNUE</span> for evaluation, such as{' '}
+          <span className="text-green-500">Stockfish</span> and my very own{' '}
+          <span className="text-green-500">Yanfish</span>. You can choose to play against yourself, or let an{' '}
+          <span className="text-green-500">engine</span> challenge you with high-level tactics and strategies.
+        </p>
+      </div>
       {renderEngineCards()}
-      <main className="container mx-auto px-8 py-6 flex flex-col md:flex-row gap-8">
-        <section className="w-full md:w-2/3 bg-[#1c1c1c] rounded-lg shadow p-8">
+      <main className="container mx-auto px-8 py-6 flex flex-col md:flex-row ">
+        <section className="w-75% md:w-2/3 rounded-lg shadow p-8 ">
           <h3 className="text-4xl font-extrabold text-center mb-8 tracking-wide text-gray-100">
             Interactive Chess Game
           </h3>
@@ -301,12 +322,6 @@ const ChessGamePageWithImages = () => {
             >
               Reset Game
             </button>
-            <button
-              onClick={toggleEngineChoice}
-              className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 transition shadow-md"
-            >
-              Engine: {engineChoice.toUpperCase()}
-            </button>
           </div>
         </section>
         <Sidebar
@@ -322,14 +337,6 @@ const ChessGamePageWithImages = () => {
       {(message === 'Checkmate!' || message === 'Stalemate!' || message === 'Check!') && (
         <Modal message={message} onDismiss={dismissModal} />
       )}
-      <section id="docs" className="py-16 px-8 bg-[#1c1c1c]">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6 text-gray-100">Documentation &amp; Code</h2>
-          <p className="text-lg text-gray-300 mb-6">
-            This example shows toggling between Stockfish and Sunfish engines and displaying captured pieces.
-          </p>
-        </div>
-      </section>
     </div>
   );
 };

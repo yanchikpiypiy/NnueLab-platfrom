@@ -5,21 +5,13 @@ const ChessBoard = ({ board, legalMoves, selected, onSquareClick, pieceImages, c
   return (
     <div className="flex flex-col items-center">
       <div className="inline-block">
-        {/* Using a grid with 9 columns: extra column for rank labels */}
+        {/* Grid with 9 columns: one for left rank labels and eight for the board */}
         <div className="grid grid-cols-9">
-          {/* Top left empty cell */}
-          <div></div>
-          {/* Top file labels */}
-          {files.split('').map((file, index) => (
-            <div key={`top-${index}`} className="w-16 h-4 flex items-center justify-center text-sm text-gray-400">
-              {file}
-            </div>
-          ))}
-          {/* Board rows with rank labels */}
+          {/* Board rows with left rank labels */}
           {board.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>
-              {/* Left rank label */}
-              <div className="w-4 h-16 flex items-center justify-center text-sm text-gray-400">
+              {/* Left rank label with improved styling */}
+              <div className="w-8 h-16 flex items-center justify-center font-bold text-lg text-white-800 ml-7">
                 {8 - rowIndex}
               </div>
               {row.map((piece, colIndex) => {
@@ -48,11 +40,10 @@ const ChessBoard = ({ board, legalMoves, selected, onSquareClick, pieceImages, c
               })}
             </React.Fragment>
           ))}
-          {/* Bottom left empty cell */}
+          {/* Bottom row for file labels: left empty cell for alignment */}
           <div></div>
-          {/* Bottom file labels */}
           {files.split('').map((file, index) => (
-            <div key={`bottom-${index}`} className="w-16 h-4 flex items-center justify-center text-sm text-gray-400">
+            <div key={`bottom-${index}`} className="w-16 h-6 flex items-center justify-center font-bold text-lg text-white-800">
               {file}
             </div>
           ))}
