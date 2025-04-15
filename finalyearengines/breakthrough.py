@@ -5,23 +5,13 @@ import sys
 import time, math
 from itertools import count
 from collections import namedtuple, defaultdict
-# from pain import NNUEAccumulator, MyNNUE
 from HalfKav2Yan import *
 import re
 import itertools
 import torch
-# nnue_accumulator = NNUEAccumulator()
-# nnue_model = MyNNUE()
-# If we could rely on the env -S argument, we could just use "pypy3 -u"
-# as the shebang to unbuffer stdout. But alas we have to do this instead:
 from functools import partial
 print = partial(print, flush=True)
 
-version = "sunfish 2023"
-
-###############################################################################
-# Piece-Square tables. Tune these to change sunfish's behaviour
-###############################################################################
 
 # With xz compression this whole section takes 652 bytes.
 # That's pretty good given we have 64*6 = 384 values.

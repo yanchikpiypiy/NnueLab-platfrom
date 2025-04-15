@@ -1,7 +1,7 @@
 // HomePage.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './HomePage.css'; // We'll place our custom .DifferentCard_differentCard__UUiB8 CSS here
+import './HomePage.css'; 
 import Header from './Header';
 
 function HomePage() {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../Header'; // Adjust the path to your Header component
+import Header from '../Header'; 
 
 function NNUEPage() {
   return (

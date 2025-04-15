@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { ReactFlow } from "reactflow";
 import "reactflow/dist/style.css";
 import { AnimatePresence } from "framer-motion";
-
-import styles from "./bst.module.css"; // your custom CSS
 import Header from "../Header";
 import AnimatedNode from "./AnimateNode"; // the custom node component
 

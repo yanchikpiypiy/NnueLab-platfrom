@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback } from "react";
 import Tree from "react-d3-tree";
-import "./TreeVisualization.css"; // Ensure these styles are in your CSS file
+import "./TreeVisualization.css"; 
 
 const NodeLabel = React.memo(({ nodeDatum, onNodeClick }) => (
   <div
