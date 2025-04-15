@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  BackEnd:
+    build: .
+    container_name: fastapi_app
+    restart: always
+    ports:
+      - "8000:8000"
+  web:
+    build:
+      context: ./my-project 
+    container_name: frontend_app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - BackEnd
+    environment:
+      - REACT_APP_API_BASE_URL=http://localhost:8000
+  

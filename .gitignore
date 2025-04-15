@@ -1,23 +1,91 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
+# ------------------------------------------------------------------------------
+# 1. Operating System Files
+# ------------------------------------------------------------------------------
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+Thumbs.db
 
+# ------------------------------------------------------------------------------
+# 2. Editor / IDE Files
+# ------------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ------------------------------------------------------------------------------
+# 3. Node / React
+# ------------------------------------------------------------------------------
+
+# Dependencies
+node_modules/
+
+# Build or distribution folders
+build/
+dist/
+
+# Logs and debugging
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# If you're using package-lock.json or yarn.lock, typically you DO commit those.
+# But if you prefer not to, you could ignore them (not recommended, but optional):
+# package-lock.json
+# yarn.lock
+
+# Environment variables (React can use .env.*)
+.env
+.env.*
+# or more specifically:
+# .env.local
+# .env.development
+# .env.production
+# .env.test
+
+# ------------------------------------------------------------------------------
+# 4. Python / FastAPI
+# ------------------------------------------------------------------------------
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Virtual environment folders
+venv/
+env/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# If you’re using poetry, pipenv, or hatch, you might exclude their lock files:
+# Pipenv files
+# Pipfile.lock
+
+# Poetry
+# poetry.lock
+
+# Environment variable files (FastAPI might read from .env)
+# Same pattern as above:
+.env
+.env.*
+
+# ------------------------------------------------------------------------------
+# 5. Miscellaneous
+# ------------------------------------------------------------------------------
+
+# Coverage reports (if you run tests)
+coverage/
+*.lcov
+
+# Local tooling or temp
+*.log
+tmp/
+out/
+
+
+my-project/package-lock.json
+my-project/package.json

@@ -1,0 +1,35 @@
+/* Maze Container */
+.mazeWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: black;
+}
+
+.mazeContainer {
+  display: grid;
+  gap: 2px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Maze Cells */
+.mazeCell {
+  width: 10px;
+  height: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.wall {
+  background-color: black;
+}
+
+.path {
+  background-color: white;
+}
+
+.pathTraversed {
+  background-color: red !important;
+}

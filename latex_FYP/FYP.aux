@@ -1,0 +1,282 @@
+\relax 
+\providecommand{\transparent@use}[1]{}
+\providecommand \babel@aux [2]{\global \let \babel@toc \@gobbletwo }
+\@nameuse{bbl@beforestart}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\babel@aux{UKenglish}{}
+\babel@aux{UKenglish}{}
+\@writefile{toc}{\contentsline {section}{Abstract}{3}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{3}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{3}{Introduction}{section.1}{}}
+\citation{Knuth1975}
+\citation{Korf1985}
+\citation{Campbell2002DeepBlue}
+\citation{Shannon1950}
+\citation{vonNeumann1944}
+\citation{Knuth1975}
+\citation{Korf1985}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Literature Review}{4}{section.2}\protected@file@percent }
+\newlabel{sec:lit_review}{{2}{4}{Literature Review}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Overview of Chess Engines and Evaluation Approaches}{4}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Engine Search Approaches}{4}{subsubsection.2.1.1}\protected@file@percent }
+\newlabel{sec:engine_search_approaches}{{2.1.1}{4}{Engine Search Approaches}{subsubsection.2.1.1}{}}
+\citation{Coulom2006}
+\citation{Shannon1950}
+\citation{Slate1977}
+\citation{LevyNewborn1991}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Evaluation Approaches}{5}{subsubsection.2.1.2}\protected@file@percent }
+\newlabel{sec:evaluation_approaches}{{2.1.2}{5}{Evaluation Approaches}{subsubsection.2.1.2}{}}
+\citation{Nasu2018}
+\citation{stockfish}
+\citation{sunfish}
+\citation{python-chess}
+\citation{nnue-stockfish}
+\citation{Nasu2018}
+\citation{StockfishNNUE2020}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Existing Approaches}{6}{subsubsection.2.1.3}\protected@file@percent }
+\newlabel{subsec:existing-approaches}{{2.1.3}{6}{Existing Approaches}{subsubsection.2.1.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}NNUE in Traditional Engines}{6}{subsubsection.2.1.4}\protected@file@percent }
+\newlabel{sec:nnue_background}{{2.1.4}{6}{NNUE in Traditional Engines}{subsubsection.2.1.4}{}}
+\citation{githubdocs}
+\citation{githubdocs}
+\citation{githubdocs}
+\citation{githubdocs}
+\@writefile{toc}{\contentsline {paragraph}{Matrix Multiplication in a Linear Layer}{7}{paragraph*.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces A conceptual look at the linear layer. Each coloured band (“rainbow”) handles a slice of the input multiplied by the matching slice of the weights ~\cite  {githubdocs}.}}{7}{figure.caption.3}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:mv}{{1}{7}{A conceptual look at the linear layer. Each coloured band (“rainbow”) handles a slice of the input multiplied by the matching slice of the weights ~\cite {githubdocs}}{figure.caption.3}{}}
+\citation{githubdocs}
+\citation{githubdocs}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Skipping columns of \(\mathbf  {A}\) for zero-valued inputs. Only the columns corresponding to nonzero features in \(\mathbf  {x}\) are processed ~\cite  {githubdocs}.}}{8}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:skipcol}{{2}{8}{Skipping columns of \(\mathbf {A}\) for zero-valued inputs. Only the columns corresponding to nonzero features in \(\mathbf {x}\) are processed ~\cite {githubdocs}}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Clipped ReLU and Partial Updates}{8}{paragraph*.5}\protected@file@percent }
+\citation{githubdocs}
+\citation{githubdocs}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces After the linear layer, a clipped or shifted activation keeps integer operations within limits, with only changed squares prompting recalculations ~\cite  {githubdocs}.}}{9}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:mvs}{{3}{9}{After the linear layer, a clipped or shifted activation keeps integer operations within limits, with only changed squares prompting recalculations ~\cite {githubdocs}}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Overall Pipeline}{9}{paragraph*.7}\protected@file@percent }
+\citation{githubdocs}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces A simplified NNUE pipeline: piece-square inputs (green) flow through fully-connected hidden layers (yellow), yielding a single evaluation output (red) ~\cite  {githubdocs}.}}{10}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:nnue_pipeline}{{4}{10}{A simplified NNUE pipeline: piece-square inputs (green) flow through fully-connected hidden layers (yellow), yielding a single evaluation output (red) ~\cite {githubdocs}}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{HalfKP: Basic Piece-Square Mapping}{10}{paragraph*.9}\protected@file@percent }
+\newlabel{sec:halfkp}{{2.1.4}{10}{HalfKP: Basic Piece-Square Mapping}{paragraph*.9}{}}
+\citation{githubdocs}
+\citation{githubdocs}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces An example \texttt  {HalfKP} architecture ~\cite  {githubdocs}.}}{11}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:halfkp_arch}{{5}{11}{An example \texttt {HalfKP} architecture ~\cite {githubdocs}}{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {paragraph}{HalfKAv2: Refined Input Organization}{12}{paragraph*.11}\protected@file@percent }
+\newlabel{sec:halfkav2}{{2.1.4}{12}{HalfKAv2: Refined Input Organization}{paragraph*.11}{}}
+\citation{githubdocs}
+\citation{githubdocs}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces \texttt  {HalfKAv2}: rearranged indices to minimize collisions and optional buckets for variable piece counts. Each bucket (e.g.\ midgame, endgame) can hold its own specialized weight set, enabling more accurate evaluations in different phases ~\cite  {githubdocs}.}}{13}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:halfkav2}{{6}{13}{\texttt {HalfKAv2}: rearranged indices to minimize collisions and optional buckets for variable piece counts. Each bucket (e.g.\ midgame, endgame) can hold its own specialized weight set, enabling more accurate evaluations in different phases ~\cite {githubdocs}}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {paragraph}{HalfKAv2\_hm: Mirrored or Hash-Map Variant}{13}{paragraph*.13}\protected@file@percent }
+\newlabel{sec:halfkav2_hm}{{2.1.4}{13}{HalfKAv2\_hm: Mirrored or Hash-Map Variant}{paragraph*.13}{}}
+\citation{githubdocs}
+\citation{githubdocs}
+\citation{stockfishdocs}
+\citation{lichessEngineIntegration}
+\citation{arenaDocs}
+\citation{cuTechessDocs}
+\citation{scidDocs}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces \texttt  {HalfKAv2\_hm} uses mirrored or hashed rank/file references to reduce collisions further. Here, horizontal mirroring reflects the board left-to-right, while flipping inverts ranks top-to-bottom, improving partial updates for symmetric positions ~\cite  {githubdocs}.}}{14}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:halfkav2_hm}{{7}{14}{\texttt {HalfKAv2\_hm} uses mirrored or hashed rank/file references to reduce collisions further. Here, horizontal mirroring reflects the board left-to-right, while flipping inverts ranks top-to-bottom, improving partial updates for symmetric positions ~\cite {githubdocs}}{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {paragraph}{Practical Impact on Engines}{14}{paragraph*.15}\protected@file@percent }
+\citation{mazeSolverSite}
+\citation{pathfindoutSite}
+\citation{SomePathfindingDiscussion}
+\citation{AlphaBetaTutorial}
+\citation{mazeSolverSite}
+\citation{pathfindoutSite}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Chess Platforms and Visualization Tools}{15}{subsection.2.2}\protected@file@percent }
+\newlabel{sec:chess_and_visualization}{{2.2}{15}{Chess Platforms and Visualization Tools}{subsection.2.2}{}}
+\citation{ECMA}
+\citation{W3C}
+\citation{MDNDocs}
+\citation{webpack}
+\citation{babel}
+\citation{npmDocs}
+\citation{yarnDocs}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Hypothesis}{16}{section.3}\protected@file@percent }
+\newlabel{sec:hypothesis}{{3}{16}{Hypothesis}{section.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Background}{16}{section.4}\protected@file@percent }
+\newlabel{sec:Background}{{4}{16}{Background}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Languages, Frameworks, and Tools}{16}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Front-end}{16}{subsubsection.4.1.1}\protected@file@percent }
+\citation{ECMA}
+\citation{JSHistory}
+\citation{KyleSimpsonAsyncJS}
+\citation{nodeDocs}
+\citation{ReactDocs}
+\citation{ReactHooksDocs}
+\citation{TailwindDocs}
+\citation{chessjs}
+\citation{reactflowDocs}
+\citation{fastapiDocs}
+\citation{uvicornDocs}
+\citation{pytorchDocs}
+\@writefile{toc}{\contentsline {paragraph}{Chess.js}{18}{paragraph*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{React Flow}{18}{paragraph*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Back-end}{18}{subsubsection.4.1.2}\protected@file@percent }
+\citation{Harris2020Array}
+\citation{Shannon1950}
+\citation{vonNeumann1944}
+\citation{Nasu2018}
+\citation{StockfishNNUE2020}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Libraries}{19}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Chess Engine}{19}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Minimax}{19}{subsubsection.4.3.1}\protected@file@percent }
+\citation{DockerDocs}
+\citation{dombrowski2008layout}
+\citation{nielsen2006usability}
+\citation{tsumura2022layout}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Docker}{20}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Design}{20}{section.5}\protected@file@percent }
+\newlabel{sec:design}{{5}{20}{Design}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Importance of a Clear Layout}{20}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Layout-Driven Approach and Zigzag Highlights}{21}{subsection.5.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces A React snippet showing a two-column layout (zigzag) and highlighted keywords (e.g., \texttt  {NNUE} in green).}}{21}{figure.caption.18}\protected@file@percent }
+\newlabel{lst:design_snippet}{{8}{21}{A React snippet showing a two-column layout (zigzag) and highlighted keywords (e.g., \texttt {NNUE} in green)}{figure.caption.18}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Screenshot and Visual Confirmation}{21}{subsection.5.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces An example of the partial zigzag design. Text is on one side, an image on the other, while keywords such as \texttt  {NNUE} appear in green to attract focus.}}{22}{figure.caption.19}\protected@file@percent }
+\newlabel{fig:design_screenshot}{{9}{22}{An example of the partial zigzag design. Text is on one side, an image on the other, while keywords such as \texttt {NNUE} appear in green to attract focus}{figure.caption.19}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Conclusion}{22}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Architecture}{23}{section.6}\protected@file@percent }
+\newlabel{sec:architecture}{{6}{23}{Architecture}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Overview}{23}{subsection.6.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces diagram illustrating the user’s browser interacting with a front-end container and a back-end container, which houses the Chess Engine.}}{23}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:system-architecture}{{10}{23}{diagram illustrating the user’s browser interacting with a front-end container and a back-end container, which houses the Chess Engine}{figure.caption.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Communication Flow}{23}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Maze Endpoint}{23}{paragraph*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Chess Endpoints}{24}{paragraph*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{CORS and Deployment Notes}{25}{paragraph*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Response Handling in React}{25}{paragraph*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}User Interface Structure}{25}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.1}Home Page}{26}{subsubsection.6.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.2}Maze Visualization Page}{26}{subsubsection.6.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.3}Minimax Traversal Page}{26}{subsubsection.6.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.4}Chess Page}{26}{subsubsection.6.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Build}{27}{subsection.6.4}\protected@file@percent }
+\newlabel{lst:docker-compose at project root}{{1}{27}{docker-compose.yml}{lstlisting.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces docker-compose.yml}}{27}{lstlisting.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Implementation}{28}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}NNUE Model}{28}{subsection.7.1}\protected@file@percent }
+\newlabel{subsec:nnue_model}{{7.1}{28}{NNUE Model}{subsection.7.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.1}NNUE Implementation}{28}{subsubsection.7.1.1}\protected@file@percent }
+\newlabel{subsubsec:nnue_implementation}{{7.1.1}{28}{NNUE Implementation}{subsubsection.7.1.1}{}}
+\newlabel{lst:accumulator}{{2}{29}{Part 1: Initialization of NNUEAccumulator}{lstlisting.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}{\ignorespaces Part 1: Initialization of NNUEAccumulator}}{29}{lstlisting.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Explanation}{30}{paragraph*.25}\protected@file@percent }
+\newlabel{lst:accumulator_update}{{3}{30}{Part 2: The update method snippet}{lstlisting.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}{\ignorespaces Part 2: The update method snippet}}{30}{lstlisting.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Explanation}{31}{paragraph*.26}\protected@file@percent }
+\newlabel{lst:accumulator_utilities}{{4}{32}{Part 3: Utility methods for orientation and index computation}{lstlisting.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}{\ignorespaces Part 3: Utility methods for orientation and index computation}}{32}{lstlisting.4}\protected@file@percent }
+\newlabel{subsec:nnue_net}{{7.1.1}{33}{}{lstnumber.4.30}{}}
+\newlabel{lst:nnue_network}{{5}{33}{A simplified PyTorch implementation of the NNUE network structure}{lstlisting.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}{\ignorespaces A simplified PyTorch implementation of the NNUE network structure}}{33}{lstlisting.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Explanation}{33}{paragraph*.27}\protected@file@percent }
+\newlabel{lst:shift_clamp}{{6}{34}{Example of a shift and clamp step}{lstlisting.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}{\ignorespaces Example of a shift and clamp step}}{34}{lstlisting.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Explanation}{34}{paragraph*.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.2}Evaluation in the Search Loop}{34}{subsubsection.7.1.2}\protected@file@percent }
+\newlabel{sec:integration}{{7.1.2}{34}{Evaluation in the Search Loop}{subsubsection.7.1.2}{}}
+\newlabel{lst:searcher_nnue}{{7}{35}{Refined Sunfish Searcher Code snippet with NNUE Integration}{lstlisting.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {7}{\ignorespaces Refined Sunfish Searcher Code snippet with NNUE Integration}}{35}{lstlisting.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Explanation}{36}{paragraph*.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Backend Implementation}{37}{subsection.7.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Simplified project directory structure }}{38}{figure.caption.30}\protected@file@percent }
+\newlabel{fig:directory-structure}{{11}{38}{Simplified project directory structure}{figure.caption.30}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Frontend Implementation}{38}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.1}Navigation}{39}{subsubsection.7.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.2}Maze Visualization}{39}{subsubsection.7.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.3}Minimax Visualization}{40}{subsubsection.7.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.4}Interactive Chess Gameplay}{40}{subsubsection.7.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Evaluation \& Testing}{41}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Chess Testing}{41}{subsection.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.1.1}Screenshots and Observations}{42}{subsubsection.8.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.1.2}Performance Considerations}{42}{subsubsection.8.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.1.3}Extended Match Results}{42}{subsubsection.8.1.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Results from 20 games at 3+ seconds per move.}}{42}{table.caption.32}\protected@file@percent }
+\newlabel{tab:extended_results}{{1}{42}{Results from 20 games at 3+ seconds per move}{table.caption.32}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}User Feedback}{42}{subsection.8.2}\protected@file@percent }
+\newlabel{fig:screenshot1}{{12a}{43}{Updated engine (White) wins at 3\,s/move}{figure.caption.31}{}}
+\newlabel{sub@fig:screenshot1}{{a}{43}{Updated engine (White) wins at 3\,s/move}{figure.caption.31}{}}
+\newlabel{fig:screenshot2}{{12b}{43}{Updated engine (Black) draws at 3\,s/move}{figure.caption.31}{}}
+\newlabel{sub@fig:screenshot2}{{b}{43}{Updated engine (Black) draws at 3\,s/move}{figure.caption.31}{}}
+\newlabel{fig:screenshot3}{{12c}{43}{Updated engine (White) wins at depth 1}{figure.caption.31}{}}
+\newlabel{sub@fig:screenshot3}{{c}{43}{Updated engine (White) wins at depth 1}{figure.caption.31}{}}
+\newlabel{fig:screenshot4}{{12d}{43}{Updated engine (Black) wins at depth 1}{figure.caption.31}{}}
+\newlabel{sub@fig:screenshot4}{{d}{43}{Updated engine (Black) wins at depth 1}{figure.caption.31}{}}
+\newlabel{fig:screenshot5}{{12e}{43}{Updated engine (White) at fixed depth 2}{figure.caption.31}{}}
+\newlabel{sub@fig:screenshot5}{{e}{43}{Updated engine (White) at fixed depth 2}{figure.caption.31}{}}
+\newlabel{fig:screenshot6}{{12f}{43}{Updated engine (Black) draws at fixed depth 2}{figure.caption.31}{}}
+\newlabel{sub@fig:screenshot6}{{f}{43}{Updated engine (Black) draws at fixed depth 2}{figure.caption.31}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Six head-to-head match examples between the updated engine and the original Sunfish with larger images (two subfigures per row).}}{43}{figure.caption.31}\protected@file@percent }
+\newlabel{fig:all_screens_large}{{12}{43}{Six head-to-head match examples between the updated engine and the original Sunfish with larger images (two subfigures per row)}{figure.caption.31}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Visualization}{44}{subsection.8.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.1}Maze Visualization Evaluation}{44}{subsubsection.8.3.1}\protected@file@percent }
+\newlabel{subsec:maze_eval}{{8.3.1}{44}{Maze Visualization Evaluation}{subsubsection.8.3.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.2}Minimax Traversal Evaluation}{44}{subsubsection.8.3.2}\protected@file@percent }
+\newlabel{subsec:minimax_eval}{{8.3.2}{44}{Minimax Traversal Evaluation}{subsubsection.8.3.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Discussion}{45}{section.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Hypothesis}{45}{subsection.9.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}Future Work}{46}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}Conclusion}{46}{subsection.9.3}\protected@file@percent }
+\newlabel{sec:conclusion}{{9.3}{46}{Conclusion}{subsection.9.3}{}}
+\bibstyle{IEEEtran}
+\bibdata{references}
+\bibcite{Knuth1975}{1}
+\bibcite{Korf1985}{2}
+\bibcite{Campbell2002DeepBlue}{3}
+\bibcite{Shannon1950}{4}
+\bibcite{vonNeumann1944}{5}
+\bibcite{Coulom2006}{6}
+\bibcite{Slate1977}{7}
+\bibcite{LevyNewborn1991}{8}
+\bibcite{Nasu2018}{9}
+\bibcite{stockfish}{10}
+\bibcite{sunfish}{11}
+\bibcite{python-chess}{12}
+\bibcite{nnue-stockfish}{13}
+\bibcite{StockfishNNUE2020}{14}
+\bibcite{githubdocs}{15}
+\bibcite{stockfishdocs}{16}
+\bibcite{lichessEngineIntegration}{17}
+\bibcite{arenaDocs}{18}
+\bibcite{cuTechessDocs}{19}
+\bibcite{scidDocs}{20}
+\bibcite{mazeSolverSite}{21}
+\bibcite{pathfindoutSite}{22}
+\bibcite{SomePathfindingDiscussion}{23}
+\bibcite{AlphaBetaTutorial}{24}
+\bibcite{ECMA}{25}
+\bibcite{W3C}{26}
+\bibcite{MDNDocs}{27}
+\bibcite{webpack}{28}
+\bibcite{babel}{29}
+\bibcite{npmDocs}{30}
+\bibcite{yarnDocs}{31}
+\bibcite{JSHistory}{32}
+\bibcite{KyleSimpsonAsyncJS}{33}
+\bibcite{nodeDocs}{34}
+\bibcite{ReactDocs}{35}
+\bibcite{ReactHooksDocs}{36}
+\bibcite{TailwindDocs}{37}
+\bibcite{chessjs}{38}
+\bibcite{reactflowDocs}{39}
+\bibcite{fastapiDocs}{40}
+\bibcite{uvicornDocs}{41}
+\bibcite{pytorchDocs}{42}
+\bibcite{Harris2020Array}{43}
+\bibcite{DockerDocs}{44}
+\bibcite{dombrowski2008layout}{45}
+\bibcite{nielsen2006usability}{46}
+\bibcite{tsumura2022layout}{47}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Appendix}{49}{appendix.A}\protected@file@percent }
+\newlabel{sec:appendix}{{A}{49}{Appendix}{appendix.A}{}}
+\xdef \mintedoldcachechecksum{\detokenize{\minted@cachechecksum }}
+\gdef\svg@ink@ver@settings{{\m@ne }{inkscape}{\m@ne }}
+\gdef \@abspage@last{50}
