@@ -164,7 +164,7 @@
 
 \begin{center}
     \parbox{0.9\textwidth}{
-         Artificial intelligence has influenced chess ever since early computational engines showcased the power of combinatorial search. Recent breakthroughs, such as NNUE (Efficiently Updatable Neural Network), further expand these capabilities, enabling engines to discover strategies that go beyond traditional human heuristics. Rather than simply enhancing an existing Python engine like Sunfish, this project also provides a comprehensive educational platform that introduces users to NNUE in a clear, approachable way before they dive into official documentation. In addition, it offers visualizations of fundamental algorithms such as pathfinding, minimax, and binary search trees (BST), along with a custom-built chess engine for hands-on exploration. Step-by-step animations and concise explanations make complex concepts more accessible, while the interactive chess environment helps learners connect theory to real-world applications. Through these engaging, real-time demonstrations, the platform shows how neural-network evaluations can enrich both learning and strategic decision-making, serving as a dynamic gateway into modern AI in chess.
+         Artificial intelligence has influenced chess ever since early computational engines showcased the power of combinatorial search. Recent breakthroughs, such as NNUE (Efficiently Updatable Neural Network), further expand these capabilities, enabling engines to discover strategies that go beyond traditional human understanding. Rather than simply enhancing an existing Python engine like Sunfish, this project also provides a comprehensive educational platform that introduces users to NNUE in a clear, approachable way before they dive into official documentation. In addition, it offers visualizations of fundamental algorithms such as pathfinding, minimax, and binary search trees (BST), along with a custom-built chess engine for hands-on exploration. Step-by-step animations and explanations make complex concepts more accessible, while the interactive chess environment helps learners connect theory to real-world applications. Through these engaging, real-time demonstrations, the platform shows how neural-network evaluations can combine both learning and strategic decision-making.
     }
 \end{center}
 
@@ -179,9 +179,9 @@
 \subsection{Literature Review}
 \label{sec:lit_review}
 \subsubsection{Overview of Chess Engines and Evaluation Approaches}
-Early chess programs relied primarily on brute-force search, examining every possible move and position, combined with basic heuristics for evaluation. While conceptually straightforward, brute-force methods scale poorly in a complex game like chess, leading to exponential growth in the search tree. To address this, techniques such as alpha-beta pruning, introduced by Knuth and Moore~\cite{Knuth1975}, significantly reduced the number of positions requiring evaluation. Iterative deepening, explained by Korf~\cite{Korf1985}, further enhanced efficiency by incrementally deepening the search while reusing previously gathered information. Classical chess engines, such as IBM’s Deep Blue~\cite{Campbell2002DeepBlue}, heavily relied on these strategies. 
+Early chess programs relied primarily on brute-force search, examining every possible move and position, combined with basic heuristics for evaluation. While conceptually straightforward, brute-force methods scale poorly in a complex game like chess, leading to exponential growth in the search tree. To address this, techniques such as alpha-beta pruning, introduced by Knuth and Moore~\cite{Knuth1975}, significantly reduced the number of positions requiring evaluation. Iterative deepening, explained by Korf~\cite{Korf1985}, further enhanced efficiency by incrementally deepening the search while reusing previously gathered moves. Classical chess engines, such as IBM’s Deep Blue~\cite{Campbell2002DeepBlue}, heavily relied on these strategies. 
 
-Modern engines build on these foundational ideas, merging clever search algorithms with sophisticated evaluation functions. The following subsections outline both the principal \emph{engine search approaches} and the \emph{evaluation techniques} that have shaped classical and contemporary chess programs.
+Modern engines build on these foundational ideas, combining clever search algorithms with sophisticated evaluation functions. The following subsections outline both the principal \emph{engine search approaches} and the \emph{evaluation techniques} that have shaped classical and contemporary chess programs.
 
 \subsubsection{Engine Search Approaches}
 \label{sec:engine_search_approaches}
@@ -204,7 +204,7 @@ Modern engines build on these foundational ideas, merging clever search algorith
 
 \end{itemize}
 
-These search approaches collectively form the “decision engine,” determining which moves to explore and in what order. Strategies like iterative deepening and alpha-beta pruning remain integral to many top-tier engines, as they substantially reduce computational overhead without sacrificing playing strength.
+These search approaches collectively form the “decision engine,” determining which moves to explore and in what order. Top chess engines still use iterative deepening and alpha‑beta pruning, which let them examine far fewer positions yet remain just as strong.
 
 
 \subsubsection{Evaluation Approaches}
@@ -1276,7 +1276,7 @@ The user interface is built with React (JavaScript) as the core framework, and T
 
 Navigation in the frontend uses \texttt{react-router-dom} to allow users to switch between different parts of the application without reloading the entire page. This setup makes transitions fast and enables the interface to update its content seamlessly. A single file, \texttt{App.js}, maps each URL path to a React component under \texttt{components/}.
 
-Each major feature or page has its own folder and entry point, keeping the code organized. For example: \begin{itemize} \item \texttt{components/HomePage.jsx} holds the homepage layout. \item \texttt{components/MazeSolvingPage/MazeSolvingPage.jsx} includes maze-related features and visuals. \item \texttt{components/ChessGamePage/ChessGamePage.jsx} manages the chess interface and coordinates with the backend. \item \ldots \end{itemize}
+Each major feature or page has its own folder and entry point, keeping the code organized. For example: \begin{itemize} \item \texttt{components/HomePage.jsx} holds the homepage layout. \item \texttt{components/MazeSolvingPage/MazeSolvingPage.jsx} includes maze-related features and visuals. \item \texttt{components/ChessGamePage/ChessGamePage.jsx} manages the chess interface and coordinates with the backend. \end{itemize}
 
 From a user’s perspective, each page is accessed by a unique path (e.g., \texttt{/maze} for the maze solver, \texttt{/chess} for the chess interface). \texttt{react-router-dom} checks the requested path and seamlessly loads the correct component. Because the routing is handled on the client side, the experience feels smooth compared to a full page reload.
 
@@ -1837,10 +1837,6 @@ search tree, highlighting how nodes can be expanded or collapsed for closer insp
 %-----------------------------------------
 
 \noindent
-These screenshots, combined with the main text discussion, should help readers 
-visualize the user interface and understand how each component operates, 
-whether it is the \texttt{mazesolving} section, the \texttt{chessgame} environment, 
-or the \texttt{minimaxsolver} module.
 
 
 \end{document}
