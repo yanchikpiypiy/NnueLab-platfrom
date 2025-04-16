@@ -149,6 +149,9 @@ K.~Simpson, ``{You Don't Know JS: Async \& Performance},'' \url{https://github.c
 \bibitem{Harris2020Array}
 C.~R. Harris, K.~J. Millman, S.~J. van~der Walt, and et~al., ``Array programming with {NumPy},'' \emph{Nature}, vol. 585, no. 7825, pp. 357--362, 2020.
 
+\bibitem{python-collections}
+{Python Software Foundation}, ``Python documentation: collections --- container datatypes,'' \url{https://docs.python.org/3/library/collections.html}, accessed: 15-Apr-2025.
+
 \bibitem{DockerDocs}
 ``Docker documentation,'' \url{https://docs.docker.com/}, accessed: 2025-04-11.
 

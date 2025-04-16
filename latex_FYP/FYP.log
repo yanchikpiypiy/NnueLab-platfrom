@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.2)  15 APR 2025 03:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.2)  16 APR 2025 17:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -208,6 +208,8 @@ Package caption Info: New subtype `subfigure' on input line 238.
 \c@subfigure=\count293
 Package caption Info: New subtype `subtable' on input line 238.
 \c@subtable=\count294
+) (c:/texlive/2025/texmf-dist/tex/latex/placeins/placeins.sty
+Package: placeins 2005/04/18  v 2.2
 ) (c:/texlive/2025/texmf-dist/tex/generic/soul/soul.sty
 Package: soul 2023-06-14 v3.1 Permit use of UTF-8 characters in soul (HO)
  (c:/texlive/2025/texmf-dist/tex/generic/soul/soul-ori.sty
@@ -616,24 +618,24 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 ) (./FYP.aux)
 \openout1 = `FYP.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -694,32 +696,32 @@ Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 
 isodate: babel.sty has been loaded
-Package hyperref Info: Link coloring ON on input line 101.
+Package hyperref Info: Link coloring ON on input line 102.
 (./FYP.out) (./FYP.out)
 \@outlinefile=\write5
 \openout5 = `FYP.out'.
 
 \c@lstlisting=\count375
-<figures/bham_crest.pdf, id=232, 51.90392pt x 63.03549pt>
+<figures/bham_crest.pdf, id=220, 51.90392pt x 63.03549pt>
 File: figures/bham_crest.pdf Graphic file (type pdf)
 <use figures/bham_crest.pdf>
-Package pdftex.def Info: figures/bham_crest.pdf  used on input line 112.
+Package pdftex.def Info: figures/bham_crest.pdf  used on input line 113.
 (pdftex.def)             Requested size: 72.26999pt x 87.77776pt.
-<figures/bham_logo.pdf, id=233, 188.36372pt x 44.35571pt>
+<figures/bham_logo.pdf, id=221, 188.36372pt x 44.35571pt>
 File: figures/bham_logo.pdf Graphic file (type pdf)
 <use figures/bham_logo.pdf>
-Package pdftex.def Info: figures/bham_logo.pdf  used on input line 115.
+Package pdftex.def Info: figures/bham_logo.pdf  used on input line 114.
 (pdftex.def)             Requested size: 216.81pt x 51.05467pt.
 
 
 [1
 
 {c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc} <./figures/bham_crest.pdf> <./figures/bham_logo.pdf>] (./FYP.toc
-LaTeX Font Info:    Trying to load font information for U+msa on input line 6.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 5.
  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 6.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 5.
  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
@@ -728,7 +730,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.49 ...rline {7.1}NNUE Model}{28}{subsection.7.1}
+l.58 ...ontend Implementation}{38}{subsection.5.3}
                                                   % [1])
 \tf@toc=\write6
 \openout6 = `FYP.toc'.
@@ -737,19 +739,20 @@ l.49 ...rline {7.1}NNUE Model}{28}{subsection.7.1}
 
 [2]
 
-[3{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+[3]
 
-[4]
+[4{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 
 [5]
-
-[6]
-<figures/mv.pdf, id=368, 177.66376pt x 179.92218pt>
+<figures/mv.pdf, id=347, 177.66376pt x 179.92218pt>
 File: figures/mv.pdf Graphic file (type pdf)
 <use figures/mv.pdf>
 Package pdftex.def Info: figures/mv.pdf  used on input line 273.
 (pdftex.def)             Requested size: 273.14923pt x 276.63077pt.
-<figures/mvs.pdf, id=371, 162.6075pt x 162.6075pt>
+
+
+[6]
+<figures/mvs.pdf, id=363, 162.6075pt x 162.6075pt>
 File: figures/mvs.pdf Graphic file (type pdf)
 <use figures/mvs.pdf>
 Package pdftex.def Info: figures/mvs.pdf  used on input line 290.
@@ -757,7 +760,7 @@ Package pdftex.def Info: figures/mvs.pdf  used on input line 290.
 
 
 [7 <./figures/mv.pdf>]
-<figures/clipped_relu.png, id=400, 301.125pt x 212.29312pt>
+<figures/clipped_relu.png, id=386, 301.125pt x 212.29312pt>
 File: figures/clipped_relu.png Graphic file (type png)
 <use figures/clipped_relu.png>
 Package pdftex.def Info: figures/clipped_relu.png  used on input line 311.
@@ -765,7 +768,7 @@ Package pdftex.def Info: figures/clipped_relu.png  used on input line 311.
 
 
 [8 <./figures/mvs.pdf>]
-<figures/pipeline.png, id=424, 572.89032pt x 545.03625pt>
+<figures/pipeline.png, id=410, 572.89032pt x 545.03625pt>
 File: figures/pipeline.png Graphic file (type png)
 <use figures/pipeline.png>
 Package pdftex.def Info: figures/pipeline.png  used on input line 322.
@@ -775,38 +778,38 @@ Package pdftex.def Info: figures/pipeline.png  used on input line 322.
 [9 <./figures/clipped_relu.png>]
 
 [10 <./figures/pipeline.png>]
-<figures/sfnn.png, id=443, 331.2375pt x 506.6428pt>
+<figures/sfnn.png, id=428, 331.2375pt x 506.6428pt>
 File: figures/sfnn.png Graphic file (type png)
 <use figures/sfnn.png>
-Package pdftex.def Info: figures/sfnn.png  used on input line 358.
+Package pdftex.def Info: figures/sfnn.png  used on input line 362.
 (pdftex.def)             Requested size: 273.14923pt x 417.8154pt.
 
 
 [11 <./figures/sfnn.png>]
-Overfull \hbox (0.74864pt too wide) in paragraph at lines 374--375
+Overfull \hbox (0.74864pt too wide) in paragraph at lines 378--379
 [] []\T1/cmr/bx/n/12 HalfKAv2: Re-fined In-put Or-gan-iz-a-tion[] \T1/cmtt/m/n/12 HalfKAv2 \T1/cmr/m/n/12 re-arranges \T1/cmtt/m/n/12 HalfKP\T1/cmr/m/n/12 's piece-square
  []
 
 
 
 [12]
-<figures/sfnn2.png, id=461, 561.59813pt x 510.40688pt>
+<figures/sfnn2.png, id=446, 561.59813pt x 510.40688pt>
 File: figures/sfnn2.png Graphic file (type png)
 <use figures/sfnn2.png>
-Package pdftex.def Info: figures/sfnn2.png  used on input line 428.
+Package pdftex.def Info: figures/sfnn2.png  used on input line 435.
 (pdftex.def)             Requested size: 455.24411pt x 413.74661pt.
 
 
 [13 <./figures/sfnn2.png>]
-<figures/1.png, id=472, 568.37344pt x 517.18219pt>
+<figures/1.png, id=457, 568.37344pt x 517.18219pt>
 File: figures/1.png Graphic file (type png)
 <use figures/1.png>
-Package pdftex.def Info: figures/1.png  used on input line 452.
+Package pdftex.def Info: figures/1.png  used on input line 467.
 (pdftex.def)             Requested size: 455.24411pt x 414.25926pt.
 
 
 [14 <./figures/1.png>]
-Overfull \hbox (25.28825pt too wide) in paragraph at lines 476--478
+Overfull \hbox (25.28825pt too wide) in paragraph at lines 491--493
 []\T1/cmr/bx/n/12 Absence of Bench-marks and Pre-loaded Mazes in Pathfind-ing Tools: \T1/cmr/m/n/12 MazeSolver
  []
 
@@ -815,7 +818,7 @@ Overfull \hbox (25.28825pt too wide) in paragraph at lines 476--478
 [15]
 
 [16]
-Overfull \hbox (16.98288pt too wide) in paragraph at lines 533--535
+Overfull \hbox (16.98288pt too wide) in paragraph at lines 546--548
 \T1/cmr/m/n/12 loop. This design al-lows for asyn-chron-ous op-er-a-tions via call-backs, prom-ises, or \T1/cmtt/m/n/12 async/await\T1/cmr/m/n/12 ,
  []
 
@@ -826,14 +829,12 @@ Overfull \hbox (16.98288pt too wide) in paragraph at lines 533--535
 [18]
 
 [19]
-
-[20]
-Overfull \hbox (18.98466pt too wide) in paragraph at lines 667--673
+Overfull \hbox (18.98466pt too wide) in paragraph at lines 672--678
 \T1/cmr/bx/n/12 Example of a Zig-zag Lay-out in Code. \T1/cmr/m/n/12 List-ing [][]8[][] il-lus-trates how \T1/cmtt/m/n/12 md:grid md:grid-cols-2
  []
 
 
-Overfull \hbox (4.41718pt too wide) in paragraph at lines 667--673
+Overfull \hbox (4.41718pt too wide) in paragraph at lines 672--678
 \T1/cmr/m/n/12 sets up a two-column lay-out for medium-sized screens, with classes such as \T1/cmtt/m/n/12 text-green-500
  []
 
@@ -843,30 +844,33 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
 )
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 678.
-<figures/zigzag_interface.png, id=583, 1423.56844pt x 664.73344pt>
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 683.
+
+
+[20]
+<figures/zigzag_interface.png, id=572, 1423.56844pt x 664.73344pt>
 File: figures/zigzag_interface.png Graphic file (type png)
 <use figures/zigzag_interface.png>
-Package pdftex.def Info: figures/zigzag_interface.png  used on input line 707.
+Package pdftex.def Info: figures/zigzag_interface.png  used on input line 712.
 (pdftex.def)             Requested size: 498.25642pt x 232.66019pt.
 
-Overfull \hbox (43.01231pt too wide) in paragraph at lines 707--711
+Overfull \hbox (43.01231pt too wide) in paragraph at lines 712--716
  [][] 
  []
 
 
 
-[21]
-<figures/diagram1.png, id=607, 770.12718pt x 477.28313pt>
+[21 <./figures/zigzag_interface.png>]
+<figures/diagram1.png, id=595, 770.12718pt x 477.28313pt>
 File: figures/diagram1.png Graphic file (type png)
 <use figures/diagram1.png>
-Package pdftex.def Info: figures/diagram1.png  used on input line 741.
+Package pdftex.def Info: figures/diagram1.png  used on input line 746.
 (pdftex.def)             Requested size: 455.24411pt x 282.13351pt.
 
 
-[22 <./figures/zigzag_interface.png>]
+[22 <./figures/diagram1.png>]
 
-[23 <./figures/diagram1.png>]
+[23]
 
 [24]
 
@@ -877,23 +881,23 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 ) (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 874.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 883.
 
-
-[27]
-Overfull \hbox (4.9129pt too wide) in paragraph at lines 897--898
+Overfull \hbox (4.9129pt too wide) in paragraph at lines 906--907
 \T1/cmr/m/n/12 Having es-tab-lished the the-or-et-ical un-der-pin-nings and high-level design in pre-vi-ous chapters,
  []
 
 
 
+[27]
+
 [28] (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 927.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 936.
 
-Overfull \hbox (173.66759pt too wide) in paragraph at lines 943--944
+Overfull \hbox (173.66759pt too wide) in paragraph at lines 952--953
 \T1/cmr/m/n/12 ases, checks their shapes against con-stants (such as \T1/cmtt/m/n/12 DEFAULT_NUM_FEATURES \T1/cmr/m/n/12 and \T1/cmtt/m/n/12 FEATURE_TRANSFORMER_HALF_DIMENSIONS\T1/cmr/m/n/12 ),
  []
 
@@ -906,7 +910,7 @@ Overfull \hbox (173.66759pt too wide) in paragraph at lines 943--944
 [31]
 
 [32]
-Overfull \hbox (22.42769pt too wide) in paragraph at lines 1083--1084
+Overfull \hbox (22.42769pt too wide) in paragraph at lines 1092--1093
 \T1/cmr/m/n/12 layer that pro-duces a single eval-u-ation score. Between each layer, the \T1/cmtt/m/n/12 shift_and_clamp_torch
  []
 
@@ -919,68 +923,61 @@ Overfull \hbox (22.42769pt too wide) in paragraph at lines 1083--1084
 [35]
 
 [36]
-
-[37]
-Overfull \hbox (7.25626pt too wide) in paragraph at lines 1192--1220
+Overfull \hbox (7.25626pt too wide) in paragraph at lines 1201--1229
 []\T1/cmr/m/n/12 In sum-mary, the com-bin-a-tion of \T1/cmtt/m/n/12 FastAPI \T1/cmr/m/n/12 and a straight-for-ward DFS-based maze-generation
  []
 
 
 
+[37]
+
 [38]
-Overfull \hbox (3.44936pt too wide) in paragraph at lines 1240--1242
-[]\T1/cmtt/m/n/12 components/MazeSolvingPage/MazeSolvingPage.jsx \T1/cmr/m/n/12 hosts maze-related func-tion-
- []
-
-
 
 [39]
 
 [40]
 
 [41]
-<figures/yanfishwhitemv3000.png, id=963, 893.3375pt x 480.79625pt>
+<figures/yanfishwhitemv3000.png, id=980, 893.3375pt x 480.79625pt>
 File: figures/yanfishwhitemv3000.png Graphic file (type png)
 <use figures/yanfishwhitemv3000.png>
-Package pdftex.def Info: figures/yanfishwhitemv3000.png  used on input line 1371.
+Package pdftex.def Info: figures/yanfishwhitemv3000.png  used on input line 1409.
 (pdftex.def)             Requested size: 223.07211pt x 120.05203pt.
-<figures/yanfishblackmv3000.png, id=964, 900.36375pt x 420.57124pt>
+<figures/yanfishblackmv3000.png, id=981, 900.36375pt x 420.57124pt>
 File: figures/yanfishblackmv3000.png Graphic file (type png)
 <use figures/yanfishblackmv3000.png>
-Package pdftex.def Info: figures/yanfishblackmv3000.png  used on input line 1384.
+Package pdftex.def Info: figures/yanfishblackmv3000.png  used on input line 1419.
 (pdftex.def)             Requested size: 223.07211pt x 104.19919pt.
-<figures/yanfishwhitedepth1.png, id=965, 895.345pt x 318.18875pt>
+<figures/yanfishwhitedepth1.png, id=982, 895.345pt x 318.18875pt>
 File: figures/yanfishwhitedepth1.png Graphic file (type png)
 <use figures/yanfishwhitedepth1.png>
-Package pdftex.def Info: figures/yanfishwhitedepth1.png  used on input line 1400.
+Package pdftex.def Info: figures/yanfishwhitedepth1.png  used on input line 1432.
 (pdftex.def)             Requested size: 223.07211pt x 79.27509pt.
-<figures/yanfishblackdepth1.png, id=966, 894.34125pt x 314.17375pt>
+<figures/yanfishblackdepth1.png, id=983, 894.34125pt x 314.17375pt>
 File: figures/yanfishblackdepth1.png Graphic file (type png)
 <use figures/yanfishblackdepth1.png>
-Package pdftex.def Info: figures/yanfishblackdepth1.png  used on input line 1413.
+Package pdftex.def Info: figures/yanfishblackdepth1.png  used on input line 1442.
 (pdftex.def)             Requested size: 223.07211pt x 78.36107pt.
 File: figures/yanfishwhitedepth1.png Graphic file (type png)
 <use figures/yanfishwhitedepth1.png>
-Package pdftex.def Info: figures/yanfishwhitedepth1.png  used on input line 1429.
+Package pdftex.def Info: figures/yanfishwhitedepth1.png  used on input line 1465.
 (pdftex.def)             Requested size: 223.07211pt x 79.27509pt.
-<figures/yanfishblackdepth2.png, id=967, 904.37875pt x 317.185pt>
+<figures/yanfishblackdepth2.png, id=984, 904.37875pt x 317.185pt>
 File: figures/yanfishblackdepth2.png Graphic file (type png)
 <use figures/yanfishblackdepth2.png>
-Package pdftex.def Info: figures/yanfishblackdepth2.png  used on input line 1442.
+Package pdftex.def Info: figures/yanfishblackdepth2.png  used on input line 1476.
 (pdftex.def)             Requested size: 223.07211pt x 78.23611pt.
 
 
-[42]
+[42 <./figures/yanfishwhitemv3000.png (PNG copy)> <./figures/yanfishblackmv3000.png (PNG copy)> <./figures/yanfishwhitedepth1.png (PNG copy)> <./figures/yanfishblackdepth1.png (PNG copy)>]
 
-[43 <./figures/yanfishwhitemv3000.png (PNG copy)> <./figures/yanfishblackmv3000.png (PNG copy)> <./figures/yanfishwhitedepth1.png (PNG copy)> <./figures/yanfishblackdepth1.png (PNG copy)> <./figures/yanfishblackdepth2.png (PNG copy)>]
+[43 <./figures/yanfishblackdepth2.png (PNG copy)>]
 
 [44]
 
 [45]
 
 [46] (./FYP.bbl
-
-[47]
 Underfull \hbox (badness 10000) in paragraph at lines 66--67
 []\T1/cmr/m/n/12 E. Au-thor(s), ``Nnue im-ple-ment-a-tion in halfkp,'' [][]$https : / / github . com /
  []
@@ -992,15 +989,112 @@ Underfull \hbox (badness 10000) in paragraph at lines 66--67
 
 
 
-[48]
+[47]
 Underfull \hbox (badness 2065) in paragraph at lines 117--118
 []\T1/cmr/m/n/12 ``History of javas-cript,'' [][]$https : / / www . w3 . org / community / webed / wiki / A _ Short _
  []
 
-)
+
+
+[48])
+<figures/Main.png, id=1061, 1427.3325pt x 681.29532pt>
+File: figures/Main.png Graphic file (type png)
+<use figures/Main.png>
+Package pdftex.def Info: figures/Main.png  used on input line 1679.
+(pdftex.def)             Requested size: 409.71692pt x 195.56421pt.
+
 
 [49]
-runsystem(latexminted cleantemp  --timestamp 20250415032603 9BD37F4B81AD61C62D41C897A0D35268)...executed safely (allowed).
+<figures/Bst.png, id=1069, 1426.57968pt x 603.75563pt>
+File: figures/Bst.png Graphic file (type png)
+<use figures/Bst.png>
+Package pdftex.def Info: figures/Bst.png  used on input line 1692.
+(pdftex.def)             Requested size: 409.71692pt x 173.39874pt.
+<figures/Minimaxguided.png, id=1071, 822.07124pt x 584.93532pt>
+File: figures/Minimaxguided.png Graphic file (type png)
+<use figures/Minimaxguided.png>
+Package pdftex.def Info: figures/Minimaxguided.png  used on input line 1705.
+(pdftex.def)             Requested size: 409.71692pt x 291.52977pt.
+<figures/Nnnueguided.png, id=1072, 551.81157pt x 613.54219pt>
+File: figures/Nnnueguided.png Graphic file (type png)
+<use figures/Nnnueguided.png>
+Package pdftex.def Info: figures/Nnnueguided.png  used on input line 1712.
+(pdftex.def)             Requested size: 409.71692pt x 455.56819pt.
+
+
+[50 <./figures/Main.png> <./figures/Bst.png>]
+
+[51 <./figures/Minimaxguided.png>]
+
+[52 <./figures/Nnnueguided.png>]
+<figures/mazesolvingmain.png, id=1094, 780.66656pt x 674.52pt>
+File: figures/mazesolvingmain.png Graphic file (type png)
+<use figures/mazesolvingmain.png>
+Package pdftex.def Info: figures/mazesolvingmain.png  used on input line 1726.
+(pdftex.def)             Requested size: 409.71692pt x 354.00479pt.
+<figures/Custommaze.png, id=1095, 837.1275pt x 546.54187pt>
+File: figures/Custommaze.png Graphic file (type png)
+<use figures/Custommaze.png>
+Package pdftex.def Info: figures/Custommaze.png  used on input line 1733.
+(pdftex.def)             Requested size: 409.71692pt x 267.49095pt.
+
+
+[53
+
+ <./figures/mazesolvingmain.png>]
+<figures/Benchmarks.png, id=1105, 919.18407pt x 660.96938pt>
+File: figures/Benchmarks.png Graphic file (type png)
+<use figures/Benchmarks.png>
+Package pdftex.def Info: figures/Benchmarks.png  used on input line 1748.
+(pdftex.def)             Requested size: 409.71692pt x 294.6196pt.
+
+
+[54 <./figures/Custommaze.png>]
+<figures/Chessplay.png, id=1115, 1017.8025pt x 656.4525pt>
+File: figures/Chessplay.png Graphic file (type png)
+<use figures/Chessplay.png>
+Package pdftex.def Info: figures/Chessplay.png  used on input line 1761.
+(pdftex.def)             Requested size: 409.71692pt x 264.25914pt.
+
+
+[55 <./figures/Benchmarks.png>]
+<figures/Minimaxpageinitial.png, id=1123, 913.91437pt x 558.58687pt>
+File: figures/Minimaxpageinitial.png Graphic file (type png)
+<use figures/Minimaxpageinitial.png>
+Package pdftex.def Info: figures/Minimaxpageinitial.png  used on input line 1775.
+(pdftex.def)             Requested size: 409.71692pt x 250.41568pt.
+
+
+[56 <./figures/Chessplay.png>]
+<figures/Minimaxafterplay.png, id=1131, 1398.72563pt x 463.7325pt>
+File: figures/Minimaxafterplay.png Graphic file (type png)
+<use figures/Minimaxafterplay.png>
+Package pdftex.def Info: figures/Minimaxafterplay.png  used on input line 1788.
+(pdftex.def)             Requested size: 409.71692pt x 135.83755pt.
+<figures/Minimaxfinish.png, id=1133, 1383.66937pt x 502.87875pt>
+File: figures/Minimaxfinish.png Graphic file (type png)
+<use figures/Minimaxfinish.png>
+Package pdftex.def Info: figures/Minimaxfinish.png  used on input line 1801.
+(pdftex.def)             Requested size: 409.71692pt x 148.90042pt.
+
+
+[57 <./figures/Minimaxpageinitial.png> <./figures/Minimaxafterplay.png>]
+<figures/MInimaxtree.png, id=1143, 856.70062pt x 677.53125pt>
+File: figures/MInimaxtree.png Graphic file (type png)
+<use figures/MInimaxtree.png>
+Package pdftex.def Info: figures/MInimaxtree.png  used on input line 1814.
+(pdftex.def)             Requested size: 409.71692pt x 324.03273pt.
+<figures/treefinal.png, id=1145, 878.53218pt x 493.845pt>
+File: figures/treefinal.png Graphic file (type png)
+<use figures/treefinal.png>
+Package pdftex.def Info: figures/treefinal.png  used on input line 1827.
+(pdftex.def)             Requested size: 409.71692pt x 230.31374pt.
+
+
+[58 <./figures/Minimaxfinish.png> <./figures/MInimaxtree.png>]
+
+[59 <./figures/treefinal.png>]
+runsystem(latexminted cleantemp  --timestamp 20250416174024 9BD37F4B81AD61C62D41C897A0D35268)...executed safely (allowed).
 
  (./FYP.aux)
  ***********
@@ -1008,21 +1102,21 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `FYP.out' has not changed.
-(rerunfilecheck)             Checksum: 8D0C569BE453366A76A6DA8055247281;8549.
+(rerunfilecheck)             Checksum: E5F3134F4C6ABAA4A29AC6FE5AA3ECC0;8260.
  ) 
 Here is how much of TeX's memory you used:
- 24016 strings out of 473190
- 437122 string characters out of 5719980
- 1384481 words of memory out of 5000000
- 46440 multiletter control sequences out of 15000+600000
+ 24235 strings out of 473190
+ 442020 string characters out of 5719980
+ 1427952 words of memory out of 5000000
+ 46601 multiletter control sequences out of 15000+600000
  578854 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 94i,15n,93p,1263b,2147s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx0800.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfit1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on FYP.pdf (50 pages, 1604302 bytes).
+ 94i,15n,93p,1263b,2101s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx0800.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfit1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on FYP.pdf (60 pages, 2156620 bytes).
 PDF statistics:
- 1255 PDF objects out of 1440 (max. 8388607)
- 1103 compressed objects within 12 object streams
- 436 named destinations out of 1000 (max. 500000)
- 541 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1381 PDF objects out of 1440 (max. 8388607)
+ 1191 compressed objects within 12 object streams
+ 490 named destinations out of 1000 (max. 500000)
+ 582 words of extra memory for PDF output out of 10000 (max. 10000000)
 

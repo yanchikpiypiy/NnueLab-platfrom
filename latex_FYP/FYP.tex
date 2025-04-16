@@ -13,6 +13,7 @@
 \usepackage{booktabs,multirow}      % Better tables
 \usepackage{engord} 
 \usepackage{subcaption}% Ordinal number formatting
+\usepackage[section]{placeins}
 \usepackage{soul}                   % Highlighting, etc.
 \usepackage{minted}                 % Syntax highlighting
 \usepackage{textcomp}               % Extra text symbols
@@ -108,24 +109,38 @@
 % Title Page (Optional in article class)
 %----------------------------------------------
 \begin{titlepage}
-\begin{center}
-\includegraphics[width=1in]{figures/bham_crest}
-\vspace{0.3in}
-
-\includegraphics[width=3in]{figures/bham_logo}
-
-\vspace{2in}
-
-{\LARGE A Hands-On Approach to AI: Visualizing Pathfinding, Minimax, and NNUE in Chess }
-
-{\Large Yan Chervonyi \\ \small{Student ID: 2535602}} 
-
-\vspace{1cm}
-
-\today  % or "May 2025", etc.
-
-\end{center}
-\end{titlepage}
+  \begin{center}
+      \includegraphics[width=1in]{figures/bham_crest}\par\vspace{0.3in}
+      \includegraphics[width=3in]{figures/bham_logo}\par
+      
+      \vspace{2in}
+      
+      {\LARGE An Interactive Algorithms Platfrom:}\\
+      {\LARGE From Maze Traversal to Minimax and NNUE Engines}\par
+      
+      \vspace{0.25in}
+      
+      {\Large Yan Chervonyi}\\
+      \small Student ID: 2535602\par
+      
+      \vspace{1in}
+      
+      {\large A dissertation submitted to the University of Birmingham}\\
+      {\large for the degree of BSc Computer Science}\par
+  
+  \end{center}
+  
+  \vfill
+  
+  \begin{flushright}
+      Project Supervisor: Dr Sagnik Mukhopadhyay \\
+      Word Count: 10504 \\
+      Date: 16th April 2025
+  \end{flushright}
+  
+  \end{titlepage}
+  
+  
 
 
 
@@ -149,8 +164,7 @@
 
 \begin{center}
     \parbox{0.9\textwidth}{
-         Artificial intelligence has impacted chess ever since early computational engines demonstrated the power of combinatorial search. Recent breakthroughs—such as NNUE (Efficiently Updatable Neural Network)—further extend these capabilities, enabling engines to discover strategies beyond traditional human heuristics.
-        This project introduces an interactive platform that blends pathfinding, minimax, and BST fundamentals with NNUE-based chess engine insights. Through step-by-step animations and concise tutorials, it aims to demystify these advanced topics, highlighting how neural-network evaluations can elevate both learning and real-world strategic performance. By merging theoretical concepts with real-time visualizations, the platform provides a clear gateway into modern AI in chess.
+         Artificial intelligence has influenced chess ever since early computational engines showcased the power of combinatorial search. Recent breakthroughs, such as NNUE (Efficiently Updatable Neural Network), further expand these capabilities, enabling engines to discover strategies that go beyond traditional human heuristics. Rather than simply enhancing an existing Python engine like Sunfish, this project also provides a comprehensive educational platform that introduces users to NNUE in a clear, approachable way before they dive into official documentation. In addition, it offers visualizations of fundamental algorithms such as pathfinding, minimax, and binary search trees (BST), along with a custom-built chess engine for hands-on exploration. Step-by-step animations and concise explanations make complex concepts more accessible, while the interactive chess environment helps learners connect theory to real-world applications. Through these engaging, real-time demonstrations, the platform shows how neural-network evaluations can enrich both learning and strategic decision-making, serving as a dynamic gateway into modern AI in chess.
     }
 \end{center}
 
@@ -161,29 +175,10 @@
 \section{Introduction}
 \label{sec:intro}
 
-Artificial Intelligence (AI) has come a long way from early experiments in board games, with chess being a classic example. Early chess programs relied on brute-force searches to evaluate moves, but over time they have become far more efficient, using techniques like \emph{alpha-beta pruning}, \emph{iterative deepening}, and even \emph{neural networks} to make sophisticated decisions. Yet, for many newcomers, the inner workings of these methods can still feel overwhelming.
 
-This project aims to make AI concepts more approachable by combining step-by-step visualizations with clear, concise explanations. It focuses on:
-\begin{itemize}
-    \item \textbf{Minimax} – Shows how turn-by-turn decision-making is done in games, revealing why certain moves are favored.
-    \item \textbf{BST Fundamentals} – Explains how Binary Search Trees organize and retrieve data efficiently.
-    \item \textbf{NNUE-Based Chess Engine Insights} – Highlights how an Efficiently Updatable Neural Network refines a chess engine’s evaluation for improved performance.
-\end{itemize}
-
-Beyond these core elements, the platform also provides \emph{pathfinding} functionality for maze-solving. Here, users can watch how an algorithm explores possible steps in a grid—an idea that resonates with the broader concept of “move or step finding.” This principle is not limited to game trees alone; it also applies to navigating mazes, where search, heuristics, and pruning guide you from start to goal.
-
-By integrating these topics into one interactive platform, learners can observe each algorithm in action within an environment designed for intuitive understanding. This approach allows users to appreciate how each step influences strategic outcomes before delving into more advanced GitHub documentation. The pages are structured for straightforward reading and engagement, effectively bridging theory and practice to showcase how modern AI can enhance both comprehension and practical performance, especially in the realm of chess.
-
-
-
-
-
-%-------------------------------------------------
-% Section: Literature Review
-%-------------------------------------------------
-\section{Literature Review}
+\subsection{Literature Review}
 \label{sec:lit_review}
-\subsection{Overview of Chess Engines and Evaluation Approaches}
+\subsubsection{Overview of Chess Engines and Evaluation Approaches}
 Early chess programs relied primarily on brute-force search, examining every possible move and position, combined with basic heuristics for evaluation. While conceptually straightforward, brute-force methods scale poorly in a complex game like chess, leading to exponential growth in the search tree. To address this, techniques such as alpha-beta pruning, introduced by Knuth and Moore~\cite{Knuth1975}, significantly reduced the number of positions requiring evaluation. Iterative deepening, explained by Korf~\cite{Korf1985}, further enhanced efficiency by incrementally deepening the search while reusing previously gathered information. Classical chess engines, such as IBM’s Deep Blue~\cite{Campbell2002DeepBlue}, heavily relied on these strategies. 
 
 Modern engines build on these foundational ideas, merging clever search algorithms with sophisticated evaluation functions. The following subsections outline both the principal \emph{engine search approaches} and the \emph{evaluation techniques} that have shaped classical and contemporary chess programs.
@@ -229,22 +224,29 @@ A major part of playing chess for AI is the \emph{problem of proper board evalua
 
 
   \item \textbf{Neural Network Evaluations}:  
-  Modern engines have begun incorporating \emph{learned} evaluations. Instead of relying solely on programmer-crafted rules, a neural network trains on large datasets (or self-play) to automatically discover critical patterns. NNUE (Efficiently Updatable Neural Network) is a notable example, using incremental updates to evaluate small board changes without recomputing the entire network output~\cite{Nasu2018}. This design aligns well with alpha-beta search, allowing the engine to preserve speed while benefiting from m position assessment. Engines like Stockfish have demonstrated significant performance gains by combining classical search with NNUE evaluation, frequently outperforming engines using purely hand-tuned heuristics.
+  Modern engines have begun incorporating \emph{learned} evaluations. Instead of relying solely on programmer-crafted rules, a neural network trains on large datasets (or self-play) to automatically discover critical patterns. NNUE (Efficiently Updatable Neural Network) is a notable example, using incremental updates to evaluate small board changes without recomputing the entire network output~\cite{Nasu2018}. This design aligns well with alpha-beta search, allowing the engine to preserve speed while benefiting from  
+  position assessment. Engines like Stockfish have demonstrated significant performance gains by combining classical search with NNUE evaluation, frequently outperforming engines using purely hand-tuned heuristics.
 \end{itemize}
 
 
-    \subsubsection{Existing Approaches}
+\subsubsection{Existing Approaches}
 \label{subsec:existing-approaches}
 
 While much of the cutting-edge research and development in chess engines is
 driven by projects written in C++ (e.g., the open-source Stockfish
 engine~\cite{stockfish}), there also exist purely Python-based engines that
 have gained recognition for their simplicity and educational value. One notable
-example is \emph{Sunfish}~\cite{sunfish}, a concise engine that demonstrates the
-core mechanics of move generation and search within a relatively small codebase.
+example is \emph{Sunfish}~\cite{sunfish}, which uses a \textbf{120-character board}
+with \textbf{invisible padding} to detect out-of-bounds moves easily, along with a
+\textbf{piece-square table} (PST) for basic evaluation and an \emph{alpha-beta}
+search approach. Its small codebase makes it accessible to beginners who want
+to learn how a chess engine works without the complexity of a large project.
 Another Python resource is the \emph{python-chess} library~\cite{python-chess},
-which provides robust functionality for board representation, legal move
-generation, and basic engine frameworks.
+which provides robust functionality for \textbf{board representation}, 
+\textbf{legal move generation} using pure Python, and a \emph{very basic} 
+position evaluation that primarily considers material balance. It can also 
+interface with external UCI engines like Stockfish for stronger analysis 
+when needed.
 
 Although these Python engines are highly accessible for experimentation and
 rapid prototyping, they often lack advanced evaluation mechanisms and
@@ -252,10 +254,8 @@ low-level optimizations found in more established C++ engines. Notably,
 Stockfish has introduced an \emph{NNUE} (Efficiently Updatable Neural Network)
 evaluation~\cite{nnue-stockfish} that significantly enhances position scoring
 by integrating neural-network-based insights into a traditional alpha-beta
-search framework. Inspired by these developments, the present work aims to
-\emph{improve Sunfish} by incorporating an NNUE evaluation module, thereby
-bridging the gap between ease of implementation in Python and advanced
-performance features available in C++-based engines.
+search framework.
+
 \subsubsection{NNUE in Traditional Engines}
 \label{sec:nnue_background}
 
@@ -328,8 +328,12 @@ Figure~\ref{fig:nnue_pipeline} shows an incremental NNUE flow. Each green node r
 \paragraph{HalfKP: Basic Piece-Square Mapping}
 \label{sec:halfkp}
 
-One of the earliest NNUE variants, \texttt{HalfKP}, targets \emph{piece-square pairs} relative to each king’s position. It effectively stores two “perspectives,” referred to here as \emph{accumulators}: one for the side to move and another for the opposing side. Each perspective can contain tens of thousands of binary features (e.g.\ \texttt{40960}), fed into a \texttt{40960$\to$256} linear layer followed by a clipped ReLU. The resulting two \texttt{256}-dimensional outputs then merge into a single \texttt{512}-dimensional vector for additional linear layers (e.g.\ \texttt{512$\to$32$\to$32$\to$1}) \cite{githubdocs}. 
-\medskip
+One of the earliest NNUE variants, \texttt{HalfKP}, focuses on \emph{piece-square
+pairs} relative to each king’s position. It maintains two “perspectives": one for the side to move and another for the opposing side.
+Each perspective can hold tens of thousands of binary features (for example,
+\texttt{40960}), which feed into a \texttt{40960$\to$256} linear layer (the
+\texttt{256} here can be any chosen number of neurons), followed by a clipped
+ReLU activation.\medskip
 
 \noindent
 \textbf{Feature Index Computation.} In our implementation, each feature index is computed by:
@@ -371,10 +375,17 @@ By updating only the features that changed (e.g.\ a knight moving from c3 to e4)
 \paragraph{HalfKAv2: Refined Input Organization}
 \label{sec:halfkav2}
 
-\texttt{HalfKAv2} rearranges \texttt{HalfKP}’s piece-square indices to reduce collisions, where different squares might otherwise map to the same feature index. It can also use \emph{buckets}, or separate weight sets, based on how many pieces remain on the board (e.g.\ special “endgame” weights). These refinements improve partial updates and adapt evaluations across different game phases.
+\texttt{HalfKAv2} rearranges \texttt{HalfKP}’s piece-square indices to reduce collisions, where different squares might otherwise map to the same feature index. It uses \emph{buckets}, or separate weight sets, based on how many pieces remain on the board (e.g.\ special “endgame” weights). These refinements improve partial updates and adapt evaluations across different game phases.
 
-As shown in Figure~\ref{fig:halfkav2}, the indexing layer is reorganized so that each piece-square combination is mapped more distinctly. The diagram also illustrates optional buckets—these can be viewed as separate weight matrices specialized for different material levels (e.g.\ midgame vs.\ endgame). When the engine transitions from one phase to another, it activates the relevant bucket to gain a more specialized evaluation.
-
+As shown in Figure~\ref{fig:halfkav2}, the indexing layer is reorganized so that
+each piece-square combination is mapped more distinctly. The diagram also
+illustrates \emph{optional buckets}—in essence, separate weight matrices
+specialized for different material levels (e.g., midgame versus endgame).
+When the engine detects a transition (typically calculated via 
+\((\mathrm{piece\_count} - 1) \div 4\)), it activates the relevant bucket to
+make use of more specialized evaluation weights. This approach allows the
+engine to adapt its heuristics based on how many pieces remain on the board
+without altering the underlying feature index.
 \medskip
 
 \noindent
@@ -418,10 +429,6 @@ If the piece type equals \emph{king}, the formula returns \(-1\) to skip it.
 Otherwise, \(\mathrm{p\_idx}\) ranges from \(0\) to \(10\) after merging potential king categories. 
 A perspective flip occurs when \(\mathrm{is\_white\_pov} = \text{false}\), using 
 \(56 \oplus \text{square}\) to orient the board from Black’s viewpoint. 
-Any midgame/endgame \emph{phase buckets} do not enter the index directly— 
-instead, separate weight arrays can be chosen depending on the game stage, 
-maintaining a consistent feature index across phases.
-
 
 \begin{figure}[H]
     \centering
@@ -436,16 +443,24 @@ maintaining a consistent feature index across phases.
 \paragraph{HalfKAv2\_hm: Mirrored or Hash-Map Variant}
 \label{sec:halfkav2_hm}
 
-\texttt{HalfKAv2\_hm} (sometimes referred to as “mirrored” or “hash map”) refines indexing further by flipping or mirroring ranks and files. As illustrated in Figure~\ref{fig:halfkav2_hm}, the board is mapped to feature indices in a way that reduces redundant or duplicate positions. 
+\texttt{HalfKAv2\_hm} (sometimes referred to as “mirrored” or “hash map”) refines
+indexing further by flipping or mirroring ranks and files. As illustrated in
+Figure~\ref{fig:halfkav2_hm}, the board is mapped to feature indices in a more
+compact way, effectively cutting the total number of indices in half. 
 
 \medskip
 
 \noindent
-\textbf{Horizontal Mirroring vs.\ Board Flipping.}  
-- \emph{Horizontal mirroring} typically reflects each rank left-to-right around the central vertical axis (files D/E). Squares on the a-file and h-file, for example, might be considered “mirrors” of one another.  
-- \emph{Board flipping}, on the other hand, inverts ranks top-to-bottom, effectively swapping White’s perspective with Black’s. For instance, rank 1 may be treated similarly to rank 8.
+\emph{Horizontal mirroring} reflects each rank left-to-right around the
+central vertical axis (files D/E). Squares on the a-file and h-file, for
+example, are treated as “mirrors” of each other, yet still receive unique
+identifiers. Compared to earlier \emph{board flipping} (inverting ranks
+top-to-bottom), this method not only captures symmetrical positions but also
+yields \emph{fewer overall indices}, reducing the size of any accumulators or
+tables that track these features. As a result, incremental updates are much
+faster, making \emph{horizontal mirroring} the more efficient choice for
+handling symmetries.
 
-By applying Horizontal mirroring , \texttt{HalfKAv2\_hm} reduces the chance of collision or duplication in the index space. In positions with multiple potential moves, it also speeds up incremental updates by merging symmetrical board patterns under a single set of features.
 
 \begin{figure}[H]
     \centering
@@ -481,7 +496,7 @@ Summarizing these observations highlights two main gaps:
 
 Addressing these gaps could provide more accessible, instructive interfaces for both algorithmic learning and engine development. In subsequent sections, we will consider approaches that enable ready-made maze scenarios for consistent testing and expose the step-by-step searching logic in a chess engine.
 
-\section{Hypothesis}
+\subsection{Hypothesis}
 \label{sec:hypothesis}
 
 Many maze-generation platforms lack strong visualization features, and they are
@@ -500,9 +515,7 @@ heuristic-based method?
 clarity, user engagement, and feature completeness beyond what is currently
 offered?
 
-\item \textbf{(c)} Does building a minimax visualizer provide a real-time look
-at the decision-making process, introducing a new tool not often found in chess
-platforms?
+\item \textbf{(c)} Could we develop a new tool that interactively visualizes minimax, making the algorithm more understandable?
 
 \item \textbf{(d)} Is it feasible and beneficial to combine NNUE, enhanced maze
 visualization, and a minimax visualizer into one platform, offering a unified set
@@ -545,7 +558,7 @@ Tailwind CSS is a \emph{utility-first} framework that provides small, reusable c
 This approach works especially well in React applications, where you can place classes
 directly in JSX, keeping your styles clear and consistent. Another benefit is the reduced risk of naming conflicts across different React components, since Tailwind’s classes are purpose-built for utilities rather than general styles. Tailwind also includes a configuration file that lets you enable only the classes you need, reducing your final CSS size and speeding up page loads.
 
-\subsubsection*{Third-Party Libraries}
+\subsubsection*{Front-end Third-Party Libraries}
 \paragraph{Chess.js}
 Chess.js is a JavaScript library that provides chess rules, move generation, and board
 validation~\cite{chessjs}. It supports features like check, checkmate, and move history tracking, simplifying the implementation of core game logic for browser-based applications.
@@ -573,8 +586,8 @@ while its robust \emph{GPU acceleration} shortens training time. Combined with a
 and extensive documentation, PyTorch offers a practical foundation for integrating NNUE into
 this AI-focused application.
 
-\subsection{Libraries}
-\subsubsection*{NumPy}
+\subsubsection*{Back-end Thirt-Party Libraries}
+\paragraph{NumPy}
 NumPy is a fundamental Python library for numerical computing, providing a powerful
 \emph{multi-dimensional array} object along with tools for fast operations~\cite{Harris2020Array}. It
 supports a wide range of data formats, making it straightforward to import and export datasets
@@ -583,26 +596,18 @@ streamline workflows by allowing different parts of a project—such as data pre
 model training—to share the same array structures. Additionally, many scientific and machine
 learning libraries (including PyTorch and Pandas) integrate seamlessly with NumPy, further
 simplifying the development of data-driven applications.
+\paragraph{python-chess}
+The \emph{python-chess} library~\cite{python-chess} provides robust functionality for chess-specific
+tasks such as board representation, legal move generation, and simple evaluation routines. It can
+also interface with stronger engines via UCI, making it a convenient tool for building, testing, or
+analyzing chess programs in Python.
 
-\subsection{Chess Engine}
-\subsubsection{Minimax}
-\subsubsection*{Minimax Algorithm}
-Minimax is a classic decision-making algorithm widely used in two-player, turn-based
-games such as chess or checkers~\cite{Shannon1950,vonNeumann1944}. At its core, minimax
-simulates every possible move (and the opponent's responses) down to a certain depth, assigning
-a score to each resulting position. By assuming an optimal opponent, the algorithm alternates
-between \emph{maximizing} the player's advantage and \emph{minimizing} the opponent's advantage
-at each level of the game tree. This leads to selecting the move that maximizes the player's
-final outcome under optimal play. Today’s strongest chess engines often couple minimax-based
-search with sophisticated evaluation functions, including neural networks such as NNUE.
-
-\subsubsection*{NNUE (Efficiently Updatable Neural Network)}
-NNUE is a type of neural network used in chess and shogi engines~\cite{Nasu2018}. Instead of
-relying on hand-coded rules, it learns how to evaluate board positions from data. Its main advantage
-is that it can quickly update its evaluation when small changes happen on the board, rather than
-recalculating everything from scratch. This makes it fast enough for modern engines that explore
-many positions at high speed. When paired with minimax or alpha-beta search, NNUE provides a strong,
-learned evaluation that can lead to better move choices~\cite{StockfishNNUE2020}.
+\paragraph{collections}
+The \emph{collections} module~\cite{python-collections} is part of the Python standard library and
+offers specialized container datatypes such as \texttt{deque}, \texttt{Counter}, and \texttt{defaultdict}. 
+These structures can improve both performance and code clarity in data manipulation tasks. 
+For instance, \texttt{deque} enables efficient appends and pops from both ends of a list, 
+while \texttt{defaultdict} simplifies handling of dictionary keys that may not yet be defined.
 
 \subsection{Docker}
 Docker is a containerization platform that allows applications to run in isolated environments
@@ -811,53 +816,57 @@ Regardless of the endpoint, the React client:
 
     By keeping the client-side focused on user interaction and display, and offloading maze generation and chess logic (including engine moves) to the server, this approach fosters a clear division of responsibilities in the application.
 
-\subsection{User Interface Structure}
-To facilitate user exploration and learning, the web application is divided into four main pages:
-\begin{enumerate}
-  \item \textbf{Home Page:} Introduces the project, providing general information and navigation links to the algorithm demos. It also allows users to follow a guided path consisting of three detailed pages, each explaining:
+    \subsection{User Interface Structure}
+    To facilitate both learning and direct experimentation, the web application offers two approaches:
+    a \emph{guided path} for step-by-step exploration of concepts, and the option to \emph{jump directly}
+    into specific visualization or gameplay features. Four main pages organize these capabilities:
+    \begin{enumerate}
+      \item \textbf{Home Page:} Introduces the project, providing general information and navigation links to the algorithm demos. It also lets users follow a guided path consisting of three detailed pages, each explaining:
+        \begin{itemize}
+          \item What Breadth-First Search (BFS) is and how it applies to maze traversal.
+          \item How to build a basic NNUE (Neural Network Updatable Engine).
+          \item How the minimax algorithm works, including its alpha--beta pruning variant.
+        \end{itemize}
+        This guided path gives novices a structured way to learn each concept before experimenting with live demos. Alternatively, users can skip the path and directly access any feature of interest.
+      \item \textbf{Maze Visualization Page:} Demonstrates different pathfinding algorithms (including BFS) on a maze. Users can watch the process, adjust maze dimensions or generation parameters, \emph{or even construct a custom maze} by defining walls and starting points.
+      \item \textbf{Minimax Traversal Page:} Allows users to step through a minimax search with alpha--beta pruning on a specific chess problem, illustrating how the algorithm chooses optimal moves.
+      \item \textbf{Chess Page:} Lets users play against multiple engines such as Stockfish and Yanfish (the custom engine implementation).
+    \end{enumerate}
+    
+    \subsubsection{Home Page}
+    Serving as the application's entry point, the Home Page briefly explains the project's goals and functionalities. It also provides clear navigation links (e.g., a top menu or sidebar) to the other three pages. By offering a concise overview, this page ensures visitors can quickly choose between following the guided path or diving straight into any tool.
+    
+    \subsubsection{Maze Visualization Page}
+    This page visualizes various pathfinding algorithms within randomly generated or custom-built mazes. It includes:
     \begin{itemize}
-      \item What Breadth-First Search (BFS) is and how it applies to maze traversal.
-      \item How to build a basic NNUE (Neural Network Updatable Engine).
-      \item How the minimax algorithm works, including its alpha--beta pruning variant.
+      \item \textbf{Algorithm Selection:} Users can choose BFS, DFS, Dijkstra, or A*.
+      \item \textbf{Custom Maze Building:} Walls and pathways can be placed manually, allowing tailored scenarios.
+      \item \textbf{Adjustable Maze Settings:} Parameters such as maze width or height can be changed to produce new layouts.
+      \item \textbf{Interactive Controls:} Start, pause, or reset the pathfinding process; observe how each cell is explored.
+      \item \textbf{Visual Feedback:} The traversal is animated step by step, helping users understand how these algorithms systematically uncover paths.
     \end{itemize}
-    This guided path gives novices a structured way to learn each concept before experimenting with live demos.
-  \item \textbf{Maze Visualization Page:} Demonstrates different pathfinding algorithms (including BFS) on a maze. Users can watch the process and adjust maze dimensions or generation parameters.
-  \item \textbf{Minimax Traversal Page:} Allows users to step through a minimax search with alpha--beta pruning on a specific chess problem, illustrating how the algorithm chooses optimal moves.
-  \item \textbf{Chess Page:} Lets users play against multiple engines such as Stockfish and Yanfish (the custom engine implementation).
-\end{enumerate}
-
-
-\subsubsection{Home Page}
-Serving as the application's entry point, the Home Page briefly explains the project's goals and functionalities. It also includes a clear set of navigation links (e.g., a top menu or sidebar) directing users to the other three pages. By giving new visitors a concise overview, this page ensures they can quickly decide which feature to explore first.
-
-\subsubsection{Maze Visualization Page}
-This page visualizes various pathfinding algorithms within a randomly generated maze. It includes:
-\begin{itemize}
-  \item \textbf{Algorithm Selection:} Users can choose BFS, DFS, Dijkstra, or A*.
-  \item \textbf{Adjustable Maze Settings:} Parameters such as maze width, height can be changed to produce new layouts.
-  \item \textbf{Interactive Controls:} Start, pause, or reset the pathfinding process; observe how each cell is explored.
-  \item \textbf{Visual Feedback:} The traversal is animated step by step, helping users understand how these algorithms systematically uncover paths.
-\end{itemize}
-
-\subsubsection{Minimax Traversal Page}
-Here, users can explore how the minimax algorithm (with alpha--beta pruning) handles a specific chess problem:
-\begin{itemize}
-  \item \textbf{Depth Selection:} Users can set the moves number before running the algorithm.
-  \item \textbf{Step-by-Step Explanation:} Each move can be visited using control panel .
-  \item \textbf{Interactive Visualization:} Hovering or clicking on tree nodes highlights the current evaluation state, providing deeper insight into the decision-making process.
-\end{itemize}
-
-\subsubsection{Chess Page}
-On the Chess Page, users can play interactive games against multiple engines:
-\begin{itemize}
-  \item \textbf{Engine Selection:} Switch between Stockfish and Yanfish (the custom NNUE-enhanced engine) to compare playing styles.
-  \item \textbf{Interface:} Displays the chessboard along with a move history, time controls, and a record of captured pieces.
-\end{itemize}
-
-
-\noindent Each of these four pages is accessible via a navigation bar at the top of the website. By separating functionality into modular subpages, users can easily focus on the specific algorithm or chess feature they wish to explore, while the underlying code remains cleaner and more maintainable.
-
-
+    
+    \subsubsection{Minimax Traversal Page}
+    Here, users can explore how the minimax algorithm (with alpha--beta pruning) handles a specific chess problem:
+    \begin{itemize}
+      \item \textbf{Depth Selection:} Users can set the number of moves before running the algorithm.
+      \item \textbf{Step-by-Step Explanation:} Each move can be examined using a control panel.
+      \item \textbf{Interactive Visualization:} A visualized decision tree where users can double-click on a node to expand it, or fully expand the entire tree in one step.
+    \end{itemize}
+    
+    \subsubsection{Chess Page}
+    On the Chess Page, users can play interactive games against multiple engines:
+    \begin{itemize}
+      \item \textbf{Engine Selection:} Switch between Stockfish and Yanfish (the custom NNUE-enhanced engine) to compare playing styles.
+      \item \textbf{Interface:} Displays the chessboard along with a move history, time controls, and a record of captured pieces.
+    \end{itemize}
+    
+    \noindent
+    Each of these four pages is accessible via a navigation bar at the top of the website. By separating
+    functionality into modular subpages, users can easily focus on the specific algorithm or chess
+    feature they wish to explore, while the underlying code remains cleaner and more maintainable.
+    For further screenshots illustrating the interface, Appendix~\ref{sec:appendix}.
+    
 \subsection{Build}
 
 To standardise environments and simplify deployment, we containerise both the front end and back end using Docker. 
@@ -903,7 +912,7 @@ The NNUE (Neural Network-based Underestimated Evaluation) model is central to th
 \subsubsection{NNUE Implementation}
 \label{subsubsec:nnue_implementation}
 
-This project employs the HalfKP architecture, one of the earliest NNUE-based designs used in Stockfish. Because training a model to reach grandmaster-level performance is time-consuming and requires extensive resources, we utilize pre-existing weights from a previously established neural network. To ensure consistency and correctness, we replicate the same operations that were used in the original training pipeline (see Figure \ref{fig:halfkp_arch}). The key steps are:
+This project employs the HalfKP architecture, one of the earliest NNUE-based designs used in Stockfish. Because training a model to reach grandmaster-level performance is time-consuming and requires extensive resources, we utilize pre-existing weights from a previously established neural network. To ensure consistency and correctness, we replicate the same operations that were used in the original training pipeline (Figure \ref{fig:halfkp_arch}). The key steps are:
 
 \begin{itemize}
     \item Implement a feature transformer that calculates indices for each board position and generates an accumulator, enabling efficient updates.
@@ -914,7 +923,7 @@ This project employs the HalfKP architecture, one of the earliest NNUE-based des
 This approach allows the project to achieve a competitive level of strength in position evaluation and move generation without incurring the high costs of training a new network from scratch.
 
 \subsubsection*{Accumulator}
-The HalfKP approach (see Section \ref{sec:halfkp}) relies on an accumulator to handle feature transformations efficiently. By storing intermediate computations, the accumulator enables faster updates whenever a board state changes. This is particularly useful for searching through a large number of positions in the course of a chess engine's operation.
+The HalfKP approach (Section \ref{sec:halfkp}) relies on an accumulator to handle feature transformations efficiently. By storing intermediate computations, the accumulator enables faster updates whenever a board state changes. This is particularly useful for searching through a large number of positions in the course of a chess engine's operation.
 
 To implement this functionality, a \texttt{MyAccumulator} class was created in Python. This class leverages several libraries:
 \begin{itemize}
@@ -1220,38 +1229,58 @@ backend
 
 
   \subsection{Frontend Implementation}
-  The user interface is build using React as a core with JavaScript and for the styling we use Tailwind CSS. 
 
-  Every single page is a separate react component and each page consists of multiple components that work together to achieve desired behavior while maintaining readability and clean code. We also leverage some existing react libreries such as react-router, react-flow etc. To load this lireries ew use npm.
-  project structure here ./
+\label{sec:frontend}
+
+The user interface is built with React (JavaScript) as the core framework, and Tailwind CSS for styling. Each page is implemented as a standalone React component consisting of multiple sub-components that collaborate to provide desired functionalities while maintaining clarity and clean code. We also leverage well-established libraries such as react-router (for seamless navigation) and \texttt{react-flow} (for interactive flow diagrams), installing and managing these dependencies via \texttt{npm}.
+
+\begin{figure}[ht]
+  \begin{center}
+    \begin{minipage}{0.5\linewidth} % Adjust this width as needed
+\begin{lstlisting}[numbers=none,frame=none,basicstyle=\ttfamily\footnotesize,breaklines=true]
+.
+|   Dockerfile
+|   README.md
+|   package-lock.json
+|   package.json
++--- src
+|   |   App.css
+|   |   App.js
+|   |   App.test.js
+|   |
+|   +--- components
+|   |   |   ChessGamePage
+|   |   |   DecisionTreePage
+|   |   |   Header.jsx
+|   |   |   HomePage.css
+|   |   |   HomePage.jsx
+|   |   |   MazeSolvingPage
+|   |   |   MinimaxPage
+|   |   |   NnnuePage
+|   |   |   bstPage
+|   |   |   engine
+|   |   \--- toberemoved
+|   |
+|   |   index.css
+|   |   index.js
+|   \--- setupTests.js
+\--- tailwind.config.js
+\end{lstlisting}
+    \end{minipage}
+  \end{center}
+  \caption{A simplified version of the project's directory structure.}
+  \label{fig:directory-structure1}
+\end{figure}
+
   \subsubsection{Navigation}
 
-Navigation in the frontend is powered by \texttt{react-router-dom}, which 
-facilitates client-side routing without forcing full page reloads. In practical 
-terms, this means the user can move between sections of the application quickly, 
-while the interface dynamically updates the displayed content. A single 
-configuration file, \texttt{App.js}, serves as the central hub for defining 
-which URL paths map to which React components under \texttt{components/}.
+Navigation in the frontend uses \texttt{react-router-dom} to allow users to switch between different parts of the application without reloading the entire page. This setup makes transitions fast and enables the interface to update its content seamlessly. A single file, \texttt{App.js}, maps each URL path to a React component under \texttt{components/}.
 
-Each page or feature has a dedicated directory and entry point, keeping the 
-codebase organized and maintainable:
-\begin{itemize}
-  \item \texttt{components/HomePage.jsx} provides the initial landing view.
-  \item \texttt{components/MazeSolvingPage/MazeSolvingPage.jsx} hosts maze-related 
-        functionality, including visualization and interactive controls.
-  \item \texttt{components/ChessGamePage/ChessGamePage.jsx} renders the chess 
-        interface and handles user moves in tandem with the backend.
-  \item \ldots
-\end{itemize}
+Each major feature or page has its own folder and entry point, keeping the code organized. For example: \begin{itemize} \item \texttt{components/HomePage.jsx} holds the homepage layout. \item \texttt{components/MazeSolvingPage/MazeSolvingPage.jsx} includes maze-related features and visuals. \item \texttt{components/ChessGamePage/ChessGamePage.jsx} manages the chess interface and coordinates with the backend. \item \ldots \end{itemize}
 
-From a user’s perspective, each page is simply accessed via a distinct path 
-(e.g., \texttt{/maze} for the maze solver, \texttt{/chess} for the chess 
-interface). Internally, \texttt{react-router-dom} matches the incoming path 
-to the corresponding component and seamlessly re-renders the appropriate 
-view. Because these are client-side transitions, the experience feels 
-responsive and uninterrupted compared to a full-server page reload.
+From a user’s perspective, each page is accessed by a unique path (e.g., \texttt{/maze} for the maze solver, \texttt{/chess} for the chess interface). \texttt{react-router-dom} checks the requested path and seamlessly loads the correct component. Because the routing is handled on the client side, the experience feels smooth compared to a full page reload.
 
-Additionally, shared layout elements header are defined once at the top level, keeping the design consistent across all pages. If the application grows, sub-routes or nested routes can split large sections into smaller sub-pages. By keeping all routing logic in \texttt{App.js}, updates to add new pages or features remain straightforward.
+A shared header at the top level maintains a consistent layout across all pages. As the application grows, it can be split into sub-routes or nested routes to handle larger sections. Keeping the routing logic in \texttt{App.js} also makes adding or modifying pages straightforward.
 
     \subsubsection{Maze Visualization}
 
@@ -1360,9 +1389,18 @@ The primary modification is an improved evaluation function \ref{sec:integration
 In most matchups, the new engine achieved stronger results, suggesting that a more accurate evaluation often outweighs any potential speed disadvantage.
 \end{enumerate}
 
+
+
+\subsubsection{Performance Considerations}
+
+Although the improved evaluation can be two to three times slower than the original method, it often achieves higher success rates under typical time or depth constraints. Because these engines rely heavily on CPU resources, hardware limitations may also restrict deep searching or advanced analysis. Nevertheless, tests suggest that a stronger evaluation can outperform a faster yet less accurate approach. Granting extra time to the original Sunfish may allow it to win some games, but the updated system generally prevails in most scenarios.
+
 \subsubsection{Screenshots and Observations}
 
-\begin{figure}[htp]
+%========================================================
+% FIRST FLOAT (Part 1) -- has the single main caption/label
+%========================================================
+\begin{figure}[H]
     \centering
     
     %------------ Row 1 ------------%
@@ -1373,10 +1411,7 @@ In most matchups, the new engine achieved stronger results, suggesting that a mo
         \label{fig:screenshot1}
         
         \vspace{0.5em}
-        \small
-        Demonstrates a 3\,s/move scenario in which 
-        the updated engine gains a material lead 
-        within 15 moves by exploiting small inaccuracies.
+
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
@@ -1386,10 +1421,7 @@ In most matchups, the new engine achieved stronger results, suggesting that a mo
         \label{fig:screenshot2}
         
         \vspace{0.5em}
-        \small
-        A 3\,s/move game that ends in a draw. Even with
-        consistent pressure on both sides, no decisive
-        breakthrough emerged.
+
     \end{subfigure}
     
     \vspace{1em}
@@ -1402,10 +1434,7 @@ In most matchups, the new engine achieved stronger results, suggesting that a mo
         \label{fig:screenshot3}
         
         \vspace{0.5em}
-        \small
-        Despite the limited depth, the improved evaluation 
-        discovers better moves that lead to a stronger 
-        position and eventual victory.
+
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
@@ -1415,14 +1444,21 @@ In most matchups, the new engine achieved stronger results, suggesting that a mo
         \label{fig:screenshot4}
         
         \vspace{0.5em}
-        \small
-        Another depth~1 example where the updated engine 
-        uses accurate piece coordination to secure a 
-        decisive finish.
+
     \end{subfigure}
 
-    \vspace{1em}
+    % -- SINGLE CAPTION & LABEL FOR THE ENTIRE SPLIT FIGURE
+    
+    \label{fig:all_screens_large}
+\end{figure}
 
+%========================================================
+% SECOND FLOAT (Part 2) -- continues the same figure
+%========================================================
+\begin{figure}[H]
+    \ContinuedFloat  % Tells LaTeX this is still the same figure as above
+    \centering
+    
     %------------ Row 3 ------------%
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
@@ -1432,9 +1468,7 @@ In most matchups, the new engine achieved stronger results, suggesting that a mo
         
         \vspace{0.5em}
         \small
-        The revised evaluation repels an early Sunfish
-        attack, eventually seizing a winning advantage
-        through more precise calculations.
+
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
@@ -1445,17 +1479,16 @@ In most matchups, the new engine achieved stronger results, suggesting that a mo
         
         \vspace{0.5em}
         \small
-        Another depth~2 matchup ends in a draw as both 
-        sides simplify into an endgame neither can convert.
+
     \end{subfigure}
 
-    \caption{Six head-to-head match examples between the updated engine and the original Sunfish with larger images (two subfigures per row).}
-    \label{fig:all_screens_large}
+    % -- NO new figure label. We keep the same figure number.
+    %    Provide a minimal "continued" note if you like:
+    \caption{Six head-to-head match examples between the updated engine and 
+             the original Sunfish (two subfigures per row).}
 \end{figure}
 
-\subsubsection{Performance Considerations}
 
-Although the improved evaluation can be two to three times slower than the original method, it often achieves higher success rates under typical time or depth constraints. Because these engines rely heavily on CPU resources, hardware limitations may also restrict deep searching or advanced analysis. Nevertheless, tests suggest that a stronger evaluation can outperform a faster yet less accurate approach. Granting extra time to the original Sunfish may allow it to win some games, but the updated system generally prevails in most scenarios.
 
 \subsubsection{Extended Match Results}
 
@@ -1477,6 +1510,7 @@ Draws            & 4  & 20\% \\
 \end{table}
 
 With more time to analyze each position, the updated engine leverages its improved evaluation more effectively, winning 65\% of the games against the original Sunfish. Although Sunfish secured 15\% of the wins, the updated approach maintained an advantage in the majority of positions. This outcome suggests that, at slower time controls, the benefit of a stronger evaluation outweighs raw speed, as both engines have enough time to search multiple lines in depth.
+\FloatBarrier
 
 \subsection{User Feedback}
 
@@ -1538,9 +1572,7 @@ heuristic-based method?}
 boost clarity, user engagement, and feature completeness beyond what is
 currently offered?}
 
-\item \textbf{(c)} \textit{Does building a minimax visualizer provide a real-time
-look at the decision-making process, introducing a new tool not often found in
-chess platforms?}
+\item \textbf{(c)} \textit{“Could we develop a new tool that interactively visualizes minimax, making the algorithm more understandable?”}
 
 \item \textbf{(d)} \textit{Is it feasible and beneficial to combine NNUE, enhanced
 maze visualization, and a minimax visualizer into one platform, offering a
@@ -1624,8 +1656,7 @@ visualization environment.
 
 \subsection{Conclusion}
 \label{sec:conclusion}
-This project brought together three key parts: a stronger chess engine, an improved maze visualization tool, and a minimax visualizer. The chess engine was upgraded by adding a neural network (NNUE-style), which made it play better than before. The maze tool lets users create random or custom layouts, making it easier to study different paths and designs. The minimax visualizer shows how the engine makes decisions step by step, giving a clear view of the search process. Combining these features into one platform creates a richer learning environment for both chess and pathfinding. Future plans include making the chess engine even stronger, adding more ways to customize mazes, and merging the minimax visualizer with the advanced engine for a more complete experience.
-
+This project combined three important components: a stronger chess engine, an improved maze visualization tool, and a minimax visualizer. The chess engine was enhanced by incorporating a neural network (NNUE-style), leading to better overall play. The maze tool allows users to generate random or custom layouts, simplifying the study of various paths and designs. Meanwhile, the minimax visualizer displays the engine’s decision-making process step by step, giving a clear look into how the search works. Having these features all in one platform offers a more engaging learning environment for both chess and pathfinding. Future goals include further strengthening the chess engine, introducing additional maze customization options, and integrating the minimax visualizer with the advanced engine to deliver an even more comprehensive experience.
 % references section
 
 
@@ -1637,10 +1668,182 @@ This project brought together three key parts: a stronger chess engine, an impro
 \appendix
 \section{Appendix}
 \label{sec:appendix}
-Supplementary materials or extended data...
+
+This appendix presents additional screenshots from the application’s user interface. 
+Each figure has a short caption, and the paragraphs below highlight key features 
+or functionalities shown in each image.
+
+%-----------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Main.png}
+  \caption{Main interface showing the navigation bar and welcome message (part of the \texttt{mainpage} component).}
+  \label{fig:ui_main_screen}
+\end{figure}
+
+\noindent
+Figure~\ref{fig:ui_main_screen} shows the \emph{main homepage layout}, 
+including a welcome message and a navigation bar for exploring different features.
+
+\FloatBarrier
+%-----------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Bst.png}
+  \caption{Guided path for users interested in building an NNUE (Neural Network Updatable Engine).}
+  \label{fig:bst}
+\end{figure}
+
+\noindent
+Figure~\ref{fig:bst} illustrates part of a guided path where beginners 
+can follow step-by-step instructions to construct an NNUE-based chess engine.
+
+\FloatBarrier
+%-----------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Minimaxguided.png}
+  \caption{Minimax page from a guided path.}
+  \label{fig:minimaxguided}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Nnnueguided.png}
+  \caption{NNUE page from a guided path (fully zoomed out).}
+  \label{fig:nnueguided}
+\end{figure}
+
+\noindent
+Figures~\ref{fig:minimaxguided} and \ref{fig:nnueguided} capture other guided 
+pages. The first focuses on step-by-step minimax explanations, while the second 
+covers building an NNUE engine in greater depth.
+
+\FloatBarrier
+%-----------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/mazesolvingmain.png}
+  \caption{Top portion of the \texttt{mazesolving} component, showing algorithm selection, maze area, and a control panel with settings.}
+  \label{fig:mazesolvingmain}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Custommaze.png}
+  \caption{Section of the \texttt{mazesolving} component for building a custom maze.}
+  \label{fig:custommaze}
+\end{figure}
+
+\noindent
+Figure~\ref{fig:mazesolvingmain} displays the upper section of the \texttt{mazesolving} 
+component, including controls or parameters for selecting various pathfinding algorithms.  
+Figure~\ref{fig:custommaze} shows how users can manually construct maze walls and pathways 
+to explore unique pathfinding scenarios.
+
+\FloatBarrier
+%-----------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Benchmarks.png}
+  \caption{Benchmarks section within the \texttt{mazesolving} component.}
+  \label{fig:benchmarks}
+\end{figure}
+
+\noindent
+Figure~\ref{fig:benchmarks} shows benchmark results to help users compare the 
+performance of different pathfinding methods under various conditions.
+
+\FloatBarrier
+%-----------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Chessplay.png}
+  \caption{\texttt{chessgame} component where users can play against the updated engine or Stockfish.}
+  \label{fig:chessplay}
+\end{figure}
+
+\noindent
+Figure~\ref{fig:chessplay} depicts the \texttt{chessgame} interface, 
+allowing users to switch between Stockfish or the custom NNUE-based engine, 
+review a move history, manage time controls, and more.
+
+\FloatBarrier
+%-----------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Minimaxpageinitial.png}
+  \caption{Initial state of the \texttt{minimaxsolver} component.}
+  \label{fig:minimaxinitial}
+\end{figure}
+
+\noindent
+Figure~\ref{fig:minimaxinitial} shows how the \texttt{minimaxsolver} begins 
+with a default chess position ready to be analyzed or changed by the user.
+
+\FloatBarrier
+%-----------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Minimaxafterplay.png}
+  \caption{\texttt{minimaxsolver} component after a problem is set up and partially solved.}
+  \label{fig:Minimaxafterplay}
+\end{figure}
+
+\noindent
+In Figure~\ref{fig:Minimaxafterplay}, the minimax algorithm is actively searching 
+once the user defines a particular chess position or puzzle to solve.
+
+\FloatBarrier
+%-----------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/Minimaxfinish.png}
+  \caption{\texttt{minimaxsolver} component after the problem is fully traversed.}
+  \label{fig:minimaxfinished}
+\end{figure}
+
+\noindent
+Figure~\ref{fig:minimaxfinished} depicts the state once minimax completes 
+its search and outputs a final evaluation or sequence of moves.
+
+\FloatBarrier
+%-----------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/MInimaxtree.png}
+  \caption{Example of the search tree generated by \texttt{minimaxsolver} for a given chess puzzle.}
+  \label{fig:minimaxtree}
+\end{figure}
+
+\noindent
+Figure~\ref{fig:minimaxtree} displays the expanded search tree where each node 
+corresponds to a possible move or outcome during minimax exploration.
+
+\FloatBarrier
+%-----------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/treefinal.png}
+  \caption{An expanded, zoomed-out view of the \texttt{minimaxsolver} tree.}
+  \label{fig:minimaxtreefinal}
+\end{figure}
+
+\noindent
+Finally, Figure~\ref{fig:minimaxtreefinal} shows a zoomed-out perspective of the 
+search tree, highlighting how nodes can be expanded or collapsed for closer inspection.
+
+\FloatBarrier
+%-----------------------------------------
+
+\noindent
+These screenshots, combined with the main text discussion, should help readers 
+visualize the user interface and understand how each component operates, 
+whether it is the \texttt{mazesolving} section, the \texttt{chessgame} environment, 
+or the \texttt{minimaxsolver} module.
+
 
 \end{document}
-
 
 
 
