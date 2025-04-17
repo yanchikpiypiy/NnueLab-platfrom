@@ -270,7 +270,7 @@ where \(W\) and \(b\) are the weight and bias parameters, and \(\text{input}\) i
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{figures/mv.pdf}
+    \includegraphics[width=0.4\textwidth]{figures/mv.pdf}
     \caption{A conceptual look at the linear layer. Each coloured band (“rainbow”) 
     handles a slice of the input multiplied by the matching slice of the weights ~\cite{githubdocs}.}
     \label{fig:mv}
@@ -287,7 +287,7 @@ Although \(W\) (or \(\mathbf{A}\)) may have tens of thousands of columns,
 engines only process those columns for features that are active in the current position.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{figures/mvs.pdf}
+    \includegraphics[width=0.4\textwidth]{figures/mvs.pdf}
     \caption{Skipping columns of \(\mathbf{A}\) for zero-valued inputs. 
     Only the columns corresponding to nonzero features in \(\mathbf{x}\) are processed ~\cite{githubdocs}.}
     \label{fig:skipcol}
@@ -308,7 +308,7 @@ non-linear.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{figures/clipped_relu.png}
+    \includegraphics[width=0.4\textwidth]{figures/clipped_relu.png}
     \caption{After the linear layer, a clipped or shifted activation keeps integer 
     operations within limits, with only changed squares prompting recalculations ~\cite{githubdocs}.}
     \label{fig:mvs}
