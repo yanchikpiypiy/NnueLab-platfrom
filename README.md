@@ -2,10 +2,6 @@
 
 <div class="center">
 
-<img src="figures/bham_crest" style="width:1in" alt="image" />
-
-<img src="figures/bham_logo" style="width:3in" alt="image" />
-
 An Interactive Algorithms Platfrom:  
 From Maze Traversal to Minimax and NNUE Engines
 
@@ -214,7 +210,7 @@ few relevant indices rather than recomputing all multiplications each
 move.
 
 <figure id="fig:mv">
-<embed src="figures/mv.pdf" style="width:40.0%" />
+<embed src="figures/figures/mv.pdf" style="width:40.0%" />
 <figcaption>A conceptual look at the linear layer. Each coloured band
 (“rainbow”) handles a slice of the input multiplied by the matching
 slice of the weights  <span class="citation"
@@ -232,7 +228,7 @@ process those columns for features that are active in the current
 position.
 
 <figure id="fig:skipcol">
-<embed src="figures/mvs.pdf" style="width:40.0%" />
+<embed src="figures/figures/mvs.pdf" style="width:40.0%" />
 <figcaption>Skipping columns of <span
 class="math inline"><strong>A</strong></span> for zero-valued inputs.
 Only the columns corresponding to nonzero features in <span
@@ -255,7 +251,7 @@ location’s contribution is added, and the clipped/shifted ReLU ensures
 the layer remains both bounded and non-linear.
 
 <figure id="fig:mvs">
-<img src="figures/clipped_relu.png" style="width:40.0%" />
+<img src="figures/figures/clipped_relu.png" style="width:40.0%" />
 <figcaption>After the linear layer, a clipped or shifted activation
 keeps integer operations within limits, with only changed squares
 prompting recalculations  <span class="citation"
@@ -274,7 +270,7 @@ full forward pass every move, alpha-beta engines maintain high speed
 despite a neural-based evaluation.
 
 <figure id="fig:nnue_pipeline">
-<img src="figures/pipeline.png" style="width:80.0%" />
+<img src="figures/figures/pipeline.png" style="width:80.0%" />
 <figcaption>A simplified NNUE pipeline: piece-square inputs (green) flow
 through fully-connected hidden layers (yellow), yielding a single
 evaluation output (red)  <span class="citation"
@@ -322,7 +318,7 @@ straightforward. As a result, the incremental approach remains efficient
 even when combined with alpha-beta search.
 
 <figure id="fig:halfkp_arch">
-<img src="figures/sfnn.png" style="width:60.0%" />
+<img src="figures/figures/sfnn.png" style="width:60.0%" />
 <figcaption>An example <code>HalfKP</code> architecture  <span
 class="citation" data-cites="githubdocs"></span>.</figcaption>
 </figure>
@@ -404,7 +400,7 @@ flip occurs when $\mathrm{is\_white\_pov} = \text{false}$, using
 $56 \oplus \text{square}$ to orient the board from Black’s viewpoint.
 
 <figure id="fig:halfkav2">
-<img src="figures/sfnn2.png" style="width:100.0%" />
+<img src="figures/figures/sfnn2.png" style="width:100.0%" />
 <figcaption><code>HalfKAv2</code>: rearranged indices to minimize
 collisions and optional buckets for variable piece counts. Each bucket
 (e.g. midgame, endgame) can hold its own specialized weight set,
@@ -433,7 +429,7 @@ incremental updates are much faster, making *horizontal mirroring* the
 more efficient choice for handling symmetries.
 
 <figure id="fig:halfkav2_hm">
-<img src="figures/1.png" style="width:100.0%" />
+<img src="figures/figures/1.png" style="width:100.0%" />
 <figcaption><code>HalfKAv2_hm</code> uses mirrored or hashed rank/file
 references to reduce collisions further. Here, horizontal mirroring
 reflects the board left-to-right, while flipping inverts ranks
@@ -794,7 +790,7 @@ dull or uniform look. Notably, highlighted keywords improve visibility
 of key features.
 
 <figure id="fig:design_screenshot">
-<img src="figures/zigzag_interface.png" />
+<img src="figures/figures/zigzag_interface.png" />
 <figcaption>An example of the partial zigzag design. Text is on one
 side, an image on the other, while keywords such as <code>NNUE</code>
 appear in green to attract focus.</figcaption>
@@ -826,7 +822,7 @@ positive interaction experience.
 ## Overview
 
 <figure id="fig:system-architecture">
-<img src="figures/diagram1.png" style="width:100.0%" />
+<img src="figures/figures/diagram1.png" style="width:100.0%" />
 <figcaption>diagram illustrating the user’s browser interacting with a
 front-end container and a back-end container, which houses the Chess
 Engine.</figcaption>
@@ -1825,19 +1821,19 @@ the updated system generally prevails in most scenarios.
 
 <figure id="fig:all_screens_large">
 <figure id="fig:screenshot1">
-<img src="figures/yanfishwhitemv3000.png" />
+<img src="figures/figures/yanfishwhitemv3000.png" />
 <figcaption>Updated engine (White) wins at 3 s/move.</figcaption>
 </figure>
 <figure id="fig:screenshot2">
-<img src="figures/yanfishblackmv3000.png" />
+<img src="figures/figures/yanfishblackmv3000.png" />
 <figcaption>Updated engine (Black) draws at 3 s/move.</figcaption>
 </figure>
 <figure id="fig:screenshot3">
-<img src="figures/yanfishwhitedepth1.png" />
+<img src="figures/figures/yanfishwhitedepth1.png" />
 <figcaption>Updated engine (White) wins at depth 1.</figcaption>
 </figure>
 <figure id="fig:screenshot4">
-<img src="figures/yanfishblackdepth1.png" />
+<img src="figures/figures/yanfishblackdepth1.png" />
 <figcaption>Updated engine (Black) wins at depth 1.</figcaption>
 </figure>
 <figcaption>Updated engine (Black) wins at depth 1.</figcaption>
@@ -1845,11 +1841,11 @@ the updated system generally prevails in most scenarios.
 
 <figure id="fig:screenshot6">
 <figure id="fig:screenshot5">
-<img src="figures/yanfishwhitedepth1.png" />
+<img src="figures/figures/yanfishwhitedepth1.png" />
 <figcaption>Updated engine (White) at fixed depth 2.</figcaption>
 </figure>
 <figure id="fig:screenshot6">
-<img src="figures/yanfishblackdepth2.png" />
+<img src="figures/figures/yanfishblackdepth2.png" />
 <figcaption>Updated engine (Black) draws at fixed depth 2.</figcaption>
 </figure>
 <figcaption>Six head-to-head match examples between the updated engine
@@ -2057,7 +2053,7 @@ user interface. Each figure has a short caption, and the paragraphs
 below highlight key features or functionalities shown in each image.
 
 <figure id="fig:ui_main_screen">
-<img src="figures/Main.png" style="width:90.0%" />
+<img src="figures/figures/Main.png" style="width:90.0%" />
 <figcaption>Main interface showing the navigation bar and welcome
 message (part of the <code>mainpage</code> component).</figcaption>
 </figure>
@@ -2068,7 +2064,7 @@ layout*, including a welcome message and a navigation bar for exploring
 different features.
 
 <figure id="fig:bst">
-<img src="figures/Bst.png" style="width:90.0%" />
+<img src="figures/figures/Bst.png" style="width:90.0%" />
 <figcaption>Guided path for users interested in building an NNUE (Neural
 Network Updatable Engine).</figcaption>
 </figure>
@@ -2079,12 +2075,12 @@ beginners can follow step-by-step instructions to construct an
 NNUE-based chess engine.
 
 <figure id="fig:minimaxguided">
-<img src="figures/Minimaxguided.png" style="width:90.0%" />
+<img src="figures/figures/Minimaxguided.png" style="width:90.0%" />
 <figcaption>Minimax page from a guided path.</figcaption>
 </figure>
 
 <figure id="fig:nnueguided">
-<img src="figures/Nnnueguided.png" style="width:90.0%" />
+<img src="figures/figures/Nnnueguided.png" style="width:90.0%" />
 <figcaption>NNUE page from a guided path (fully zoomed
 out).</figcaption>
 </figure>
@@ -2097,14 +2093,14 @@ first focuses on step-by-step minimax explanations, while the second
 covers building an NNUE engine in greater depth.
 
 <figure id="fig:mazesolvingmain">
-<img src="figures/mazesolvingmain.png" style="width:90.0%" />
+<img src="figures/figures/mazesolvingmain.png" style="width:90.0%" />
 <figcaption>Top portion of the <code>mazesolving</code> component,
 showing algorithm selection, maze area, and a control panel with
 settings.</figcaption>
 </figure>
 
 <figure id="fig:custommaze">
-<img src="figures/Custommaze.png" style="width:90.0%" />
+<img src="figures/figures/Custommaze.png" style="width:90.0%" />
 <figcaption>Section of the <code>mazesolving</code> component for
 building a custom maze.</figcaption>
 </figure>
@@ -2119,7 +2115,7 @@ construct maze walls and pathways to explore unique pathfinding
 scenarios.
 
 <figure id="fig:benchmarks">
-<img src="figures/Benchmarks.png" style="width:90.0%" />
+<img src="figures/figures/Benchmarks.png" style="width:90.0%" />
 <figcaption>Benchmarks section within the <code>mazesolving</code>
 component.</figcaption>
 </figure>
@@ -2130,7 +2126,7 @@ users compare the performance of different pathfinding methods under
 various conditions.
 
 <figure id="fig:chessplay">
-<img src="figures/Chessplay.png" style="width:90.0%" />
+<img src="figures/figures/Chessplay.png" style="width:90.0%" />
 <figcaption><code>chessgame</code> component where users can play
 against the updated engine or Stockfish.</figcaption>
 </figure>
@@ -2141,7 +2137,7 @@ allowing users to switch between Stockfish or the custom NNUE-based
 engine, review a move history, manage time controls, and more.
 
 <figure id="fig:minimaxinitial">
-<img src="figures/Minimaxpageinitial.png" style="width:90.0%" />
+<img src="figures/figures/Minimaxpageinitial.png" style="width:90.0%" />
 <figcaption>Initial state of the <code>minimaxsolver</code>
 component.</figcaption>
 </figure>
@@ -2152,7 +2148,7 @@ begins with a default chess position ready to be analyzed or changed by
 the user.
 
 <figure id="fig:Minimaxafterplay">
-<img src="figures/Minimaxafterplay.png" style="width:90.0%" />
+<img src="figures/figures/Minimaxafterplay.png" style="width:90.0%" />
 <figcaption><code>minimaxsolver</code> component after a problem is set
 up and partially solved.</figcaption>
 </figure>
@@ -2163,7 +2159,7 @@ actively searching once the user defines a particular chess position or
 puzzle to solve.
 
 <figure id="fig:minimaxfinished">
-<img src="figures/Minimaxfinish.png" style="width:90.0%" />
+<img src="figures/figures/Minimaxfinish.png" style="width:90.0%" />
 <figcaption><code>minimaxsolver</code> component after the problem is
 fully traversed.</figcaption>
 </figure>
@@ -2174,7 +2170,7 @@ minimax completes its search and outputs a final evaluation or sequence
 of moves.
 
 <figure id="fig:minimaxtree">
-<img src="figures/MInimaxtree.png" style="width:90.0%" />
+<img src="figures/figures/MInimaxtree.png" style="width:90.0%" />
 <figcaption>Example of the search tree generated by
 <code>minimaxsolver</code> for a given chess puzzle.</figcaption>
 </figure>
@@ -2185,7 +2181,7 @@ tree where each node corresponds to a possible move or outcome during
 minimax exploration.
 
 <figure id="fig:minimaxtreefinal">
-<img src="figures/treefinal.png" style="width:90.0%" />
+<img src="figures/figures/treefinal.png" style="width:90.0%" />
 <figcaption>An expanded, zoomed-out view of the
 <code>minimaxsolver</code> tree.</figcaption>
 </figure>
