@@ -322,6 +322,10 @@ const DecisionTreeImpPage = () => {
   const memoizedCurrentArrows = useMemo(() => computeCurrentArrows(), [computeCurrentArrows]);
 
   const onDrop = useCallback((sourceSquare, targetSquare) => {
+      if (!setupMode) {
+      // prevent any drag moves outside setup mode
+      return false;  // returning false to explicitly reject move
+    }
     if (setupMode) return;
     const newGame = new Chess(game.fen());
     let move = newGame.move({ from: sourceSquare, to: targetSquare });
@@ -398,7 +402,6 @@ const DecisionTreeImpPage = () => {
     }
     setTraversalFens([]);
     if (!arrowTraversalQueue.length) {
-      console.warn("Arrow traversal queue is empty!");
       return;
     }
     const startingStep = currentArrowStep < arrowTraversalQueue.length ? currentArrowStep : 0;
@@ -454,10 +457,7 @@ const DecisionTreeImpPage = () => {
 
   // --- Double-click handler: toggle expansion/collapse ---
   const handleNodeDoubleClick = useCallback((event, flowNode) => {
-    console.log("Double-click fired from React Flow with node:", flowNode);
-    console.log("Searching for node with ID:", flowNode.id);
     if (!candidateTree) {
-      console.log("No candidateTree available.");
       return;
     }
     // Deep copy candidateTree to avoid direct mutation
@@ -465,21 +465,16 @@ const DecisionTreeImpPage = () => {
     
     // Recursive function to toggle children visibility for the target node
     const toggleNode = (nodeObj, targetId) => {
-      console.log("Examining node:", nodeObj.id, "with target:", targetId);
       if (nodeObj.id === targetId) {
-        console.log("Found matching node:", nodeObj.id);
         if (nodeObj.children && nodeObj.children.length > 0) {
           // Toggle: if first child is visible, collapse; otherwise, expand.
           const expanded = nodeObj.children[0].visible;
           if (expanded) {
-            console.log("Collapsing children for node:", nodeObj.id);
             nodeObj.children.forEach(child => child.visible = false);
           } else {
-            console.log("Expanding children for node:", nodeObj.id, "Children IDs:", nodeObj.children.map(child => child.id));
             nodeObj.children.forEach(child => child.visible = true);
           }
         } else {
-          console.log("Node", nodeObj.id, "has no children to toggle.");
         }
         return true;
       }
@@ -494,7 +489,6 @@ const DecisionTreeImpPage = () => {
     };
 
     const found = toggleNode(newCandidateTree, flowNode.id);
-    console.log("Was node found and toggled?", found);
     setCandidateTree(newCandidateTree);
   }, [candidateTree]);
 

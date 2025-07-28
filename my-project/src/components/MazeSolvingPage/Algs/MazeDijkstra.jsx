@@ -84,7 +84,7 @@ const MazeDijkstra = ({ mazeData, resetCounter, startTraversal,speed }) => {
     if (step < dijkstraEvents.length && startTraversal === true) {
       const timeout = setTimeout(() => {
         setStep((prevStep) => prevStep + 1);
-      }, speed);
+      },102 -  speed);
       return () => clearTimeout(timeout);
     }
   }, [step, dijkstraEvents, startTraversal]);

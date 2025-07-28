@@ -95,7 +95,7 @@ const MazeBFS = ({ mazeData, resetCounter, startTraversal,speed }) => {
     if (step < bfsEvents.length && startTraversal === true) {
       const timeout = setTimeout(() => {
         setStep((prev) => prev + 1);
-      }, speed);
+      },102 -  speed);
       return () => clearTimeout(timeout);
     }
   }, [step, bfsEvents, startTraversal]);

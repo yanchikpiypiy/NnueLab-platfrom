@@ -226,6 +226,7 @@ const ChessGamePageWithImages = () => {
       }
     } catch (err) {
       console.error("Error calling process_move endpoint:", err);
+      
     }
   };
 

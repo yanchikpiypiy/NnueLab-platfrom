@@ -26,13 +26,8 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link to="/docs" className="hover:text-gray-400 transition-colors">
+            <Link to="https://github.com/yanchikpiypiy/NnueLab-platfrom" className="hover:text-gray-400 transition-colors">
               Docs
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact" className="hover:text-gray-400 transition-colors">
-              Contact
             </Link>
           </li>
         </ul>

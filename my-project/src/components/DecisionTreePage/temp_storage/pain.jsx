@@ -444,7 +444,6 @@ const DecisionTreePage = () => {
   }, [problemFEN]);
 
   useEffect(() => {
-    console.log(Arrows);
   }, [Arrows]);
 
   const boardPosition = traversalFens.length > 0 ? traversalFens[currentStep] : (setupMode ? positionObj : game.fen());

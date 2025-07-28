@@ -127,7 +127,6 @@ function ReactFlowInner({ nodes, edges, setLocalSolverTree, localSolverTree, onN
         edges={edges}
         nodeTypes={nodeTypes}
         onNodeDoubleClick={(event, node) => {
-          console.log("Global onNodeDoubleClick fired for:", node);
           onNodeDoubleClick(event, node);
         }}
         fitView

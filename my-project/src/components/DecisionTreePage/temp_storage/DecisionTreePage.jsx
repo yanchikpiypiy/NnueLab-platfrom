@@ -80,7 +80,6 @@ const getArrowTuple = (moveSan, fen, color = "rgba(0,255,0,0.6)", verify = false
       const legalMoves = chessInstance.moves({ verbose: true });
       moveObj = legalMoves.find(m => m.san === moveSan);
       if (!moveObj) {
-        console.warn(`Invalid move: ${moveSan} on FEN: ${fen}`);
         return null;
       }
       chessInstance.move(moveSan);
@@ -90,7 +89,6 @@ const getArrowTuple = (moveSan, fen, color = "rgba(0,255,0,0.6)", verify = false
     }
     return [moveObj.from, moveObj.to, color];
   } catch (error) {
-    console.error("getArrowTuple error for move", moveSan, "on FEN:", fen, error);
     return null;
   }
 };
@@ -389,7 +387,6 @@ const DecisionTreePage = () => {
     }
     setTraversalFens([]);
     if (!arrowTraversalQueue.length) {
-      console.warn("Arrow traversal queue is empty!");
       return;
     }
     const startingStep = currentArrowStep < arrowTraversalQueue.length ? currentArrowStep : 0;
@@ -444,7 +441,7 @@ const DecisionTreePage = () => {
   }, [problemFEN]);
 
   useEffect(() => {
-    console.log(Arrows);
+
   }, [Arrows]);
 
   const boardPosition = traversalFens.length > 0 ? traversalFens[currentStep] : (setupMode ? positionObj : game.fen());

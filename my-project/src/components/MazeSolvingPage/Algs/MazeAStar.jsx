@@ -112,7 +112,7 @@ const MazeAStar = ({ mazeData, resetCounter, startTraversal,speed }) => {
   }, [resetCounter]);
   useEffect(() => {
     if (step < aStarEvents.length && startTraversal === true) {
-      const timeout = setTimeout(() => setStep(step + 1), speed);
+      const timeout = setTimeout(() => setStep(step + 1), 102 - speed);
       return () => clearTimeout(timeout);
     }
   }, [step, aStarEvents, startTraversal]);

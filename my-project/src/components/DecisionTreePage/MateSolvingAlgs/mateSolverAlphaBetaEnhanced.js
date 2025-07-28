@@ -110,12 +110,7 @@ export const findMateInNCandidateTreeAlphaBetaEnhanced = (chessInstance, n) => {
     return { score: bestScore, branch: bestBranch, tree: node };
   };
 
-  console.time("AlphaBetaExecution");
   const result = minimax(chessInstance, maxDepth, -Infinity, Infinity, chessInstance.turn() === startingPlayer);
-  console.timeEnd("AlphaBetaExecution");
-
-  console.log(`Nodes Evaluated: ${nodesEvaluated}`);
-  console.log(`Cache Hits: ${cacheHits}`);
 
   return { candidate: result.branch ? { branch: result.branch } : null, tree: result.tree };
 };
