@@ -48,6 +48,9 @@ const MazeDFS = ({ resetCounter, startTraversal, mazeData,speed }) => {
   useEffect(() => {
     setStep(0);
   }, [resetCounter]);
+  useEffect(() => {
+  setStep(0);
+}, [mazeData]);
 
   // DFS animation: advance one step every 50ms when traversal is active.
   useEffect(() => {

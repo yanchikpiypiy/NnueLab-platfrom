@@ -104,7 +104,9 @@ const MazeAStar = ({ mazeData, resetCounter, startTraversal,speed }) => {
     }
     return events;
   }, [grid, numRows, numCols, start, end]);
-
+  useEffect(() => {
+  setStep(0);
+}, [mazeData]);
   // 4. Animate the A* search events.
   const [step, setStep] = useState(0);
   useEffect(() => {

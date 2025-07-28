@@ -79,7 +79,9 @@ const MazeDijkstra = ({ mazeData, resetCounter, startTraversal,speed }) => {
   useEffect(() => {
     setStep(0);
   }, [resetCounter]);
-
+  useEffect(() => {
+  setStep(0);
+}, [mazeData]);
   useEffect(() => {
     if (step < dijkstraEvents.length && startTraversal === true) {
       const timeout = setTimeout(() => {

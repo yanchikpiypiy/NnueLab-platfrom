@@ -89,7 +89,9 @@ const MazeBFS = ({ mazeData, resetCounter, startTraversal,speed }) => {
   useEffect(() => {
     setStep(0);
   }, [resetCounter]);
-
+    useEffect(() => {
+    setStep(0);
+  }, [mazeData]);
   // 6. Playback of BFS events: advance one step every 50ms when traversal is active.
   useEffect(() => {
     if (step < bfsEvents.length && startTraversal === true) {

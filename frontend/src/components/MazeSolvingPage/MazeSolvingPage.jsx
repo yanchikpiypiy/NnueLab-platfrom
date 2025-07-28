@@ -85,9 +85,11 @@ function MazeSolvingPage() {
   //   BFS/DFS/A*/Dijkstra Visualization
   // -----------------------------------------------
   let context = null;
+  const key = `${alg}-${mazeGeneration}-${resetCounter}`;
   if (alg === "DFS") {
     context = (
       <MazeDFS
+        key={key}
         mazeData={mazeData}
         resetCounter={resetCounter}
         startTraversal={stopTraversal}
@@ -97,6 +99,7 @@ function MazeSolvingPage() {
   } else if (alg === "BFS") {
     context = (
       <MazeBFS
+        key={key}
         mazeData={mazeData}
         resetCounter={resetCounter}
         startTraversal={stopTraversal}
@@ -106,6 +109,7 @@ function MazeSolvingPage() {
   } else if (alg === "Dijkstra") {
     context = (
       <MazeDijkstra
+        key={key}
         mazeData={mazeData}
         resetCounter={resetCounter}
         startTraversal={stopTraversal}
@@ -115,6 +119,7 @@ function MazeSolvingPage() {
   } else if (alg === "A*") {
     context = (
       <MazeAStar
+        key={key}
         mazeData={mazeData}
         resetCounter={resetCounter}
         startTraversal={stopTraversal}
@@ -244,6 +249,8 @@ function MazeSolvingPage() {
 
   // "Apply" the custom-drawn maze
   const applyCustomMaze = () => {
+    setStopTraversal((prev) => !prev);
+    setResetCounter((prev) => prev + 1)
     const rows = gridRef.current.map((row) => row.join(""));
     setMazeData(rows);
     setMazeGeneration((prev) => prev + 1);
@@ -481,11 +488,12 @@ function MazeSolvingPage() {
               </button>
               <button
                 onClick={() => {
+                  setResetCounter((prev) => prev + 1)
                   const blank = initCustomGrid()
                   gridRef.current = blank
                   setCustomGrid(blank)
                   generateMaze()
-                  setResetCounter()
+                  
                 }}
                 className="bg-blue-600 text-white font-medium mx-4 py-2 px-4 rounded hover:bg-blue-500 transition"
               >
