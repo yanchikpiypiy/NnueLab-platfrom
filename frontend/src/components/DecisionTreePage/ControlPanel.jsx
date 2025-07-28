@@ -21,8 +21,8 @@ const ControlPanel = ({
   clearArrowsOnStop
 }) => {
   // Toggle states for expandable subsections
-  const [candidateExpanded, setCandidateExpanded] = useState(false);
-  const [arrowExpanded, setArrowExpanded] = useState(false);
+  const [candidateExpanded, setCandidateExpanded] = useState(true);
+  const [arrowExpanded, setArrowExpanded] = useState(true);
 
   return (
     <div className="control-panel">
@@ -50,7 +50,7 @@ const ControlPanel = ({
         <div className="control-section">
           <h3>Solver</h3>
           <div className="control-group">
-            <button className="button minimal-btn" onClick={solveProblem}>
+            <button className="button solve-btn" onClick={solveProblem}>
               Solve Problem
             </button>
           </div>

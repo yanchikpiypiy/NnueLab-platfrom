@@ -211,6 +211,11 @@
   transform: translateY(0);
 }
 
+
+.solve-btn{
+  background-color: green;
+}
+
 /* Additional Responsive Design */
 @media (max-width: 768px) {
   .main-container {

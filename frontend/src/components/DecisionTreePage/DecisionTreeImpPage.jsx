@@ -506,12 +506,12 @@ const DecisionTreeImpPage = () => {
         </p>
       </div>
       
-      {/* Show Tree Button */}
+      {/* Show Tree Button
       <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
         <button onClick={handleShowTree} style={{ padding: '0.5rem 1rem', fontSize: '1rem' }}>
           Show Tree
         </button>
-      </div>
+      </div> */}
       
       <div className="main-container dark-theme">
         {setupMode ? (

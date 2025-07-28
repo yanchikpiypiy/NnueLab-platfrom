@@ -324,20 +324,14 @@ function MazeSolvingPage() {
             {context}
           </div>
 
-          <div className="mt-6 mx-auto w-full max-w-md">
+          <div className="mt-6 mx-auto   w-full max-w-md">
             {/* Attach ref to this button group so we can scroll here */}
             <div className="flex justify-center space-x-3 mb-4" ref={demoControlsRef}>
-              <button
-                onClick={handleGen}
-                className="bg-gray-700 text-white font-medium py-2 px-4 rounded hover:bg-gray-600 transition"
-              >
-                Generate
-              </button>
               <button
                 onClick={handleReset}
                 className="bg-gray-700 text-white font-medium py-2 px-4 rounded hover:bg-gray-600 transition"
               >
-                Reset
+                Reset traversal
               </button>
               <button
                 onClick={handleStop}
@@ -402,6 +396,15 @@ function MazeSolvingPage() {
                 />
               </div>
             </div>
+            <div className="flex flex-col items-start">
+                <button
+                onClick={handleGen}
+                className="bg-gray-700 self-center my-4 text-white font-medium py-2 px-4 rounded hover:bg-gray-600 transition"
+              >
+                Generate
+              </button>
+            </div>
+             
           </div>
         </div>
       </section>
@@ -475,6 +478,18 @@ function MazeSolvingPage() {
                 className="bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-500 transition"
               >
                 Apply Custom Maze
+              </button>
+              <button
+                onClick={() => {
+                  const blank = initCustomGrid()
+                  gridRef.current = blank
+                  setCustomGrid(blank)
+                  generateMaze()
+                  setResetCounter()
+                }}
+                className="bg-blue-600 text-white font-medium mx-4 py-2 px-4 rounded hover:bg-blue-500 transition"
+              >
+                Reset Maze
               </button>
             </div>
           </div>
