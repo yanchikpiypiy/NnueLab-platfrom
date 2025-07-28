@@ -6,7 +6,7 @@ import time, math
 from itertools import count
 from collections import namedtuple, defaultdict
 # from pain import NNUEAccumulator, MyNNUE
-from engines.yanfish_evaluate import *
+from .yanfish_evaluate import *
 import re
 import itertools
 import torch

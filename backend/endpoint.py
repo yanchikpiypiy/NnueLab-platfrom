@@ -2,7 +2,7 @@ from fastapi import FastAPI, Response, HTTPException
 from fastapi.responses import PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from engines.yanfish import Position, initial, Searcher, process_move, renderFEN
+from .engines.yanfish import Position, initial, Searcher, process_move, renderFEN
 import numpy as np
 import matplotlib.pyplot as plt
 from random import choice
