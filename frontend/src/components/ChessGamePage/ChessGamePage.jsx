@@ -6,18 +6,18 @@ import Sidebar from './ChessGameComps/SideBar';
 import Modal from './ChessGameComps/Modal';
 import { API_URL } from '../../config';
 const pieceImages = {
-  wK: '/images/chess/wK.png',
-  wQ: '/images/chess/wQ.png',
-  wR: '/images/chess/wR.png',
-  wB: '/images/chess/wB.png',
-  wN: '/images/chess/wN.png',
-  wP: '/images/chess/wP.png',
-  bK: '/images/chess/bK.png',
-  bQ: '/images/chess/bQ.png',
-  bR: '/images/chess/bR.png',
-  bB: '/images/chess/bB.png',
-  bN: '/images/chess/bN.png',
-  bP: '/images/chess/bP.png',
+  wK: '/Images/Chess/wK.png',
+  wQ: '/Images/Chess/wQ.png',
+  wR: '/Images/Chess/wR.png',
+  wB: '/Images/Chess/wB.png',
+  wN: '/Images/Chess/wN.png',
+  wP: '/Images/Chess/wP.png',
+  bK: '/Images/Chess/bK.png',
+  bQ: '/Images/Chess/bQ.png',
+  bR: '/Images/Chess/bR.png',
+  bB: '/Images/Chess/bB.png',
+  bN: '/Images/Chess/bN.png',
+  bP: '/Images/Chess/bP.png',
 };
 
 const ChessGamePageWithImages = () => {

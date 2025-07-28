@@ -17,7 +17,7 @@ hist = [Position(initial, 0, (True, True), (True, True), 0, 0)]
 searcher = Searcher()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://192.168.0.90:3000"],
+    allow_origins=["http://localhost:3000", "http://192.168.0.90:3000","https://nnuelab-platfrom-front.onrender.com",],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
