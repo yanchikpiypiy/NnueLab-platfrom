@@ -113,6 +113,12 @@ def convert_maze_to_array(grid_cells):
 def maze_to_string(maze_array):
     return "\n".join("".join("0" if cell == 0 else "1" for cell in row) for row in maze_array)
 
+
+
+@app.get("/")
+def read_root():
+    return {"message": "FastAPI is running!"}
+
 @app.get("/api/maze", response_class=PlainTextResponse)
 def get_maze(width: int = 40, height: int = 20, tile: int = 2):
     grid_cells = generate_maze(width, height, tile)
