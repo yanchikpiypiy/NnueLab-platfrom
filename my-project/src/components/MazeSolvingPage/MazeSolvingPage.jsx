@@ -5,7 +5,7 @@ import MazeDijkstra from './Algs/MazeDijkstra';
 import MazeAStar from './Algs/MazeAStar';
 import Benchmark from './BenchMarks/Benchmark';
 import Header from '../Header';
-
+import { API_URL } from '../../config';
 function MazeSolvingPage() {
   const [mazeData, setMazeData] = useState(null);
   const [resetCounter, setResetCounter] = useState(0);
@@ -30,7 +30,7 @@ function MazeSolvingPage() {
   const demoControlsRef = useRef(null);
 
   // Maze API endpoint
-  const mazeUrl = `http://localhost:8000/api/maze?width=${mazeWidth}&height=${mazeHeight}&tile=2`;
+  const mazeUrl = `${API_URL}/api/maze?width=${mazeWidth}&height=${mazeHeight}&tile=2`;
 
   const generateMaze = () => {
     fetch(mazeUrl)

@@ -4,7 +4,7 @@ import Header from '../Header';
 import ChessBoard from './ChessGameComps/ChessBoard';
 import Sidebar from './ChessGameComps/SideBar';
 import Modal from './ChessGameComps/Modal';
-
+import { API_URL } from '../../config';
 const pieceImages = {
   wK: '/images/chess/wK.png',
   wQ: '/images/chess/wQ.png',
@@ -215,7 +215,7 @@ const ChessGamePageWithImages = () => {
       lastMoveObj.to +
       (lastMoveObj.promotion ? lastMoveObj.promotion : "");
     try {
-      const response = await fetch("http://127.0.0.1:8000/chess/makemove", {
+      const response = await fetch(`${API_URL}/chess/makemove`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ move: userMove })
@@ -254,7 +254,7 @@ const ChessGamePageWithImages = () => {
 
   const resetGame = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/chess/reset", {
+      const response = await fetch(`${API_URL}/chess/reset`, {
         method: "POST",
         headers: { "Content-Type": "application/json" }
       });
