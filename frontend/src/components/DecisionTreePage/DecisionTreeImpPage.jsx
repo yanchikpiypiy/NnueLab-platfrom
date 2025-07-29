@@ -103,7 +103,7 @@ const DecisionTreeImpPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const playIntervalRef = useRef(null);
   const boardWidth = 400;
-
+  const [solveError, setSolveError] = useState(null);
   // --- Compute the transformed tree for React Flow ---
   const treeData = useMemo(() => candidateTree ? transformTreeForD3(candidateTree) : null, [candidateTree]);
 
@@ -139,6 +139,7 @@ const DecisionTreeImpPage = () => {
 
   // --- Solver and Arrow Functions ---
   const solveProblem = useCallback(() => {
+    setSolveError(null);
     try {
       const chessInstance = new Chess(problemFEN);
       const { candidate, tree } = findMateInNCandidateTreeAlphaBetaEnhanced(chessInstance, allowedSteps);
@@ -147,6 +148,7 @@ const DecisionTreeImpPage = () => {
         setBestCandidate(null);
         setCandidateTree(null);
         setBfsQueue([]);
+        setSolveError(`No mate‑in‑${allowedSteps} candidate found.`);
       } else {
         setBestCandidate(candidate);
         tree.visible = true;
@@ -162,6 +164,8 @@ const DecisionTreeImpPage = () => {
       }
     } catch (err) {
       alert("Invalid problem FEN. Please fix your board setup.");
+      setSolveError("Invalid problem FEN. Please fix your board setup.");
+      return
     }
     setSolutionBranch(null);
     setTraversalFens([]);
@@ -321,22 +325,36 @@ const DecisionTreeImpPage = () => {
 
   const memoizedCurrentArrows = useMemo(() => computeCurrentArrows(), [computeCurrentArrows]);
 
-  const onDrop = useCallback((sourceSquare, targetSquare) => {
-      if (!setupMode) {
-      // prevent any drag moves outside setup mode
-      return false;  // returning false to explicitly reject move
-    }
-    if (setupMode) return;
+ const onDrop = useCallback((sourceSquare, targetSquare) => {
+  if (!setupMode) {
     const newGame = new Chess(game.fen());
     let move = newGame.move({ from: sourceSquare, to: targetSquare });
     if (!move) move = newGame.move({ from: sourceSquare, to: targetSquare, promotion: 'q' });
-    if (move) setGame(newGame);
-    return move;
-  }, [setupMode, game]);
+    if (move) {
+      setGame(newGame);
+      // ✅ Fixed: Update positionObj to reflect the new board state
+      setPositionObj(fenToPosition(newGame.fen()));
+      return move;
+    }
+    return null;
+  }
 
+  // ✅ Setup mode: move pieces freely
+  const newPos = { ...positionObj };
+  if (newPos[sourceSquare]) {
+    newPos[targetSquare] = newPos[sourceSquare];
+    delete newPos[sourceSquare];
+    console.log("Moved in setup mode. New positionObj:", newPos);
+    setPositionObj(newPos);
+    return true;
+  }
+
+  return false;
+}, [setupMode, positionObj, game]);
   const handleDragOver = useCallback((e) => {
     e.preventDefault();
   }, []);
+
 
   const handleBoardDrop = useCallback((e) => {
     e.preventDefault();
@@ -376,6 +394,7 @@ const DecisionTreeImpPage = () => {
       setCurrentStep(0);
       setArrowTraversalQueue([]);
       setShowTree(null);
+      console.log("✅ New problem set:", fen);
     } catch (err) {
       alert("Invalid board setup! Please check your position.");
     }
@@ -491,7 +510,23 @@ const DecisionTreeImpPage = () => {
     const found = toggleNode(newCandidateTree, flowNode.id);
     setCandidateTree(newCandidateTree);
   }, [candidateTree]);
-
+    const handleSetupPieceDrop = useCallback((sourceSquare, targetSquare) => {
+    if (!setupMode) return false;
+    
+    console.log("Setup piece drop:", sourceSquare, "->", targetSquare);
+    
+    // Move pieces freely in setup mode
+    const newPos = { ...positionObj };
+    if (newPos[sourceSquare]) {
+      newPos[targetSquare] = newPos[sourceSquare];
+      delete newPos[sourceSquare];
+      console.log("Moved piece in setup mode:", newPos);
+      setPositionObj(newPos);
+      return true;
+    }
+    
+    return false;
+  }, [setupMode, positionObj]);
   return (
     <>
       <Header />
@@ -524,6 +559,7 @@ const DecisionTreeImpPage = () => {
               pieceImages={pieceImages}
               boardWidth={boardWidth}
               onDrop={onDrop}
+              onPieceDrop={handleSetupPieceDrop}
               handleDragOver={handleDragOver}
               handleBoardDrop={handleBoardDrop}
               handleSquareRightClick={handleSquareRightClick}

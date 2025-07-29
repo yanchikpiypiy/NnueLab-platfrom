@@ -11,6 +11,7 @@ const BoardSection = ({
   pieceImages,
   boardWidth,
   onDrop,
+  onPieceDrop,
   handleDragOver,
   handleBoardDrop,
   handleSquareRightClick,
@@ -19,7 +20,7 @@ const BoardSection = ({
   currentStep,
   Arrows,
   memoizedCurrentArrows,
-  handleSetUp
+  handleSetUp,
 }) => {
   const boardPosition = traversalFens.length > 0
     ? traversalFens[currentStep]
@@ -36,6 +37,7 @@ const BoardSection = ({
               setupMode={setupMode}
               onDragOver={handleDragOver}
               onDrop={handleBoardDrop}
+              onPieceDrop={onPieceDrop} 
               onSquareRightClick={handleSquareRightClick}
               boardContainerRef={boardContainerRef}
               palettePieces={palettePieces}
