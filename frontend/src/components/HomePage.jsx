@@ -20,12 +20,12 @@ function HomePage() {
         
         {/* New "Choose Your Journey" Section */}
         <div className="flex flex-col md:flex-row gap-6 mt-8">
-          <a
-            href="/bst"
-            className="inline-block bg-green-500 text-black font-bold py-3 px-6 rounded hover:bg-green-400 transition duration-300"
-          >
-            Guided Learning Path
-          </a>
+          <Link
+  to="/bst"
+  className="inline-block bg-green-500 text-black font-bold py-3 px-6 rounded hover:bg-green-400 transition duration-300"
+>
+  Guided Learning Path
+</Link>
           <a
             href="#cards-section"
             className="inline-block bg-white text-black font-bold py-3 px-6 rounded hover:bg-gray-200 transition duration-300"
