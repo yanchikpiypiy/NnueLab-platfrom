@@ -63,7 +63,7 @@ class PieceSquare(IntFlag):
 # NNUEAccumulator Class
 # ---------------------------
 class NNUEAccumulator:
-    def __init__(self, weights_file="engines/weights/transformer_weights.npy", bias_file="engines/weights/transformer_bias.npy"):
+    def __init__(self, weights_file="backend/engines/weights/transformer_weights.npy", bias_file="backend/engines/weights/transformer_bias.npy"):
         # Load the transformer's embedding weights & bias
         self.weights = np.load(weights_file)  # shape (41024, 256)
         self.bias = np.load(bias_file)        # shape (256,)
@@ -155,12 +155,12 @@ class MyNNUE(nn.Module):
         return x.to(torch.float32)  # Convert back to float32 for the neural network
 
     def load_extracted_weights(self):
-        w1 = np.load("engines/numpy_weights/hidden_layer_1_weights.npy")   # shape (32, 512)
-        b1 = np.load("engines/numpy_weights/hidden_layer_1_bias.npy")      # shape (32,)
-        w2 = np.load("engines/numpy_weights/hidden_layer_2_weights.npy")   # shape (32, 32)
-        b2 = np.load("engines/numpy_weights/hidden_layer_2_bias.npy")      # shape (32,)
-        w_out = np.load("engines/numpy_weights/output_layer_weights.npy")  # shape (1, 32)
-        b_out = np.load("engines/numpy_weights/output_layer_bias.npy")     # shape (1,)
+        w1 = np.load("backend/engines/numpy_weights/hidden_layer_1_weights.npy")   # shape (32, 512)
+        b1 = np.load("backend/engines/numpy_weights/hidden_layer_1_bias.npy")      # shape (32,)
+        w2 = np.load("backend/engines/numpy_weights/hidden_layer_2_weights.npy")   # shape (32, 32)
+        b2 = np.load("backend/engines/numpy_weights/hidden_layer_2_bias.npy")      # shape (32,)
+        w_out = np.load("backend/engines/numpy_weights/output_layer_weights.npy")  # shape (1, 32)
+        b_out = np.load("backend/engines/numpy_weights/output_layer_bias.npy")     # shape (1,)
 
         self.layer1.weight.data = torch.tensor(w1, dtype=torch.float32)
         self.layer1.bias.data   = torch.tensor(b1, dtype=torch.float32)
