@@ -6,9 +6,9 @@ import HomePage from './components/HomePage';
 import MazeSolvingPage from './pages/Maze/MazeSolvingPage';
 import ChessGamePage from './pages/ChessGame/ChessGamePage';
 import DecisionTreeImpPage from './pages/ChessDecisionTree/DecisionTreePage';
-import BSTVisualizer from './components/bstPage/BSTVisualizer';
-import MinimaxPage from './components/MinimaxPage/MinimaxPage';
-import NNUEPage from './components/NnnuePage/NnuePage';
+import BSTVisualizer from './pages/bstPage/BSTVisualizer';
+import MinimaxPage from './pages/MinimaxPage/MinimaxPage';
+import NNUEPage from './pages/NnnuePage/NnuePage';
 function App() {
     return (
         <Router>

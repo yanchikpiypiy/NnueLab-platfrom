@@ -18,7 +18,6 @@ import { findMateInNCandidateTreeAlphaBetaEnhanced } from './MateSolvingAlgs/mat
 import { transformTreeForD3 } from './MateSolvingAlgs/mateSolver';
 import { getArrowTuple } from './helpers';
 import './MateIn2Solver.css';
-
 const DecisionTreePage = () => {
     const defaultFen = MATE_IN_TWO_PROBLEMS[0].fen;
 
