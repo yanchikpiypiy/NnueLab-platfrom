@@ -1,7 +1,8 @@
+
 // BoardSection.jsx
 import React from 'react';
 import { Chessboard } from 'react-chessboard';
-import ChessBoardSetup from '../chessTree/ChessBoardSetup';
+import ChessBoardSetup from './ChessBoardSetup';
 
 const BoardSection = ({
     setupMode,

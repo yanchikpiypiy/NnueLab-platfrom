@@ -5,7 +5,7 @@ import './App.css';
 import HomePage from './components/HomePage';
 import MazeSolvingPage from './pages/Maze/MazeSolvingPage';
 import ChessGamePage from './pages/ChessGame/ChessGamePage';
-import DecisionTreeImpPage from './components/DecisionTreePage/DecisionTreeImpPage';
+import DecisionTreeImpPage from './pages/ChessDecisionTree/DecisionTreePage';
 import BSTVisualizer from './components/bstPage/BSTVisualizer';
 import MinimaxPage from './components/MinimaxPage/MinimaxPage';
 import NNUEPage from './components/NnnuePage/NnuePage';

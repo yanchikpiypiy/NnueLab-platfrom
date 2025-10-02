@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactFlowTree from '../chessTree/ReactFlowTree';
+import ReactFlowTree from './ReactFlowTree';
 
 const TreeSection = ({
     candidateTree,
