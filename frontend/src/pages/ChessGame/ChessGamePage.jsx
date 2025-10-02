@@ -48,13 +48,20 @@ const ChessGamePage = () => {
 
     const resetGame = async () => {
         try {
+            // Always reset yunfish backend (even if not currently selected)
+            // This ensures clean state
             const data = await chessAPI.resetGame();
+
             if (data.status === 'ok') {
                 resetGameState();
                 resetTimers();
+                console.log(' Game reset successfully');
             }
         } catch (err) {
-            console.error('Error resetting game:', err);
+            console.error(' Error resetting game:', err);
+            // Still reset the frontend even if backend fails
+            resetGameState();
+            resetTimers();
         }
     };
 

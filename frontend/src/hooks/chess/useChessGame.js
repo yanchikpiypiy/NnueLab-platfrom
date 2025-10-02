@@ -102,6 +102,7 @@ export const useChessGame = () => {
                 updateGameState();
             } else {
                 setMessage('Illegal move!');
+                console.error('❌ Illegal engine move:', bestMove);
             }
         },
         [updateCaptures, updateGameState]

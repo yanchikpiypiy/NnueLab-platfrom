@@ -225,9 +225,19 @@ const DecisionTreePage = () => {
         }
     }, [showFullTraversal, bestCandidate, currentArrowStep, arrowTraversalQueue, setArrows]);
 
+
     const handlePlayArrows = useCallback(() => {
+        // Reset board to the initial problem FEN
+        const freshGame = new Chess(problemFEN);
+        setGame(freshGame);
+
+        // Reset traversal state
+        resetTraversal();
+        clearArrows();
+
+        // Start arrow animation from scratch
         playArrows(setGame);
-    }, [playArrows, setGame]);
+    }, [playArrows, setGame, problemFEN, resetTraversal, clearArrows]);
 
     const handleClearArrows = useCallback(() => {
         clearArrows();

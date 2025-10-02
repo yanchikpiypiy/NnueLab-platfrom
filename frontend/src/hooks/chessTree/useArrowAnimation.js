@@ -50,6 +50,7 @@ export const useArrowAnimation = (problemFEN, candidateTree, bestCandidate) => {
     }, [arrowTraversalQueue]);
 
     const playArrows = useCallback((gameSetterCallback) => {
+
         if (isPlaying) {
             clearInterval(playIntervalRef.current);
             setIsPlaying(false);
