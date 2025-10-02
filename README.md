@@ -1,6 +1,5 @@
 # 🧠 Algorithm Solver & Chess AI Visualizer – Final Year Project
 
-Live Demo: https://nnuelab-platfrom-front.onrender.com/
 
 Welcome to my **Final Year Project (FYP)** — a full-stack platform for visualizing and exploring algorithmic intelligence in action. The system is designed with an intuitive UI and real-time feedback for hands-on learning and experimentation.
 
