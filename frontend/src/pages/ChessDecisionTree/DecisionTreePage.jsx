@@ -81,7 +81,13 @@ const DecisionTreePage = () => {
     } = useArrowAnimation(problemFEN, candidateTree, bestCandidate);
 
     const [showTree, setShowTree] = React.useState(false);
-
+    useEffect(() => {
+        // Whenever the base problem FEN changes, reset everything
+        resetSolver();
+        resetTraversal();
+        clearArrows();
+        setCandidateTree(null);
+    }, [problemFEN]);
     // Transform tree for visualization
     const treeData = useMemo(
         () => candidateTree ? transformTreeForD3(candidateTree) : null,
@@ -115,6 +121,7 @@ const DecisionTreePage = () => {
                 resetTraversal();
                 clearArrows();
                 setShowTree(false);
+                setCandidateTree(null);
             } else {
                 alert(result.error);
             }
@@ -226,18 +233,16 @@ const DecisionTreePage = () => {
     }, [showFullTraversal, bestCandidate, currentArrowStep, arrowTraversalQueue, setArrows]);
 
 
+    // ✅ NEW
     const handlePlayArrows = useCallback(() => {
-        // Reset board to the initial problem FEN
-        const freshGame = new Chess(problemFEN);
-        setGame(freshGame);
+        // Only reset board if starting from scratch
+        if (currentArrowStep === 0) {
+            setGame(new Chess(problemFEN));
+        }
 
-        // Reset traversal state
-        resetTraversal();
-        clearArrows();
-
-        // Start arrow animation from scratch
         playArrows(setGame);
-    }, [playArrows, setGame, problemFEN, resetTraversal, clearArrows]);
+    }, [playArrows, setGame, problemFEN, currentArrowStep]);
+
 
     const handleClearArrows = useCallback(() => {
         clearArrows();
@@ -245,32 +250,36 @@ const DecisionTreePage = () => {
     }, [clearArrows, problemFEN, setGame]);
 
     // Compute current arrows for visualization
+
+
     const computeCurrentArrows = useCallback(() => {
         if (!solutionBranch || !solutionBranch.branch) return [];
 
         const arrows = [];
-        let currentFENLocal = problemFEN;
-        const steps = Math.min(currentStep, solutionBranch.branch.length);
+        const chess = new Chess(problemFEN); // single instance to carry board state
 
-        for (let i = 0; i < steps; i++) {
-            const color = i % 2 === 0
-                ? "rgba(0,255,0,0.6)"
-                : "rgba(255,0,0,0.6)";
+        for (let i = 0; i < Math.min(currentStep, solutionBranch.branch.length); i++) {
             const move = solutionBranch.branch[i];
             if (!move) break;
 
-            const arrow = getArrowTuple(move, currentFENLocal, color);
+            const color = i % 2 === 0 ? "rgba(0,255,0,0.6)" : "rgba(255,0,0,0.6)";
+
+            // Get arrow from current chess instance
+            const arrow = getArrowTuple(move, chess.fen(), color, true);
             if (arrow) arrows.push(arrow);
 
-            const clone = new Chess(currentFENLocal);
-            if (clone.move(move)) {
-                currentFENLocal = clone.fen();
+            // Advance the board for the next step
+            try {
+                chess.move(move);
+            } catch (error) {
+                // Move is invalid for this position - stop processing
+                console.warn('Invalid move encountered in computeCurrentArrows:', move, error);
+                break;
             }
         }
 
         return arrows;
     }, [solutionBranch, currentStep, problemFEN]);
-
     const memoizedCurrentArrows = useMemo(
         () => computeCurrentArrows(),
         [computeCurrentArrows]
@@ -370,8 +379,8 @@ const DecisionTreePage = () => {
                         prevStep={prevStep}
                         arrowTraversalQueue={arrowTraversalQueue}
                         currentArrowStep={currentArrowStep}
-                        nextArrowStep={nextArrowStep}
-                        prevArrowStep={prevArrowStep}
+                        nextArrowStep={() => nextArrowStep(setGame)}
+                        prevArrowStep={() => prevArrowStep(setGame)}
                         playArrows={handlePlayArrows}
                         isPlaying={isPlaying}
                         clearArrowsOnStop={handleClearArrows}
